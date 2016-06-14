@@ -129,6 +129,12 @@
   <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\USCISTracker.API\USCISTracker.API.csproj">
+      <Project>{d75f6e2f-c62c-4a71-9482-82c4019aeaf1}</Project>
+      <Name>USCISTracker.API</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

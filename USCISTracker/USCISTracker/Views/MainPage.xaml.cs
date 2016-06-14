@@ -26,5 +26,22 @@ namespace USCISTracker.Views
         {
             this.InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            API.Session mySession = null;
+
+            try
+            {
+                mySession = new API.Session();
+            }
+
+            catch(Exception ex)
+            {
+                return;
+            }
+
+            
+        }
     }
 }
