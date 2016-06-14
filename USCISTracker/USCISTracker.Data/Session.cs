@@ -69,7 +69,16 @@ namespace USCISTracker.Data
         /// <param name="args">Custom Arguments about this event</param>
         private void CurrentWebView_NavigationCompleted(Windows.UI.Xaml.Controls.WebView sender, Windows.UI.Xaml.Controls.WebViewNavigationCompletedEventArgs args)
         {
+            if(args.IsSuccess == false)
+            {
+                //navigation failed for any reason. raise exception.  
+                throw new OperationCanceledException($"WebView navigate failed with error: {args.WebErrorStatus.ToString()}");
+            }
 
+            else
+            {
+                //Navigation success
+            }
         }
         #endregion
 
