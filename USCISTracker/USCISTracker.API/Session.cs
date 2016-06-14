@@ -84,6 +84,35 @@ namespace USCISTracker.API
                 string titleDocument = CurrentWebView.DocumentTitle;
             }
         }
+
+
+        /// <summary>
+        /// Set the receipt number for the session
+        /// </summary>
+        /// <param name="receiptNumber"></param>
+        /// <returns></returns>
+        public async Task SetReceiptNumberAsync(string receiptNumber)
+        {
+            //We use eval to use javascript to manually fill in the receipt number box
+            string js = $"document.getElementById(\"myText\").value = \"{receiptNumber}\"";
+
+            //Type in the browser via Javascript
+            string[] jsArgs = {js};
+            string res = await CurrentWebView.InvokeScriptAsync("eval", jsArgs);
+
+
+#if DEBUG
+            string jsTest = $"document.getElementById(\"myText\").value";
+            string[] jsArgsTest = { jsTest };
+            string val = await CurrentWebView.InvokeScriptAsync("eval", jsArgsTest);
+
+            if(res != val)
+            {
+                throw new InvalidOperationException("Javascript injection failed! 2 receipt numbers don't match!");
+            }
+#endif
+
+        } 
         #endregion
 
     }
