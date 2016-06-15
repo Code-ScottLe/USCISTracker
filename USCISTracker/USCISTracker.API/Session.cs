@@ -37,6 +37,13 @@ namespace USCISTracker.API
             }
         }
 
+        /// <summary>
+        /// Indicate if the WebView has completed 
+        /// </summary>
+        public bool NavigateCompleted
+        {
+            get;set;
+        }
         #endregion
 
         #region Constructors
@@ -54,10 +61,11 @@ namespace USCISTracker.API
             //Subscribe to the navigation success event. WebView goes from NavStart => ContentLoading => DOMContentLoaded => NavCompleted
             //More info: https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.webview.aspx
             CurrentWebView.NavigationCompleted += this.CurrentWebView_NavigationCompleted;
+            
 
             //Navigate to the website.
             CurrentWebView.Navigate(new Uri("https://egov.uscis.gov/casestatus/landing.do"));
-          
+            NavigateCompleted = false;
         }
 
         #endregion
@@ -81,7 +89,7 @@ namespace USCISTracker.API
             else
             {
                 //Navigation success
-                string titleDocument = CurrentWebView.DocumentTitle;
+                NavigateCompleted = true;
             }
         }
 
@@ -93,8 +101,13 @@ namespace USCISTracker.API
         /// <returns></returns>
         public async Task SetReceiptNumberAsync(string receiptNumber)
         {
+            while(NavigateCompleted == false)
+            {
+                await Task.Delay(500);
+            }
+
             //We use eval to use javascript to manually fill in the receipt number box
-            string js = $"document.getElementById(\"myText\").value = \"{receiptNumber}\"";
+            string js = $"document.getElementById(\"receipt_number\").value = \"{receiptNumber}\"";
 
             //Type in the browser via Javascript
             string[] jsArgs = {js};
@@ -102,11 +115,13 @@ namespace USCISTracker.API
 
 
 #if DEBUG
-            string jsTest = $"document.getElementById(\"myText\").value";
+            string jsTest = $"document.getElementById(\"receipt_number\").value";
             string[] jsArgsTest = { jsTest };
             string val = await CurrentWebView.InvokeScriptAsync("eval", jsArgsTest);
 
-            if(res != val)
+            var compare = string.Equals(val, receiptNumber);    //for some reason, == won't work here.
+
+            if(compare == false)
             {
                 throw new InvalidOperationException("Javascript injection failed! 2 receipt numbers don't match!");
             }

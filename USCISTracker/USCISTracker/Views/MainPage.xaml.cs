@@ -27,7 +27,7 @@ namespace USCISTracker.Views
             this.InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             API.Session mySession = null;
 
@@ -41,7 +41,7 @@ namespace USCISTracker.Views
                 return;
             }
 
-            
+            await mySession.SetReceiptNumberAsync("YSC1690058904");
         }
     }
 }
