@@ -66,7 +66,7 @@ namespace USCISTracker.API
 
             //Subscribe to the navigation success event. WebView goes from NavStart => ContentLoading => DOMContentLoaded => NavCompleted
             //More info: https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.webview.aspx
-            CurrentWebView.NavigationCompleted += this.CurrentWebView_NavigationCompleted;
+            CurrentWebView.NavigationCompleted += CurrentWebView_NavigationCompleted;
             
 
             //Navigate to the website.
@@ -183,6 +183,24 @@ namespace USCISTracker.API
             NavigateCompleted = false;
             NavigateFailed = false;
 
+        }
+
+
+        /// <summary>
+        /// Get the current page in the WebView HTML
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> GetCurrentPageHTML()
+        {
+            if(NavigateCompleted == false)
+            {
+                await Task.Delay(500);
+            }
+
+            string js = "document.documentElement.innerHTML";
+            string[] jsArgs = { js };
+            string val = await CurrentWebView.InvokeScriptAsync("eval", jsArgs);
+            return val;
         }
         #endregion
 

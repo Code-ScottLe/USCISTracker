@@ -42,6 +42,12 @@ namespace USCISTracker.Views
             }
 
             await mySession.SetReceiptNumberAsync("YSC1690058904");
+
+            await mySession.CheckCaseStatusAsync();
+
+            string stuffs = await mySession.GetCurrentPageHTML();
+
+            TestTextBlock.Text = stuffs;
         }
     }
 }
