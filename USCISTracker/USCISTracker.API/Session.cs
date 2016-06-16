@@ -151,8 +151,37 @@ namespace USCISTracker.API
         } 
 
 
+        /// <summary>
+        /// Invoke the Javascript to send the case number to the website and refresh.
+        /// </summary>
+        /// <returns></returns>
         public async Task CheckCaseStatusAsync()
         {
+            //Try to check if the receipt number is there.
+            string jsTestCaseStatusNumber = $"document.getElementById(\"receipt_number\").value";
+            string[] jsTestArgs = { jsTestCaseStatusNumber };
+            string testVal = await CurrentWebView.InvokeScriptAsync("eval", jsTestArgs);
+
+            if(string.IsNullOrEmpty(testVal) && string.IsNullOrWhiteSpace(testVal))
+            {
+                //Empty case status number
+                throw new MissingFieldException("Receipt Number Missing!");
+            }
+
+            if(testVal.Length != 13)
+            {
+                //Wrong length
+                throw new InvalidProgramException("Invalid Receipt Number!");
+            }
+
+            //Invoke the button.
+            string js = $"document.getElementsByName(\"initCaseSearch\")[0].click()";
+            string[] jsArgs = { js };
+            string res = await CurrentWebView.InvokeScriptAsync("eval",jsArgs);
+
+            //Because the webView will be reload to a new one, reset status
+            NavigateCompleted = false;
+            NavigateFailed = false;
 
         }
         #endregion
