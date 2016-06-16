@@ -61,7 +61,7 @@ namespace USCISTracker.API
         public Session()
         {
             //Initialize new session
-            CurrentWebView = new Windows.UI.Xaml.Controls.WebView();
+            CurrentWebView = new Windows.UI.Xaml.Controls.WebView(Windows.UI.Xaml.Controls.WebViewExecutionMode.SeparateThread);
             CurrentWebView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             //Subscribe to the navigation success event. WebView goes from NavStart => ContentLoading => DOMContentLoaded => NavCompleted
