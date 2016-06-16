@@ -44,6 +44,12 @@ namespace USCISTracker.API
         {
             get;set;
         }
+
+        public bool NavigateFailed
+        {
+            get;set;
+        }
+
         #endregion
 
         #region Constructors
@@ -66,6 +72,7 @@ namespace USCISTracker.API
             //Navigate to the website.
             CurrentWebView.Navigate(new Uri("https://egov.uscis.gov/casestatus/landing.do"));
             NavigateCompleted = false;
+            NavigateFailed = false;
         }
 
         #endregion
@@ -80,15 +87,23 @@ namespace USCISTracker.API
         /// <param name="args">Custom Arguments about this event</param>
         private void CurrentWebView_NavigationCompleted(Windows.UI.Xaml.Controls.WebView sender, Windows.UI.Xaml.Controls.WebViewNavigationCompletedEventArgs args)
         {
+            
             if (args.IsSuccess == false)
             {
-                //navigation failed for any reason. raise exception.  
-                throw new OperationCanceledException($"WebView navigate failed with error: {args.WebErrorStatus.ToString()}");
+                NavigateFailed = true;                               
+                NavigateCompleted = true;
             }
 
             else
             {
                 //Navigation success
+                
+                //Check if the page is still valid.
+                if(CurrentWebView.DocumentTitle != "myUSCIS - Case Status Search")
+                {
+                    NavigateFailed = true;
+                }
+
                 NavigateCompleted = true;
             }
         }
@@ -103,7 +118,13 @@ namespace USCISTracker.API
         {
             while(NavigateCompleted == false)
             {
+                //Clunky code. 
                 await Task.Delay(500);
+            }
+
+            if (NavigateFailed == true)
+            {
+                throw new InvalidOperationException("WebView failed to navigate to tool. Please refresh.");
             }
 
             //We use eval to use javascript to manually fill in the receipt number box
@@ -128,6 +149,12 @@ namespace USCISTracker.API
 #endif
 
         } 
+
+
+        public async Task CheckCaseStatusAsync()
+        {
+
+        }
         #endregion
 
     }
