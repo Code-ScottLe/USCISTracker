@@ -73,9 +73,8 @@ namespace USCISTracker.Data
                 details = value;
             }
         }
-
-        
-        public DateTime LastUpdate
+    
+        public DateTime LastCaseUpdate
         {
             get
             {
@@ -88,6 +87,13 @@ namespace USCISTracker.Data
             }
         }
         
+        public string LastUpdate
+        {
+            get
+            {
+                return LastCaseUpdate.ToString();
+            }
+        }
         #endregion
 
 
@@ -103,26 +109,6 @@ namespace USCISTracker.Data
         #endregion
 
         #region Methods
-        public string GetCurrentStatus()
-        {
-            return Status;
-        }
-
-        public string GetFormType()
-        {
-            return FormType;
-        }
-
-        public string GetDetails()
-        {
-            return Details;
-        }
-
-        public string GetLastUpdatedDate()
-        {
-            return LastUpdate.ToString();
-        }
-
 
         /// <summary>
         /// Parse the respond HTML and return a new instance of the Case
@@ -171,7 +157,7 @@ namespace USCISTracker.Data
             //create a new instance
             Case currentCase = new Case();
             currentCase.ReceiptNumber = receiptNumber;
-            currentCase.LastUpdate = lastUpdate;
+            currentCase.LastCaseUpdate = lastUpdate;
             currentCase.Status = caseStatus;
             currentCase.Details = caseDetails;
             currentCase.FormType = formType;

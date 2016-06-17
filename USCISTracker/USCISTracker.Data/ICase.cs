@@ -14,28 +14,13 @@ namespace USCISTracker.Data
         /// </summary>
         ICaseReceiptNumber ReceiptNumber { get; }
 
-        /// <summary>
-        /// Get the form type of this case/ receipt number. I.E : I-765
-        /// </summary>
-        /// <returns></returns>
-        string GetFormType();
+        string Status { get; }
 
-        /// <summary>
-        /// Get the last updated time stamp in string. I.E : May 18, 2016
-        /// </summary>
-        /// <returns></returns>
-        string GetLastUpdatedDate();
+        string FormType { get; }
 
-        /// <summary>
-        /// Get the current status of the case
-        /// </summary>
-        /// <returns></returns>
-        string GetCurrentStatus();
+        string Details { get; }
 
-        /// <summary>
-        /// Get the full body message from USCIS
-        /// </summary>
-        /// <returns></returns>
-        string GetDetails();
+        string LastUpdate { get; }
+
     }
 }
