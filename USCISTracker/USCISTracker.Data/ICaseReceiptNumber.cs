@@ -9,10 +9,9 @@ namespace USCISTracker.Data
     public interface ICaseReceiptNumber
     {
         /// <summary>
-        /// Get the actual USCIS Receipt Number
+        /// The getter for the receive number
         /// </summary>
-        /// <returns></returns>
-        string GetReceiptNumber();
+        string ReceiptNumber { get; }
 
         /// <summary>
         /// Get the name of the Service Center

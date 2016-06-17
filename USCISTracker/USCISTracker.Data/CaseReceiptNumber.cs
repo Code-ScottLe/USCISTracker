@@ -52,17 +52,6 @@ namespace USCISTracker.Data
 
         #region Methods
 
-
-        /// <summary>
-        /// Get the Receipt Number
-        /// </summary>
-        /// <returns></returns>
-        public string GetReceiptNumber()
-        {
-            return ReceiptNumber;
-        }
-
-
         /// <summary>
         /// Get the Service Center Location based on the Code
         /// </summary>
