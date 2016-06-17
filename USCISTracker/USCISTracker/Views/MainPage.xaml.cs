@@ -31,15 +31,11 @@ namespace USCISTracker.Views
         {
             API.Session mySession = null;
 
-            try
-            {
-                mySession = new API.Session();
-            }
 
-            catch(Exception ex)
-            {
-                return;
-            }
+            mySession = new API.Session();
+
+            await mySession.ConnectAsync();
+
 
             await mySession.SetReceiptNumberAsync("YSC1690058904");
 

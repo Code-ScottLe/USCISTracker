@@ -55,8 +55,7 @@ namespace USCISTracker.API
         #region Constructors
 
         /// <summary>
-        /// Default constructor, open an instance of WebView to the default page of the checker tool
-        /// Default website for the tool is : https://egov.uscis.gov/casestatus/landing.do
+        /// Default constructor, Setup the WebView
         /// </summary>
         public Session()
         {
@@ -68,17 +67,32 @@ namespace USCISTracker.API
             //More info: https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.webview.aspx
             CurrentWebView.NavigationCompleted += CurrentWebView_NavigationCompleted;
             
-
-            //Navigate to the website.
-            CurrentWebView.Navigate(new Uri("https://egov.uscis.gov/casestatus/landing.do"));
-            NavigateCompleted = false;
-            NavigateFailed = false;
+         
         }
 
         #endregion
 
 
         #region Methods
+
+        /// <summary>
+        /// Connect to the USCIS tool
+        /// Default website for the tool is : https://egov.uscis.gov/casestatus/landing.do
+        /// </summary>
+        /// <returns></returns>
+        public async Task ConnectAsync()
+        {
+            //Navigate to the website.
+            NavigateCompleted = false;
+            NavigateFailed = false;
+            CurrentWebView.Navigate(new Uri("https://egov.uscis.gov/casestatus/landing.do"));
+
+            while(NavigateCompleted == false)
+            {
+                await Task.Delay(500);
+            }
+            
+        }
 
         /// <summary>
         /// Event handler for the Navigation Completed from the WebView instance.
@@ -175,7 +189,7 @@ namespace USCISTracker.API
             }
 
             //Invoke the button.
-            string js = $"document.getElementsByName(\"initCaseSearch\")[0].click()";
+            string js = "var x = document.getElementsByTagName(\"input\");var i; for(i = 0; i < x.length; i++){ if(x[i].value == \"CHECK STATUS\") { break; } }; x[i].click()";
             string[] jsArgs = { js };
             string res = await CurrentWebView.InvokeScriptAsync("eval",jsArgs);
 
