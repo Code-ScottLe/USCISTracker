@@ -130,7 +130,7 @@ namespace USCISTracker.Data
         /// <param name="respondHTML">the HTML in string form of the respond page</param>
         /// <param name="receiptNumber">Receipt number of the responded HTML</param>
         /// <returns></returns>
-        public static async Task<Case> GenerateFromHTML(string respondHTML, ICaseReceiptNumber receiptNumber)
+        public static async Task<Case> GenerateFromHTMLAsync(string respondHTML, ICaseReceiptNumber receiptNumber)
         {
             //Parse the given HTML
             HtmlParser parser = new HtmlParser();

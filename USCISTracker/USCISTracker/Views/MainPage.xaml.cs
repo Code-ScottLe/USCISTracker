@@ -45,7 +45,7 @@ namespace USCISTracker.Views
 
             Data.CaseReceiptNumber receipt = new Data.CaseReceiptNumber("YSC1690058904");
 
-            await Data.Case.GenerateFromHTML(stuffs, receipt);
+            await Data.Case.GenerateFromHTMLAsync(stuffs, receipt);
 
         }
     }
