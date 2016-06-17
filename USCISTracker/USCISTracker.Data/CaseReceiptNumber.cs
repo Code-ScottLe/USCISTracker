@@ -35,8 +35,17 @@ namespace USCISTracker.Data
             ReceiptNumber = "";
         }
 
-        CaseReceiptNumber(string Receipt)
+        /// <summary>
+        /// Generete the new instance of the class with a given receipt number
+        /// </summary>
+        /// <param name="Receipt">Receipt number in string, i.e "YSC16...". length has to be 13.</param>
+        public CaseReceiptNumber(string Receipt)
         {
+            if(Receipt.Length != 13)
+            {
+                throw new ArgumentException("Receipt number has to be 13 characters!");
+            }
+
             ReceiptNumber = Receipt;
         }
         #endregion
