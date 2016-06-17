@@ -136,7 +136,6 @@ namespace USCISTracker.Data
             //Get the case detail:
             var caseDetails = caseMessageDom.Children[1].TextContent.Trim();
 
-
             //Get the case last updated date
             var pieces = caseDetails.Split(',');
 
@@ -161,7 +160,6 @@ namespace USCISTracker.Data
             currentCase.Status = caseStatus;
             currentCase.Details = caseDetails;
             currentCase.FormType = formType;
-
 
             return currentCase;
             
