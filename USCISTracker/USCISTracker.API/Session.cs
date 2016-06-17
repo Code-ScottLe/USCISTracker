@@ -212,11 +212,6 @@ namespace USCISTracker.API
         /// <returns></returns>
         public async Task<string> GetCurrentPageHTML()
         {
-            if(NavigateCompleted == false)
-            {
-                await Task.Delay(500);
-            }
-
             string js = "document.documentElement.innerHTML";
             string[] jsArgs = { js };
             string val = await CurrentWebView.InvokeScriptAsync("eval", jsArgs);
