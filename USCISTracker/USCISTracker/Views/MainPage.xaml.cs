@@ -43,7 +43,10 @@ namespace USCISTracker.Views
 
             string stuffs = await mySession.GetCurrentPageHTML();
 
-            TestTextBlock.Text = stuffs;
+            Data.CaseReceiptNumber receipt = new Data.CaseReceiptNumber("YSC1690058904");
+
+            await Data.Case.GenerateFromHTML(stuffs, receipt);
+
         }
     }
 }
