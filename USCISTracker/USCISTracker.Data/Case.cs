@@ -16,7 +16,7 @@ namespace USCISTracker.Data
         private ICaseReceiptNumber receiptNumber;
         private string status;
         private string formType;
-        private string fullMessage;
+        private string details;
         private DateTime lastUpdate;
         #endregion
 
@@ -33,6 +33,61 @@ namespace USCISTracker.Data
                 receiptNumber = value;
             }
         }
+
+        public string Status
+        {
+            get
+            {
+                return status;
+            }
+
+            protected set
+
+            {
+                status = value;
+            }
+        }
+
+        public string FormType
+        {
+            get
+            {
+                return formType;
+            }
+
+            protected set
+            {
+                formType = value;
+            }
+        }
+
+        public string Details
+        {
+            get
+            {
+                return details;
+            }
+
+            protected set
+            {
+                details = value;
+            }
+        }
+
+        
+        public DateTime LastUpdate
+        {
+            get
+            {
+                return lastUpdate;
+            }
+
+            protected set
+            {
+                lastUpdate = value;
+            }
+        }
+        
         #endregion
 
 
@@ -58,7 +113,7 @@ namespace USCISTracker.Data
             throw new NotImplementedException();
         }
 
-        public string GetFullMessage()
+        public string GetDetails()
         {
             throw new NotImplementedException();
         }
@@ -87,8 +142,38 @@ namespace USCISTracker.Data
             //Search for the mainbody message:
             var caseMessageDom = document.All.Where(n => n.ClassName == "rows text-center").Select(n => n).FirstOrDefault();
 
+            //Trim out the un-necessarily part for case status
+            string caseStatus = caseStatusDom.TextContent.Trim();
+            int temp = caseStatus.IndexOf(":");
+            caseStatus = caseStatus.Substring( temp + 1, caseStatus.Length - temp - 2 ).Trim();
 
-            return null;
+            //Get the case detail:
+            var caseDetails = caseMessageDom.Children[1].TextContent.Trim();
+
+            var pieces = caseDetails.Split(',');
+
+            var lastUpdateInString = pieces[0].Substring(3) + pieces[1];
+
+            DateTime lastUpdate = DateTime.Parse(lastUpdateInString);
+
+            //Get Form Type
+            string formType = "N/A";
+
+            if(pieces[2].Contains("we received your Form") == true)
+            {
+                formType = pieces[2].Substring("we received your Form".Length + 1);
+            }
+
+            //create a new instance
+            Case currentCase = new Case();
+            currentCase.ReceiptNumber = receiptNumber;
+            currentCase.LastUpdate = lastUpdate;
+            currentCase.Status = caseStatus;
+            currentCase.Details = caseDetails;
+            currentCase.FormType = formType;
+
+
+            return currentCase;
             
         }
         #endregion

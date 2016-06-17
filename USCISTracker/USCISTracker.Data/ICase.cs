@@ -36,6 +36,6 @@ namespace USCISTracker.Data
         /// Get the full body message from USCIS
         /// </summary>
         /// <returns></returns>
-        string GetFullMessage();
+        string GetDetails();
     }
 }
