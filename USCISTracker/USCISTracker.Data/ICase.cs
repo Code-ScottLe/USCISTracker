@@ -12,7 +12,7 @@ namespace USCISTracker.Data
         /// <summary>
         /// Case Receipt Number
         /// </summary>
-        ICaseReceiptNumber ReceiptNumber { get; set; }
+        ICaseReceiptNumber ReceiptNumber { get; }
 
         /// <summary>
         /// Get the form type of this case/ receipt number. I.E : I-765
