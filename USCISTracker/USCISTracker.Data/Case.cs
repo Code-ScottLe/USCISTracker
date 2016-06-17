@@ -52,6 +52,11 @@ namespace USCISTracker.Data
         {
             throw new NotImplementedException();
         }
+
+        public static Case GenerateFromHTML(string html)
+        {
+
+        }
         #endregion
 
 
