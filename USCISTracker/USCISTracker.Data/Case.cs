@@ -105,22 +105,22 @@ namespace USCISTracker.Data
         #region Methods
         public string GetCurrentStatus()
         {
-            throw new NotImplementedException();
+            return Status;
         }
 
         public string GetFormType()
         {
-            throw new NotImplementedException();
+            return FormType;
         }
 
         public string GetDetails()
         {
-            throw new NotImplementedException();
+            return Details;
         }
 
         public string GetLastUpdatedDate()
         {
-            throw new NotImplementedException();
+            return LastUpdate.ToString();
         }
 
 
