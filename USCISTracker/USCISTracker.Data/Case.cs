@@ -150,11 +150,15 @@ namespace USCISTracker.Data
             //Get the case detail:
             var caseDetails = caseMessageDom.Children[1].TextContent.Trim();
 
+
+            //Get the case last updated date
             var pieces = caseDetails.Split(',');
 
             var lastUpdateInString = pieces[0].Substring(3) + pieces[1];
 
-            DateTime lastUpdate = DateTime.Parse(lastUpdateInString);
+            DateTime lastUpdate = new DateTime();
+
+            DateTime.TryParse(lastUpdateInString, out lastUpdate);
 
             //Get Form Type
             string formType = "N/A";
