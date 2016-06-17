@@ -130,11 +130,6 @@ namespace USCISTracker.API
         /// <returns></returns>
         public async Task SetReceiptNumberAsync(string receiptNumber)
         {
-            while(NavigateCompleted == false)
-            {
-                //Clunky code. 
-                await Task.Delay(500);
-            }
 
             if (NavigateFailed == true)
             {
@@ -171,6 +166,11 @@ namespace USCISTracker.API
         /// <returns></returns>
         public async Task CheckCaseStatusAsync()
         {
+            if (NavigateFailed == true)
+            {
+                throw new InvalidOperationException("WebView failed to navigate to tool. Please refresh.");
+            }
+
             //Try to check if the receipt number is there.
             string jsTestCaseStatusNumber = $"document.getElementById(\"receipt_number\").value";
             string[] jsTestArgs = { jsTestCaseStatusNumber };
@@ -188,14 +188,20 @@ namespace USCISTracker.API
                 throw new InvalidProgramException("Invalid Receipt Number!");
             }
 
+            //Because the webView will be reload to a new one, reset status
+            NavigateCompleted = false;
+            NavigateFailed = false;
+
             //Invoke the button.
             string js = "var x = document.getElementsByTagName(\"input\");var i; for(i = 0; i < x.length; i++){ if(x[i].value == \"CHECK STATUS\") { break; } }; x[i].click()";
             string[] jsArgs = { js };
             string res = await CurrentWebView.InvokeScriptAsync("eval",jsArgs);
 
-            //Because the webView will be reload to a new one, reset status
-            NavigateCompleted = false;
-            NavigateFailed = false;
+            //Wait until page is properly refreshed.
+            while (NavigateCompleted == false)
+            {
+                await Task.Delay(500);
+            }
 
         }
 
