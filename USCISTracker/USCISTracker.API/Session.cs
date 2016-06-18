@@ -130,6 +130,10 @@ namespace USCISTracker.API
         /// <returns></returns>
         public async Task SetReceiptNumberAsync(string receiptNumber)
         {
+            if(receiptNumber.Length != 13)
+            {
+                throw new ArgumentException("Invalid receipt number! Receipt number must have 13 characters!");
+            }
 
             if (NavigateFailed == true)
             {
