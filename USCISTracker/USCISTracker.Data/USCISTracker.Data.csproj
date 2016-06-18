@@ -109,8 +109,6 @@
   <ItemGroup>
     <Compile Include="Case.cs" />
     <Compile Include="CaseReceiptNumber.cs" />
-    <Compile Include="ICase.cs" />
-    <Compile Include="ICaseReceiptNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\USCISTracker.Data.rd.xml" />
   </ItemGroup>

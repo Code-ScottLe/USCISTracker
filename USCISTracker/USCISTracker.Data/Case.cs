@@ -10,7 +10,7 @@ using AngleSharp.Html;
 
 namespace USCISTracker.Data
 {
-    public class Case : ICase
+    public class Case
     {
         #region Fields
         private ICaseReceiptNumber receiptNumber;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace USCISTracker.Data
 {
-    public class CaseReceiptNumber : ICaseReceiptNumber
+    public class CaseReceiptNumber
     {
         #region Fields
         private string receiptNumber;
