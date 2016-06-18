@@ -10,18 +10,19 @@ using AngleSharp.Html;
 
 namespace USCISTracker.Data
 {
-    public class Case
+    public class Case : ICase
     {
         #region Fields
-        private CaseReceiptNumber receiptNumber;
+        private ICaseReceiptNumber receiptNumber;
         private string status;
         private string formType;
         private string details;
         private DateTime lastUpdate;
+        private string name;
         #endregion
 
         #region Properties
-        public CaseReceiptNumber ReceiptNumber
+        public ICaseReceiptNumber ReceiptNumber
         {
             get
             {
@@ -94,6 +95,19 @@ namespace USCISTracker.Data
                 return LastCaseUpdate.ToString();
             }
         }
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+            }
+        }
         #endregion
 
 
@@ -116,7 +130,7 @@ namespace USCISTracker.Data
         /// <param name="respondHTML">the HTML in string form of the respond page</param>
         /// <param name="receiptNumber">Receipt number of the responded HTML</param>
         /// <returns></returns>
-        public static async Task<Case> GenerateFromHTMLAsync(string respondHTML, CaseReceiptNumber receiptNumber)
+        public static async Task<Case> GenerateFromHTMLAsync(string respondHTML, ICaseReceiptNumber receiptNumber)
         {
             //Parse the given HTML
             HtmlParser parser = new HtmlParser();
