@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace USCISTracker.Data
 {
-    public class CaseReceiptNumber
+    public class CaseReceiptNumber : ICaseReceiptNumber, ISequentialReceiptNumber
     {
         #region Fields
         private string receiptNumber;
@@ -80,12 +80,10 @@ namespace USCISTracker.Data
 
         }
 
-
-        public static CaseReceiptNumber operator++(CaseReceiptNumber a)
+        public ICaseReceiptNumber GetNext()
         {
-            //YSC1690058940
-            string ServiceCenterAndCompNumber = a.ReceiptNumber.Substring(0, 8);
-            string UniqueID = a.ReceiptNumber.Substring(8);
+            string ServiceCenterAndCompNumber = ReceiptNumber.Substring(0, 8);
+            string UniqueID = ReceiptNumber.Substring(8);
 
             int temp = -1;
 
@@ -93,8 +91,32 @@ namespace USCISTracker.Data
 
             temp++;
 
+            return new CaseReceiptNumber(ServiceCenterAndCompNumber + temp.ToString()); ;
+        }
+
+        public ICaseReceiptNumber GetPrevious()
+        {
+            string ServiceCenterAndCompNumber = ReceiptNumber.Substring(0, 8);
+            string UniqueID = ReceiptNumber.Substring(8);
+
+            int temp = -1;
+
+            int.TryParse(UniqueID, out temp);
+
+            temp--;
+
             return new CaseReceiptNumber(ServiceCenterAndCompNumber + temp.ToString());
+        }
+
+        public static CaseReceiptNumber operator++(CaseReceiptNumber a)
+        {
+            return a.GetNext() as CaseReceiptNumber;
         } 
+
+        public static CaseReceiptNumber operator--(CaseReceiptNumber a)
+        {
+            return a.GetPrevious() as CaseReceiptNumber;
+        }
 
         #endregion
     }
