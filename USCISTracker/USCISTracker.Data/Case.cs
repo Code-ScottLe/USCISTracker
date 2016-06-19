@@ -125,6 +125,23 @@ namespace USCISTracker.Data
         #region Methods
 
         /// <summary>
+        /// Update the current case with the returned HTML from the current case status page
+        /// </summary>
+        /// <param name="html">current html from the page</param>
+        /// <returns></returns>
+        public async Task UpdateFromHTMLAsync(string html)
+        {
+            //Parse it as the new case.
+            var updatedCase = await GenerateFromHTMLAsync(html, this.ReceiptNumber);
+
+            //Copy everything over
+            Status = updatedCase.Status;
+            FormType = updatedCase.FormType;
+            Details = updatedCase.Details;
+            LastCaseUpdate = updatedCase.LastCaseUpdate;
+        }
+
+        /// <summary>
         /// Parse the respond HTML and return a new instance of the Case
         /// </summary>
         /// <param name="respondHTML">the HTML in string form of the respond page</param>

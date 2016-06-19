@@ -14,5 +14,6 @@ namespace USCISTracker.Data
         string Details { get;}
         string LastUpdate { get; }
         string Name { get; set; }
+        Task UpdateFromHTMLAsync(string html);
     }
 }
