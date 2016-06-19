@@ -36,14 +36,14 @@ namespace USCISTracker.Views
 
             await mySession.ConnectAsync();
 
-
-            await mySession.SetReceiptNumberAsync("YSC1690058904");
+            //Faulty: YSC1690199904
+            await mySession.SetReceiptNumberAsync("YSC1690199904");
 
             await mySession.CheckCaseStatusAsync();
 
             string stuffs = await mySession.GetCurrentPageHTML();
 
-            Data.CaseReceiptNumber receipt = new Data.CaseReceiptNumber("YSC1690058904");
+            Data.CaseReceiptNumber receipt = new Data.CaseReceiptNumber("YSC1690199904");
 
             await Data.Case.GenerateFromHTMLAsync(stuffs, receipt);
 

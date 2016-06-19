@@ -136,6 +136,29 @@ namespace USCISTracker.Data
             HtmlParser parser = new HtmlParser();
             var document = await parser.ParseAsync(respondHTML);
 
+            //Search for problems first.
+            if(document.All.Where(n=>n.Id == "formErrorMessages").Select(n=>n).FirstOrDefault() != null)
+            {
+                //Error form, due to some kind of internal error.
+                var formErrorMessageDom = document.All.Where(n => n.Id == "formErrorMessages").Select(n => n).FirstOrDefault();
+                string errorStatus = formErrorMessageDom.Children[0].TextContent.Trim();
+                string errorDetail = formErrorMessageDom.Children[1].TextContent.Trim();
+
+                Case invalidCase = new Case()
+                {
+                    ReceiptNumber = receiptNumber,
+                    Status = "Error!",
+                    FormType = "N/A",
+                    Details = errorStatus + errorDetail,
+                    LastCaseUpdate = new DateTime(),
+                    Name = receiptNumber.ReceiptNumber
+
+                };
+
+                return invalidCase;
+                
+            }
+
             //Search for the case status
             var caseStatusDom =  document.All.Where(n => n.ClassName == "current-status-sec").Select(n => n).FirstOrDefault();
 
@@ -174,6 +197,7 @@ namespace USCISTracker.Data
             currentCase.Status = caseStatus;
             currentCase.Details = caseDetails;
             currentCase.FormType = formType;
+            currentCase.Name = receiptNumber.ReceiptNumber;
 
             return currentCase;
             
