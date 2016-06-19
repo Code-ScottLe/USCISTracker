@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Parser.Html;
 using AngleSharp.Html;
-
+using System.ComponentModel;
 
 namespace USCISTracker.Data
 {
@@ -32,6 +32,7 @@ namespace USCISTracker.Data
             protected set
             {
                 receiptNumber = value;
+                OnPropertyChanged("ReceiptNumber");
             }
         }
 
@@ -46,6 +47,7 @@ namespace USCISTracker.Data
 
             {
                 status = value;
+                OnPropertyChanged("Status");
             }
         }
 
@@ -59,6 +61,7 @@ namespace USCISTracker.Data
             protected set
             {
                 formType = value;
+                OnPropertyChanged("FormType");
             }
         }
 
@@ -72,6 +75,7 @@ namespace USCISTracker.Data
             protected set
             {
                 details = value;
+                OnPropertyChanged("Details");
             }
         }
     
@@ -85,6 +89,7 @@ namespace USCISTracker.Data
             protected set
             {
                 lastUpdate = value;
+                OnPropertyChanged("LastCaseUpdate");
             }
         }
         
@@ -106,10 +111,14 @@ namespace USCISTracker.Data
             set
             {
                 name = value;
+                OnPropertyChanged("Name");
             }
         }
         #endregion
 
+        #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
         #region Constructors
         /// <summary>
@@ -139,6 +148,18 @@ namespace USCISTracker.Data
             FormType = updatedCase.FormType;
             Details = updatedCase.Details;
             LastCaseUpdate = updatedCase.LastCaseUpdate;
+        }
+
+        /// <summary>
+        /// Helper method to fire the Property Changed
+        /// </summary>
+        /// <param name="propertyName">the name of the changed property</param>
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         /// <summary>
