@@ -26,5 +26,10 @@ namespace USCISTracker.Views
         {
             this.InitializeComponent();
         }
+
+        private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+
+        }
     }
 }

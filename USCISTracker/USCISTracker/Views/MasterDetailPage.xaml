@@ -5,9 +5,99 @@
     xmlns:local="using:USCISTracker.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:USCISTracker.Data"
+    xmlns:converter="using:USCISTracker.Converters"
+    xmlns:viewmodel="using:USCISTracker.ViewModels"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <!--Transition to page animation-->
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+    
+    
+    <!--Converters-->
+    <Page.Resources>
+        <converter:IReceiptNumberToString x:Key="ReceiptToString" />
+    </Page.Resources>
+    
+    <!--Main Grid-->
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--Grid's Columns and Rows-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MasterColumn" Width="320"></ColumnDefinition> <!--Limit Master List to 320px Pixel-->
+            <ColumnDefinition x:Name="DetailColumn" Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <!--Visual State of the Grid to respond to the different state of the UI on different screen size/resulution-->
+        <VisualStateManager.VisualStateGroups>
+            
+            <!--Create a group of visual states that adapt to screen size-->
+            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
+                <!--Default State/Expanded State-->
+                <VisualState x:Name="DefaultState">
+                    <VisualState.StateTriggers>
+                        <!--This state will be triggered once the screen size is detected that has the width larger than 720px-->
+                        <AdaptiveTrigger MinWindowWidth="720"></AdaptiveTrigger>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                
+                <!--Collapsed State/Narrow State-->
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"></AdaptiveTrigger>
+                    </VisualState.StateTriggers>
+                    
+                    <!--This state will be triggered once the width fall off the MinWindowWidth of  720px -->
+                    <!--Because it is not a default state, we will have setters to set data on the UI elements-->
+                    <VisualState.Setters>
+                        <!--Because this is the collapsed state so detail are not showed on the master detail-->
+                        <Setter Target="MasterColumn.Width" Value="*"></Setter>
+                        <Setter Target="DetailColumn.Width" Value="0"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <!--Data Context of the Grid-->
+        <Grid.DataContext>
+            <viewmodel:CaseViewModel></viewmodel:CaseViewModel>
+        </Grid.DataContext>
+        
+        <!--Actual UI element-->
+        <!--Title-->
+        <TextBlock x:Name="AppTitleTextBlock" 
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Margin="12, 8, 8, 8">My Cases</TextBlock>
+        
+        <!--The Master page contail a list of all the available cases that user is tracking-->
+        <ListView x:Name="MasterListView"
+                  Grid.Row="1"
+                  ItemsSource="{Binding Path=Cases}">
+            
+            <!--The Master page will be a list of all the Case object. Need the item template -->
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:ICase">
+                    <StackPanel>
+                        <TextBlock x:Name="CaseName" Text="{Binding Name}"></TextBlock>
+                        <TextBlock x:Name="ReceiptNumber" Text="{Binding Path= ReceiptNumber, Converter={StaticResource ReceiptToString}}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <!--The space, if available for the detail pane will be taken up by the content presenter for dynamic XAML injection-->
+        <ContentPresenter x:Name="DetailContentPresenter"
+                          Grid.Column="1"
+                          Grid.RowSpan="2">
+            
+        </ContentPresenter>
     </Grid>
 </Page>
