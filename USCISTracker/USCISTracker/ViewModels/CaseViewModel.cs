@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,17 @@ namespace USCISTracker.ViewModels
     {
 
         #region Fields
-
+        private ObservableCollection<ICase> cases;
         #endregion
 
         #region Property
-
+        public ObservableCollection<ICase> Cases
+        {
+            get
+            {
+                return cases;
+            }
+        }
         #endregion
 
         #region Events
