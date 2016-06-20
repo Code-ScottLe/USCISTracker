@@ -16,14 +16,36 @@ namespace USCISTracker.ViewModels
 
         #region Fields
         private ObservableCollection<ICase> cases;
+        private ICase selectedItem;
         #endregion
 
         #region Property
+
+        /// <summary>
+        /// The list of all currently tracked case.
+        /// </summary>
         public ObservableCollection<ICase> Cases
         {
             get
             {
                 return cases;
+            }
+        }
+
+        /// <summary>
+        /// Current selected item
+        /// </summary>
+        public ICase SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+
+            set
+            {
+                selectedItem = value;
+                OnPropertyChanged("SelectedItem");
             }
         }
         #endregion

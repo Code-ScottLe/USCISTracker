@@ -80,7 +80,9 @@
         <!--The Master page contail a list of all the available cases that user is tracking-->
         <ListView x:Name="MasterListView"
                   Grid.Row="1"
-                  ItemsSource="{Binding Path=Cases}">
+                  ItemsSource="{Binding Path=Cases}"
+                  IsItemClickEnabled="True"
+                  ItemClick="MasterListView_ItemClick">
             
             <!--The Master page will be a list of all the Case object. Need the item template -->
             <ListView.ItemTemplate>
@@ -99,8 +101,23 @@
                           Grid.RowSpan="2"
                           BorderThickness="1, 0, 0, 0"
                           BorderBrush="Gray"
-                          Padding="0,0">
-            
+                          Padding="0,0"
+                          Content="{Binding ElementName=MasterListView, Path=SelectedItem, Mode=OneWay}">
+            <ContentPresenter.ContentTemplate>
+                <DataTemplate x:DataType="data:ICase">
+                    <StackPanel>
+                        <TextBlock x:Name="DetailedCaseReceiptNumberTextBlock" Text="{Binding Path=ReceiptNumber, Converter={StaticResource ReceiptToString}}"></TextBlock>
+                        <TextBlock x:Name="DetailedCaseStatus" Text="{Binding Path=Status}"></TextBlock>
+                        <TextBlock x:Name="DetailedCaseDetails" Text="{Binding Path=Details}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ContentPresenter.ContentTemplate>
+
+
+            <ContentPresenter.ContentTransitions>
+                <TransitionCollection></TransitionCollection>
+            </ContentPresenter.ContentTransitions>
+
         </ContentPresenter>
 
     </Grid>
