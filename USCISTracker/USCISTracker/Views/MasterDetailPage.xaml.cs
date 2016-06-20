@@ -31,5 +31,10 @@ namespace USCISTracker.Views
         {
 
         }
+
+        private async void AddCaseAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await viewModel.TestAsync();
+        }
     }
 }

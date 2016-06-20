@@ -68,7 +68,7 @@
         
         <!--Data Context of the Grid-->
         <Grid.DataContext>
-            <viewmodel:CaseViewModel></viewmodel:CaseViewModel>
+            <viewmodel:CaseViewModel x:Name="viewModel"></viewmodel:CaseViewModel>
         </Grid.DataContext>
         
         <!--Actual UI element-->
@@ -96,8 +96,21 @@
         <!--The space, if available for the detail pane will be taken up by the content presenter for dynamic XAML injection-->
         <ContentPresenter x:Name="DetailContentPresenter"
                           Grid.Column="1"
-                          Grid.RowSpan="2">
+                          Grid.RowSpan="2"
+                          BorderThickness="1, 0, 0, 0"
+                          BorderBrush="Gray"
+                          Padding="0,0">
             
         </ContentPresenter>
+
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar x:Name="BottomCommandBar">
+            <AppBarButton x:Name="AddCaseAppBarButton" Icon="Add" Label="Add Case" Click="AddCaseAppBarButton_Click"></AppBarButton>
+            <AppBarButton x:Name="SyncStatusAppBarButton" Icon="Sync" Label="Sync All"></AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+    
+    
 </Page>

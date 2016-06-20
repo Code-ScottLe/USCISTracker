@@ -41,12 +41,31 @@ namespace USCISTracker.ViewModels
         /// </summary>
         public CaseViewModel()
         {
-
+            cases = new ObservableCollection<ICase>();
+            
         }
         #endregion
 
         #region Methods
 
+        public async Task TestAsync()
+        {
+            Session mySession = new Session();
+            await mySession.ConnectAsync();
+
+            //Receipt
+            ICaseReceiptNumber receipt = new CaseReceiptNumber("YSC1690058904");
+
+            await mySession.SetReceiptNumberAsync(receipt.ReceiptNumber);
+
+            await mySession.CheckCaseStatusAsync();
+
+            var html = await mySession.GetCurrentPageHTML();
+
+            Case myCase = await Case.GenerateFromHTMLAsync(html, receipt);
+
+            cases.Add(myCase);
+        }
 
         /// <summary>
         /// Helper method to fire the Property Changed
