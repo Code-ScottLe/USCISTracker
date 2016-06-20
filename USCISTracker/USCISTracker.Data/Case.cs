@@ -175,7 +175,7 @@ namespace USCISTracker.Data
             var document = await parser.ParseAsync(respondHTML);
 
             //Search for problems first.
-            if(document.All.Where(n=>n.Id == "formErrorMessages").Select(n=>n).FirstOrDefault() != null)
+            if(document.All.Where(n=>n.Id == "formErrorMessages").Select(n=>n).FirstOrDefault().ChildElementCount > 0)
             {
                 //Error form, due to some kind of internal error.
                 var formErrorMessageDom = document.All.Where(n => n.Id == "formErrorMessages").Select(n => n).FirstOrDefault();
