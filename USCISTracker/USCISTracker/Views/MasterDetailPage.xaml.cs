@@ -48,10 +48,12 @@ namespace USCISTracker.Views
         {
             //get the clicked item
             var choosenCase = e.ClickedItem as Data.ICase;
+            viewModel.SelectedItem = choosenCase;
 
             if(AdaptiveStates.CurrentState == NarrowState)
             {
                 //Narrow state, transit to the detail page
+                Frame.Navigate(typeof(DetailPage), this.DataContext, new DrillInNavigationTransitionInfo());
             }
 
             else

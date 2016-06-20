@@ -104,6 +104,8 @@
                           Padding="0,0"
                           Content="{Binding ElementName=MasterListView, Path=SelectedItem, Mode=OneWay}">
             <ContentPresenter.ContentTemplate>
+                
+                <!--Template for the ICase object on detail page-->
                 <DataTemplate x:DataType="data:ICase">
                     <StackPanel>
                         <TextBlock x:Name="DetailedCaseReceiptNumberTextBlock" 
