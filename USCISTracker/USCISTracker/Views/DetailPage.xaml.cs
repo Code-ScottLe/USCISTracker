@@ -87,7 +87,14 @@ namespace USCISTracker.Views
         {
             base.OnNavigatedTo(e);
 
-            Case = e.Parameter as CaseViewModel;        
+            mainStackPanel.DataContext = e.Parameter as CaseViewModel;
+
+            Binding stuffs = new Binding();
+            stuffs.ElementName = "SelectedItem";
+            stuffs.Path = new PropertyPath("Status");
+
+            DetailedCaseStatus.SetBinding(TextBlock.TextProperty, stuffs);
+
         }
     }
 

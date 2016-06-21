@@ -24,19 +24,19 @@
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <StackPanel x:Name="mainStackPanel">
             <TextBlock x:Name="DetailedCaseReceiptNumberTextBlock" 
-                                   Text="{Binding Case.ReceiptNumber, Converter={StaticResource ReceiptToString}}"
+                                   Text="{Binding SelectedItem.ReceiptNumber, Converter={StaticResource ReceiptToString}}"
                                    Style="{StaticResource TitleTextBlockStyle}"
                                    HorizontalAlignment="Left"></TextBlock>
 
             <TextBlock x:Name="DetailedCaseStatus" 
-                                   Text="{Binding Case.Status}"
+                                   Text="{Binding SelectedItem.Status}"
                                    Style="{StaticResource HeaderTextBlockStyle}"
                                    HorizontalAlignment="Left"></TextBlock>
 
             <TextBlock x:Name="DetailedCaseDetails" 
-                                   Text="{Binding Case.Details}" 
+                                   Text="{Binding SelectedItem.Details}" 
                                    MaxWidth="580"
                                    Style="{StaticResource BodyTextBlockStyle}"
                                    HorizontalAlignment="Left"></TextBlock>

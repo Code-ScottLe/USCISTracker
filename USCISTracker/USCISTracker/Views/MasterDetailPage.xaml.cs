@@ -38,30 +38,14 @@ namespace USCISTracker.Views
             await viewModel.TestAsync();
         }
 
-
         /// <summary>
-        /// Event handler for the event when an item on the master listview is choosen/clicked
+        /// Handler for the click event of the Hamburger utton
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MasterListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void HamburgerNavButton_Click(object sender, RoutedEventArgs e)
         {
-            //get the clicked item
-            var choosenCase = e.ClickedItem as Data.ICase;
-            viewModel.SelectedItem = choosenCase;
-
-            if(AdaptiveStates.CurrentState == NarrowState)
-            {
-                //Narrow state, transit to the detail page
-                Frame.Navigate(typeof(DetailPage), this.DataContext, new DrillInNavigationTransitionInfo());
-            }
-
-            else
-            {
-                //Show the item on the detail section
-                DetailContentPresenter.ContentTransitions.Clear();
-                DetailContentPresenter.ContentTransitions.Add(new EntranceThemeTransition());
-            }
+            MasterNavSplitView.IsPaneOpen = !MasterNavSplitView.IsPaneOpen;
         }
     }
 }
