@@ -18,31 +18,41 @@
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <!--Narrow / Phone portrait-->
                 <VisualState x:Name="VisualStateNarrow">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for narrow view  -->
-                        <Setter Target="stateTextBox.Text" Value="Narrow Visual State" />
+                        <!-- When narrow,hide detail column, master take entire place-->
+                        <Setter Target="MasterColumn.Width" Value="*"></Setter>
+                        <Setter Target="DetailColumn.Width" Value="0"></Setter>
                     </VisualState.Setters>
                 </VisualState>
+                
+                <!--Normal/Phone Landscape/Tablet Portrait-->
                 <VisualState x:Name="VisualStateNormal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for normal view  -->
-                        <Setter Target="stateTextBox.Text" Value="Normal Visual State" />
+                        <!--Normal would show the Master and the detail-->
+                        <Setter Target="MasterColumn.Width" Value="320"></Setter>
+                        <Setter Target="DetailColumn.Width" Value="*"></Setter>
                     </VisualState.Setters>
                 </VisualState>
+                
+                <!--Wide state/Wide screen PC/ Tablet lanscape -->
                 <VisualState x:Name="VisualStateWide">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for wide view  -->
-                        <Setter Target="stateTextBox.Text" Value="Wide Visual State" />
+                        <!--Wide would be the same as normal, but with expanded master a bit to take spaces-->
+                        <Setter Target="MasterColumn.Width" Value="400"></Setter>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -50,8 +60,10 @@
 
         <controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" Text="Main Page">
+                             RelativePanel.AlignTopWithPanel="True" Text="My USCIS Case">
 
+            <AppBarButton x:Name="AddCaseAppbarButton" Icon="Add" Label="Add Case"></AppBarButton>
+            <AppBarButton x:Name="SyncCaseStatusAppbarButton" Icon="Sync" Label="Check Status"></AppBarButton>
             <!--  secondary commands  -->
             <controls:PageHeader.SecondaryCommands>
                 <AppBarButton Click="{x:Bind ViewModel.GotoSettings}" Label="Settings" />
@@ -60,39 +72,32 @@
             </controls:PageHeader.SecondaryCommands>
 
         </controls:PageHeader>
+        
+        <!--MainGrid -->
+        <Grid x:Name="RootGrid" 
+              RelativePanel.AlignLeftWithPanel="True" 
+              RelativePanel.Below="pageHeader">
 
-        <controls:Resizer x:Name="parameterResizer" Margin="16,16,16,0"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          RelativePanel.Below="pageHeader">
+            <!--Define the column definition-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="MasterColumn" Width="320"></ColumnDefinition>
+                <ColumnDefinition x:Name="DetailColumn" Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+           
+            
+            <Grid x:Name="MasterGrid">
+                <TextBlock>Master</TextBlock>
+                <Button Click="Button_Click">Test me</Button>
+            </Grid>
 
-            <TextBox MinWidth="150" MinHeight="62"
-                     Header="Parameter to pass"
-                     Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     TextWrapping="Wrap">
-                <Interactivity:Interaction.Behaviors>
-                    <!--  enable submit on enter key  -->
-                    <Behaviors:KeyBehavior Key="Enter">
-                        <Core:CallMethodAction MethodName="GotoDetailsPage" TargetObject="{Binding}" />
-                    </Behaviors:KeyBehavior>
-                    <!--  focus on textbox when page loads  -->
-                    <Core:EventTriggerBehavior>
-                        <Behaviors:FocusAction />
-                    </Core:EventTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
-            </TextBox>
-
-        </controls:Resizer>
-
-        <Button x:Name="submitButton"
-                Click="{x:Bind ViewModel.GotoDetailsPage}" Content="Submit"
-                RelativePanel.AlignBottomWith="parameterResizer"
-                RelativePanel.RightOf="parameterResizer" />
-
-        <TextBlock x:Name="stateTextBox" Margin="16,16,0,0"
-                   RelativePanel.AlignLeftWith="parameterResizer"
-                   RelativePanel.Below="parameterResizer"
-                   Text="Current Visual State" />
+            <Grid x:Name="DetailGrid" Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0">
+                <TextBlock>Detail</TextBlock>
+            </Grid>
+            
+        </Grid>
+             
 
     </RelativePanel>
+   
 </Page>
 

@@ -5,27 +5,63 @@ using System.Linq;
 using System.Threading.Tasks;
 using Template10.Services.NavigationService;
 using Windows.UI.Xaml.Navigation;
+using System.Collections.ObjectModel;
+using USCISTracker.API;
+using USCISTracker.Data;
 
 namespace USCISTracker.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+
+        #region Fields
+        private ObservableCollection<ICase> cases;
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Collection of cases that the user is current tracking
+        /// </summary>
+        public ObservableCollection<ICase> Cases
+        {
+            get
+            {
+                return cases;
+            }
+
+            private set
+            {
+                cases = value;
+            }
+        }
+        #endregion
+
+
+        #region Constructors
         public MainPageViewModel()
         {
+
+            Cases = new ObservableCollection<ICase>();
+
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                Value = "Designtime value";
             }
         }
 
-        string _Value = "Gas";
-        public string Value { get { return _Value; } set { Set(ref _Value, value); } }
+        #endregion
 
+
+        #region Methods
+
+
+        #endregion
+
+        #region Template 10 Events Handlers and Commands
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             if (suspensionState.Any())
             {
-                Value = suspensionState[nameof(Value)]?.ToString();
             }
             await Task.CompletedTask;
         }
@@ -34,7 +70,6 @@ namespace USCISTracker.ViewModels
         {
             if (suspending)
             {
-                suspensionState[nameof(Value)] = Value;
             }
             await Task.CompletedTask;
         }
@@ -46,7 +81,7 @@ namespace USCISTracker.ViewModels
         }
 
         public void GotoDetailsPage() =>
-            NavigationService.Navigate(typeof(Views.DetailPage), Value);
+            NavigationService.Navigate(typeof(Views.DetailPage), null);
 
         public void GotoSettings() =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 0);
@@ -57,6 +92,8 @@ namespace USCISTracker.ViewModels
         public void GotoAbout() =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 2);
 
+
+        #endregion
     }
 }
 
