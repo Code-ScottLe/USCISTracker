@@ -62,7 +62,7 @@ namespace USCISTracker.ViewModels
         /// Add a new case to the current tracking page.
         /// </summary>
         /// <returns></returns>
-        public async Task AddNewCaseAsync()
+        public async void AddNewCaseAsync()
         {
             Session currentSession = new Session();
             await currentSession.ConnectAsync();

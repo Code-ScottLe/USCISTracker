@@ -99,14 +99,14 @@
                        HorizontalAlignment="Stretch"
                        Padding="10,0,0,0"></TextBlock>
 
-            <Grid BorderBrush="Black" BorderThickness="0,0,0,2"></Grid>
+            <Grid BorderBrush="Black" BorderThickness="0,0,0,1"></Grid>
             
             <ListView x:Name="CasesListView"
                   ItemsSource="{x:Bind ViewModel.Cases}"  
                   Grid.Column="0"
                   Grid.Row="1"
                   HorizontalAlignment="Stretch"
-                  Margin="0,10,0,0">
+                  Margin="0,0,0,0">
 
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -119,7 +119,7 @@
                     <DataTemplate x:DataType="data:ICase">
                         <RelativePanel HorizontalAlignment="Stretch" 
                                        Padding="0,10,0,10"
-                                       BorderBrush="Black"
+                                       BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
                                        BorderThickness="0,1,0,0">
                             <!--Receipt number block-->
                             <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" Text="Receipt #:"></TextBlock>
