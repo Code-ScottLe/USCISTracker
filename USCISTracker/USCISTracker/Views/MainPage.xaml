@@ -8,96 +8,131 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:USCISTracker.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:vm="using:USCISTracker.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:USCISTracker.ViewModels" mc:Ignorable="d" x:Name="MainPageActual"
+      xmlns:data="using:USCISTracker.Data">
 
     <Page.DataContext>
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
+    
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+            <!--Narrow / Phone portrait-->
+            <VisualState x:Name="VisualStateNarrow">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <!--  TODO: change properties for narrow view  -->
+                    <Setter Target="MasterColumn.Width" Value="*"></Setter>
+                    <Setter Target="DetailColumn.Width" Value="0"></Setter>
+                </VisualState.Setters>
+            </VisualState>
 
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <!--Normal/Phone Landscape/Tablet Portrait-->
+            <VisualState x:Name="VisualStateNormal">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <!--  TODO: change properties for normal view  -->
+                </VisualState.Setters>
+            </VisualState>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
-                <!--Narrow / Phone portrait-->
-                <VisualState x:Name="VisualStateNarrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO: change properties for narrow view  -->
-                        <!-- When narrow,hide detail column, master take entire place-->
-                        <Setter Target="MasterColumn.Width" Value="*"></Setter>
-                        <Setter Target="DetailColumn.Width" Value="0"></Setter>
-                    </VisualState.Setters>
-                </VisualState>
-                
-                <!--Normal/Phone Landscape/Tablet Portrait-->
-                <VisualState x:Name="VisualStateNormal">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO: change properties for normal view  -->
-                        <!--Normal would show the Master and the detail-->
-                        <Setter Target="MasterColumn.Width" Value="320"></Setter>
-                        <Setter Target="DetailColumn.Width" Value="*"></Setter>
-                    </VisualState.Setters>
-                </VisualState>
-                
-                <!--Wide state/Wide screen PC/ Tablet lanscape -->
-                <VisualState x:Name="VisualStateWide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <!--  TODO: change properties for wide view  -->
-                        <!--Wide would be the same as normal, but with expanded master a bit to take spaces-->
-                        <Setter Target="MasterColumn.Width" Value="400"></Setter>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+            <!--Wide state/Wide screen PC/ Tablet lanscape -->
+            <VisualState x:Name="VisualStateWide">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <!--  TODO: change properties for wide view  -->
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 
-        <controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
+
+    <!--<controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.AlignTopWithPanel="True" Text="My USCIS Case">
 
-            <AppBarButton x:Name="AddCaseAppbarButton" Icon="Add" Label="Add Case"></AppBarButton>
-            <AppBarButton x:Name="SyncCaseStatusAppbarButton" Icon="Sync" Label="Check Status"></AppBarButton>
-            <!--  secondary commands  -->
-            <controls:PageHeader.SecondaryCommands>
-                <AppBarButton Click="{x:Bind ViewModel.GotoSettings}" Label="Settings" />
-                <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
-                <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" />
-            </controls:PageHeader.SecondaryCommands>
+        <AppBarButton x:Name="AddCaseAppbarButton" Icon="Add" Label="Add Case" Click="{x:Bind ViewModel.AddNewCaseAsync}"></AppBarButton>
+        <AppBarButton x:Name="SyncCaseStatusAppbarButton" Icon="Sync" Label="Check Status"></AppBarButton>
+        --><!--  secondary commands  --><!--
+        <controls:PageHeader.SecondaryCommands>
+            <AppBarButton Click="{x:Bind ViewModel.GotoSettings}" Label="Settings" />
+            <AppBarButton Click="{x:Bind ViewModel.GotoPrivacy}" Label="Privacy" />
+            <AppBarButton Click="{x:Bind ViewModel.GotoAbout}" Label="About" />
+        </controls:PageHeader.SecondaryCommands>
 
-        </controls:PageHeader>
-        
-        <!--MainGrid -->
-        <Grid x:Name="RootGrid" 
-              RelativePanel.AlignLeftWithPanel="True" 
-              RelativePanel.Below="pageHeader">
+    </controls:PageHeader>-->
 
-            <!--Define the column definition-->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="MasterColumn" Width="320"></ColumnDefinition>
-                <ColumnDefinition x:Name="DetailColumn" Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-           
+    <Grid x:Name="RootGrid"
+          Background="{StaticResource AppBarBackgroundThemeBrush}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MasterColumn" Width="320"></ColumnDefinition>
+            <ColumnDefinition x:Name="DetailColumn" Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="MasterGrid"
+              Grid.Column="0"
+              Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="PageTitle" 
+                       Text="My USCIS Case" 
+                       Grid.Row="0" 
+                       Style="{ThemeResource TitleTextBlockStyle}"
+                       VerticalAlignment="Center"
+                       Padding="10,0,0,0"></TextBlock>
             
-            <Grid x:Name="MasterGrid">
-                <TextBlock>Master</TextBlock>
-                <Button Click="Button_Click">Test me</Button>
-            </Grid>
+            <ListView x:Name="CasesListView"
+                  ItemsSource="{x:Bind ViewModel.Cases}"  
+                  Grid.Column="0"
+                  Grid.Row="1">
 
-            <Grid x:Name="DetailGrid" Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0">
-                <TextBlock>Detail</TextBlock>
-            </Grid>
-            
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="data:ICase">
+                        <RelativePanel HorizontalAlignment="Stretch" 
+                                       VariableSizedWrapGrid.ColumnSpan="2"
+                                       Padding="0,10,0,10"
+                                       BorderThickness="0,1,0,1"
+                                       BorderBrush="Black">
+                            <!--Receipt number block-->
+                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" Text="Receipt #:"></TextBlock>
+                            <TextBlock x:Name="CaseReceiptNumberTextBlock" 
+                                           Text="{x:Bind Path=ReceiptNumber}"
+                                           RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"></TextBlock>
+
+                            <!--Case status-->
+                            <TextBlock x:Name="CaseStatusLabelTextBlock"
+                                           RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
+                                           Text="Status: ">
+                            </TextBlock>
+                            <TextBlock x:Name="CaseStatusTextBlock"
+                                           RelativePanel.RightOf="CaseStatusLabelTextBlock"
+                                           RelativePanel.Below="CaseReceiptNumberTextBlock"
+                                           Text="{x:Bind Path=Status}"></TextBlock>
+                        </RelativePanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
         </Grid>
-             
+        
+        
+    </Grid>
 
-    </RelativePanel>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="MainPageBottomCommandBar">
+            <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="{x:Bind ViewModel.AddNewCaseAsync}"></AppBarButton>
+            <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync"></AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
    
 </Page>
 

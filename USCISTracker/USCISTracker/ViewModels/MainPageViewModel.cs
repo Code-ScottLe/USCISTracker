@@ -39,6 +39,10 @@ namespace USCISTracker.ViewModels
 
 
         #region Constructors
+
+        /// <summary>
+        /// Default constructor for the view model
+        /// </summary>
         public MainPageViewModel()
         {
 
@@ -54,6 +58,22 @@ namespace USCISTracker.ViewModels
 
         #region Methods
 
+        /// <summary>
+        /// Add a new case to the current tracking page.
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddNewCaseAsync()
+        {
+            Session currentSession = new Session();
+            await currentSession.ConnectAsync();
+            await currentSession.SetReceiptNumberAsync("YSC1690058904");
+            await currentSession.CheckCaseStatusAsync();
+            string html = await currentSession.GetCurrentPageHTML();
+
+            ICase testCase = await Case.GenerateFromHTMLAsync(html, new CaseReceiptNumber("YSC1690058904"));
+
+            Cases.Add(testCase);
+        }
 
         #endregion
 
