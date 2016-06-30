@@ -15,42 +15,6 @@
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
     
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
-            <!--Narrow / Phone portrait-->
-            <VisualState x:Name="VisualStateNarrow">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <!--  TODO: change properties for narrow view  -->
-                    <Setter Target="MasterColumn.Width" Value="*"></Setter>
-                    <Setter Target="DetailColumn.Width" Value="0"></Setter>
-                </VisualState.Setters>
-            </VisualState>
-
-            <!--Normal/Phone Landscape/Tablet Portrait-->
-            <VisualState x:Name="VisualStateNormal">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <!--  TODO: change properties for normal view  -->
-                </VisualState.Setters>
-            </VisualState>
-
-            <!--Wide state/Wide screen PC/ Tablet lanscape -->
-            <VisualState x:Name="VisualStateWide">
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <!--  TODO: change properties for wide view  -->
-                </VisualState.Setters>
-            </VisualState>
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-
 
     <!--<controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
@@ -74,6 +38,46 @@
             <ColumnDefinition x:Name="MasterColumn" Width="320"></ColumnDefinition>
             <ColumnDefinition x:Name="DetailColumn" Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <!--Narrow / Phone portrait-->
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for narrow view  -->
+                        <Setter Target="MasterColumn.Width" Value="*"></Setter>
+                        <Setter Target="DetailColumn.Width" Value="0"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--Normal/Phone Landscape/Tablet Portrait-->
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for normal view  -->
+                        <Setter Target="MasterColumn.Width" Value="320"></Setter>
+                        <Setter Target="DetailColumn.Width" Value="*"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--Wide state/Wide screen PC/ Tablet lanscape -->
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for wide view  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        
 
         <Grid x:Name="MasterGrid"
               Grid.Column="0"
