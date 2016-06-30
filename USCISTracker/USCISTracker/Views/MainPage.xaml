@@ -9,12 +9,16 @@
       xmlns:local="using:USCISTracker.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:USCISTracker.ViewModels" mc:Ignorable="d" x:Name="MainPageActual"
-      xmlns:data="using:USCISTracker.Data">
+      xmlns:data="using:USCISTracker.Data"
+      xmlns:controllers="using:USCISTracker.Controllers">
 
     <Page.DataContext>
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
-    
+
+    <Page.Resources>
+        <controllers:IReceiptNumberToString x:Key="ReceiptNumberConverter"></controllers:IReceiptNumberToString>
+    </Page.Resources>
 
     <!--<controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
@@ -32,7 +36,7 @@
     </controls:PageHeader>-->
 
     <Grid x:Name="RootGrid"
-          Background="{StaticResource AppBarBackgroundThemeBrush}">
+          Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="MasterColumn" Width="320"></ColumnDefinition>
@@ -92,24 +96,35 @@
                        Grid.Row="0" 
                        Style="{ThemeResource TitleTextBlockStyle}"
                        VerticalAlignment="Center"
+                       HorizontalAlignment="Stretch"
                        Padding="10,0,0,0"></TextBlock>
+
+            <Grid BorderBrush="Black" BorderThickness="0,0,0,2"></Grid>
             
             <ListView x:Name="CasesListView"
                   ItemsSource="{x:Bind ViewModel.Cases}"  
                   Grid.Column="0"
-                  Grid.Row="1">
+                  Grid.Row="1"
+                  HorizontalAlignment="Stretch"
+                  Margin="0,10,0,0">
 
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:ICase">
                         <RelativePanel HorizontalAlignment="Stretch" 
-                                       VariableSizedWrapGrid.ColumnSpan="2"
                                        Padding="0,10,0,10"
-                                       BorderThickness="0,1,0,1"
-                                       BorderBrush="Black">
+                                       BorderBrush="Black"
+                                       BorderThickness="0,1,0,0">
                             <!--Receipt number block-->
                             <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" Text="Receipt #:"></TextBlock>
                             <TextBlock x:Name="CaseReceiptNumberTextBlock" 
-                                           Text="{x:Bind Path=ReceiptNumber}"
+                                           Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
                                            RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"></TextBlock>
 
                             <!--Case status-->
@@ -125,6 +140,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
 
+
+                
             </ListView>
         </Grid>
         
@@ -132,7 +149,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="MainPageBottomCommandBar">
+        <CommandBar x:Name="MainPageBottomCommandBar" BorderBrush="Gray" BorderThickness="0,1,0,0">
             <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="{x:Bind ViewModel.AddNewCaseAsync}"></AppBarButton>
             <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync"></AppBarButton>
         </CommandBar>
