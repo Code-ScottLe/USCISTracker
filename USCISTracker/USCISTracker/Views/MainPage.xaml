@@ -163,72 +163,31 @@
                                            RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
                                            Text="Status: "
                                            Padding="10,0,0,0"
-                                           FontSize="20"></TextBlock>
+                                           FontSize="18"></TextBlock>
 
                                 <TextBlock x:Name="CaseStatusTextBlock"
                                            RelativePanel.Below="CaseReceiptNumberTextBlock"
                                            RelativePanel.RightOf="CaseStatusLabelTextBlock"
                                            Text="{x:Bind Path=Status}"
-                                           FontSize="20"></TextBlock>
+                                           FontSize="18"></TextBlock>
                                 
                             </RelativePanel>
 
-
+                            
+                            <!--Updated Time-->
                             <TextBlock
                                 x:Name="LastUpdatedTimeTextBlock"
                                 Grid.Column="2"
                                 Text="{x:Bind Path=LastRefresh, Converter={StaticResource DateTimeConverter}}"
                                 Foreground="Gray"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom">
+                                VerticalAlignment="Bottom"
+                                TextAlignment="Right">
                                 
                             </TextBlock>                      
                             
                         </Grid>
-                        
-                        <!--<RelativePanel HorizontalAlignment="Stretch" 
-                                       Padding="0,10,0,10"
-                                       BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                                       BorderThickness="0,1,0,0">
-                            
-                            --><!--Name of the case--><!--
-                            <TextBlock x:Name="CaseNameTextBlock"
-                                       Text="{x:Bind Path=Name}"
-                                       Style="{ThemeResource HeaderTextBlockStyle}"></TextBlock>
-                            --><!--Receipt number block--><!--
-                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" 
-                                       Text="Receipt #:"
-                                       RelativePanel.Below="CaseNameTextBlock"></TextBlock>
-                            <TextBlock x:Name="CaseReceiptNumberTextBlock" 
-                                       Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
-                                       RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"
-                                       RelativePanel.Below="CaseNameTextBlock"></TextBlock>
-
-                            --><!--Case status--><!--
-                            <TextBlock x:Name="CaseStatusLabelTextBlock"
-                                           RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
-                                           Text="Status: ">
-                            </TextBlock>
-                            <TextBlock x:Name="CaseStatusTextBlock"
-                                           RelativePanel.RightOf="CaseStatusLabelTextBlock"
-                                           RelativePanel.Below="CaseReceiptNumberTextBlock"
-                                           Text="{x:Bind Path=Status}"></TextBlock>
-                            
-                            --><!-- last updated time (user requsted update) --><!--
-                            <TextBlock x:Name="LastUpdatedTimeTextBlock"
-                                       RelativePanel.AlignRightWithPanel="True"
-                                       RelativePanel.AlignBottomWithPanel="True"
-                                       Text="{x:Bind Path=LastRefresh, Converter={StaticResource DateTimeConverter}}"
-                                       Foreground="Gray"></TextBlock>
-
-                            <TextBlock x:Name="LastUpdatedTimeTitleTextBlock"
-                                       RelativePanel.AlignRightWithPanel="True"
-                                       RelativePanel.Above="LastUpdatedTimeTextBlock"
-                                       Text="LastUpdated:"
-                                       Foreground="Gray"
-                                       FontSize="10"
-                                       FontStyle="Italic"></TextBlock>
-                        </RelativePanel>-->
+                                               
                     </DataTemplate>
                 </ListView.ItemTemplate>
 
