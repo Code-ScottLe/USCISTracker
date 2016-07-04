@@ -18,6 +18,7 @@
 
     <Page.Resources>
         <controllers:IReceiptNumberToString x:Key="ReceiptNumberConverter"></controllers:IReceiptNumberToString>
+        <controllers:DateTimeToString x:Key="DateTimeConverter"></controllers:DateTimeToString>
     </Page.Resources>
 
     <!--<controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
@@ -108,6 +109,7 @@
                   HorizontalAlignment="Stretch"
                   Margin="0,0,0,0">
 
+                <!-- This is for the black bar between items -->
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
@@ -122,10 +124,11 @@
                                        BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
                                        BorderThickness="0,1,0,0">
                             <!--Receipt number block-->
-                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" Text="Receipt #:"></TextBlock>
+                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" 
+                                       Text="Receipt #:"></TextBlock>
                             <TextBlock x:Name="CaseReceiptNumberTextBlock" 
-                                           Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
-                                           RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"></TextBlock>
+                                       Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                                       RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"></TextBlock>
 
                             <!--Case status-->
                             <TextBlock x:Name="CaseStatusLabelTextBlock"
@@ -136,6 +139,23 @@
                                            RelativePanel.RightOf="CaseStatusLabelTextBlock"
                                            RelativePanel.Below="CaseReceiptNumberTextBlock"
                                            Text="{x:Bind Path=Status}"></TextBlock>
+                            
+                            <!-- last updated time (user requsted update) -->
+                            <TextBlock x:Name="LastUpdatedTimeTextBlock"
+                                       RelativePanel.AlignRightWithPanel="True"
+                                       RelativePanel.AlignBottomWithPanel="True"
+                                       Text="{x:Bind Path=LastRefresh, Converter={StaticResource DateTimeConverter}}"
+                                       Foreground="Gray"></TextBlock>
+                            
+                            <TextBlock x:Name="LastUpdatedTimeTitleTextBlock"
+                                       RelativePanel.AlignRightWithPanel="True"
+                                       RelativePanel.Above="LastUpdatedTimeTextBlock"
+                                       Text="LastUpdated:"
+                                       Foreground="Gray"
+                                       FontSize="10"
+                                       FontStyle="Italic"></TextBlock>
+                            
+                            
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
