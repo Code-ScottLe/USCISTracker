@@ -19,6 +19,7 @@ namespace USCISTracker.Data
         private string details;
         private DateTime lastUpdate;
         private string name;
+        private DateTime lastRefresh;
         #endregion
 
         #region Properties
@@ -91,15 +92,7 @@ namespace USCISTracker.Data
                 lastUpdate = value;
                 OnPropertyChanged("LastCaseUpdate");
             }
-        }
-        
-        public string LastUpdate
-        {
-            get
-            {
-                return LastCaseUpdate.ToString();
-            }
-        }
+        }       
 
         public string Name
         {
@@ -112,6 +105,20 @@ namespace USCISTracker.Data
             {
                 name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+
+        public DateTime LastRefresh
+        {
+            get
+            {
+                return lastRefresh;
+            }
+
+            set
+            {
+                lastRefresh = value;
+                OnPropertyChanged("LastRefresh");
             }
         }
         #endregion
