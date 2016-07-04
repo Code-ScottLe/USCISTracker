@@ -77,6 +77,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for wide view  -->
+                        <Setter Target="MasterColumn.Width" Value="500"></Setter>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -86,7 +87,8 @@
 
         <Grid x:Name="MasterGrid"
               Grid.Column="0"
-              Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}">
+              Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
+              MinWidth="320">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -119,18 +121,90 @@
                 
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:ICase">
-                        <RelativePanel HorizontalAlignment="Stretch" 
+                        <Grid HorizontalAlignment="Stretch"
+                              Padding="0,10,0,10"
+                              BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                              BorderThickness="0,1,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.70*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.05*"></ColumnDefinition>
+                                <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+
+                            <RelativePanel>
+                                <!--Name of the case-->
+                                <TextBox x:Name="CaseNameTextBox"
+                                         BorderBrush="Transparent"
+                                         Background="Transparent"
+                                         Text="{x:Bind Path=Name, Mode=TwoWay}"
+                                         IsReadOnly="True"
+                                         FontSize="24"
+                                         BorderThickness="0"
+                                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBox>
+                                
+                                <!--Receipt Number-->
+                                <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
+                                           Text="Receipt #: "
+                                           RelativePanel.Below="CaseNameTextBox"
+                                           Padding="10,0,0,0"
+                                           Foreground="Gray"></TextBlock>
+
+                                <TextBlock x:Name="CaseReceiptNumberTextBlock"
+                                           Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                                           RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"
+                                           RelativePanel.Below="CaseNameTextBox"
+                                           Foreground="Gray"></TextBlock>
+                                
+                                
+                                <!--Case Status-->
+                                <TextBlock x:Name="CaseStatusLabelTextBlock"
+                                           RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
+                                           Text="Status: "
+                                           Padding="10,0,0,0"
+                                           FontSize="20"></TextBlock>
+
+                                <TextBlock x:Name="CaseStatusTextBlock"
+                                           RelativePanel.Below="CaseReceiptNumberTextBlock"
+                                           RelativePanel.RightOf="CaseStatusLabelTextBlock"
+                                           Text="{x:Bind Path=Status}"
+                                           FontSize="20"></TextBlock>
+                                
+                            </RelativePanel>
+
+
+                            <TextBlock
+                                x:Name="LastUpdatedTimeTextBlock"
+                                Grid.Column="2"
+                                Text="{x:Bind Path=LastRefresh, Converter={StaticResource DateTimeConverter}}"
+                                Foreground="Gray"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+                                
+                            </TextBlock>                      
+                            
+                        </Grid>
+                        
+                        <!--<RelativePanel HorizontalAlignment="Stretch" 
                                        Padding="0,10,0,10"
                                        BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
                                        BorderThickness="0,1,0,0">
-                            <!--Receipt number block-->
+                            
+                            --><!--Name of the case--><!--
+                            <TextBlock x:Name="CaseNameTextBlock"
+                                       Text="{x:Bind Path=Name}"
+                                       Style="{ThemeResource HeaderTextBlockStyle}"></TextBlock>
+                            --><!--Receipt number block--><!--
                             <TextBlock x:Name="CaseReceiptNumberLabelTextBlock" 
-                                       Text="Receipt #:"></TextBlock>
+                                       Text="Receipt #:"
+                                       RelativePanel.Below="CaseNameTextBlock"></TextBlock>
                             <TextBlock x:Name="CaseReceiptNumberTextBlock" 
                                        Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
-                                       RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"></TextBlock>
+                                       RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"
+                                       RelativePanel.Below="CaseNameTextBlock"></TextBlock>
 
-                            <!--Case status-->
+                            --><!--Case status--><!--
                             <TextBlock x:Name="CaseStatusLabelTextBlock"
                                            RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
                                            Text="Status: ">
@@ -140,13 +214,13 @@
                                            RelativePanel.Below="CaseReceiptNumberTextBlock"
                                            Text="{x:Bind Path=Status}"></TextBlock>
                             
-                            <!-- last updated time (user requsted update) -->
+                            --><!-- last updated time (user requsted update) --><!--
                             <TextBlock x:Name="LastUpdatedTimeTextBlock"
                                        RelativePanel.AlignRightWithPanel="True"
                                        RelativePanel.AlignBottomWithPanel="True"
                                        Text="{x:Bind Path=LastRefresh, Converter={StaticResource DateTimeConverter}}"
                                        Foreground="Gray"></TextBlock>
-                            
+
                             <TextBlock x:Name="LastUpdatedTimeTitleTextBlock"
                                        RelativePanel.AlignRightWithPanel="True"
                                        RelativePanel.Above="LastUpdatedTimeTextBlock"
@@ -154,9 +228,7 @@
                                        Foreground="Gray"
                                        FontSize="10"
                                        FontStyle="Italic"></TextBlock>
-                            
-                            
-                        </RelativePanel>
+                        </RelativePanel>-->
                     </DataTemplate>
                 </ListView.ItemTemplate>
 

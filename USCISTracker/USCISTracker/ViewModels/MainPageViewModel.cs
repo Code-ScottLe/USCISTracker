@@ -71,6 +71,8 @@ namespace USCISTracker.ViewModels
             string html = await currentSession.GetCurrentPageHTML();
 
             ICase testCase = await Case.GenerateFromHTMLAsync(html, new CaseReceiptNumber("YSC1690058904"));
+            testCase.LastRefresh = DateTime.Now;
+            testCase.Name = $"Case #{Cases.Count + 1}";
 
             Cases.Add(testCase);
         }
