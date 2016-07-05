@@ -53,6 +53,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for narrow view  -->
+                        <Setter Target="PageTitle.Padding" Value="60,0,0,0"></Setter>
                         <Setter Target="MasterColumn.Width" Value="*"></Setter>
                         <Setter Target="DetailColumn.Width" Value="0"></Setter>
                     </VisualState.Setters>
@@ -65,6 +66,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--  TODO: change properties for normal view  -->
+                        <Setter Target="PageTitle.Padding" Value="10,0,0,0"></Setter>
                         <Setter Target="MasterColumn.Width" Value="320"></Setter>
                         <Setter Target="DetailColumn.Width" Value="*"></Setter>
                     </VisualState.Setters>
