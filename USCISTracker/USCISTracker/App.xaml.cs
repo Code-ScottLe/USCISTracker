@@ -19,7 +19,7 @@ namespace USCISTracker
         public App()
         {
             InitializeComponent();
-            SplashFactory = (e) => new Views.Splash(e);
+            //SplashFactory = (e) => new Views.Splash(e);
 
             #region App settings
 
@@ -52,7 +52,7 @@ namespace USCISTracker
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
             // long-running startup tasks go here
-            await Task.Delay(5000);
+            //await Task.Delay(5000);
 
             NavigationService.Navigate(typeof(Views.MainPage));
             await Task.CompletedTask;
