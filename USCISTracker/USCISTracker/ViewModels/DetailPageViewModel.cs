@@ -50,6 +50,8 @@ namespace USCISTracker.ViewModels
             {
                // Value = "Designtime value";
             }
+
+            CurrentCase = new Case();
         }
 
 
@@ -63,7 +65,16 @@ namespace USCISTracker.ViewModels
         {
             //Value = (suspensionState.ContainsKey(nameof(Value))) ? suspensionState[nameof(Value)]?.ToString() : parameter?.ToString();
 
-            CurrentCase = parameter as ICase;
+            var caseme = parameter as ICase;
+
+            (CurrentCase as Case).Details = caseme.Details;
+            (CurrentCase as Case).FormType = caseme.FormType;
+            (CurrentCase as Case).LastCaseUpdate = caseme.LastCaseUpdate;
+            (CurrentCase as Case).LastRefresh = caseme.LastRefresh;
+            (CurrentCase as Case).Name = caseme.Name;
+            (CurrentCase as Case).ReceiptNumber = caseme.ReceiptNumber;
+            (CurrentCase as Case).Status = caseme.Status;
+
             await Task.CompletedTask;
         }
 

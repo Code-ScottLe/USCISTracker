@@ -10,6 +10,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:USCISTracker.ViewModels" x:Name="ThisPage"
       xmlns:controllers="using:USCISTracker.Controllers"
+      xmlns:data="using:USCISTracker.Data"
       mc:Ignorable="d">
 
     <Page.DataContext>
@@ -52,6 +53,88 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
+        <!--<ContentPresenter Content="{Binding ElementName=ViewModel, Path=CurrentCase, Mode=OneWay}"
+                          HorizontalAlignment="Stretch">
+
+            <ContentPresenter.ContentTemplate>
+                <DataTemplate x:DataType="data:ICase">
+                    <RelativePanel>
+                        
+                        --><!--Case name--><!--
+                        <TextBox x:Name="CaseNameTextBox"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 BorderBrush="Transparent"
+                                 Text="{Binding Name}"
+                                 IsReadOnly="True"
+                                 FontSize="24"
+                                 Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                 FontWeight="SemiBold"></TextBox>
+                        
+                        --><!--Receipt Number--><!--
+                        <StackPanel Orientation="Horizontal" 
+                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                    RelativePanel.Below="CaseNameTextBox"
+                                    x:Name="ReceiptNumberStackPanel">
+                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
+                                       Text="Receipt #:"
+                                       FontStyle="Italic"
+                                       Foreground="Gray"
+                                       FontSize="16"></TextBlock>
+
+                            <TextBlock x:Name="CaseReceiptNumberTextBlock"
+                                       Text="{Binding ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                                       FontSize="16"
+                                       FontStyle="Italic"
+                                       Foreground="Gray"
+                                       Padding="5,0,0,0"></TextBlock>
+                        </StackPanel>
+
+                        --><!--Last Updated and Refresh--><!--
+                        <StackPanel x:Name="UpdatedTimeStackpanel"
+                                    RelativePanel.Below="ReceiptNumberStackPanel"
+                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                    Orientation="Horizontal">
+                            
+                            <TextBlock x:Name="LastCaseUpdatedLabelTextBlock"
+                                       Text="Last Case Updated:"
+                                       FontSize="16"
+                                       Foreground="Gray"></TextBlock>
+                            
+                            <TextBlock x:Name="LastCaseUpdatedTextBlock"
+                                       Text="{Binding LastCaseUpdate, Converter={StaticResource DateTimeConverter}}"
+                                       FontSize="16"
+                                       Foreground="Gray"
+                                       Padding="5,0,0,0"></TextBlock>
+                            
+                        </StackPanel>
+
+                        --><!--Status--><!--
+                        <TextBlock x:Name="CaseStatusTextBlock"
+                                   RelativePanel.Below="UpdatedTimeStackpanel"
+                                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                   Text="{Binding Status}"
+                                   FontSize="20" Margin="0,20,0,0"></TextBlock>
+
+                        --><!--Detailed Status--><!--
+                        <TextBlock x:Name="CaseDetailTextBlock"
+                                   RelativePanel.Below="CaseStatusTextBlock"
+                                   Text="{Binding Details}"
+                                   Margin="10"
+                                   TextWrapping="WrapWholeWords"></TextBlock>
+
+                    </RelativePanel>
+                    
+                    
+                    
+                </DataTemplate>
+            </ContentPresenter.ContentTemplate>
+            
+
+        </ContentPresenter>-->
+        
+        
         <!--  header  -->
 
 
@@ -62,7 +145,7 @@
                  Background="Transparent"
                  BorderThickness="0"
                  BorderBrush="Transparent"
-                 Text="{x:Bind ViewModel.CurrentCase.Name}"
+                 Text="{x:Bind ViewModel.CurrentCase.Name, Mode=OneWay}"
                  IsReadOnly="True"
                  FontSize="24"
                  Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
@@ -81,14 +164,14 @@
                    FontSize="16"></TextBlock>
 
             <TextBlock x:Name="CaseReceiptNumberTextBlock"
-                   Text="{x:Bind ViewModel.CurrentCase.ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                   Text="{x:Bind ViewModel.CurrentCase.ReceiptNumber, Converter={StaticResource ReceiptNumberConverter},Mode=OneWay}"
                    FontSize="16"
                    FontStyle="Italic"
                    Foreground="Gray"
                    Padding="5,0,0,0"></TextBlock>
         </StackPanel>
         
-        <!--Last Updated and Refresh-->
+        <!--  Last Updated and Refresh-->
         <StackPanel x:Name="UpdatedTimeStackpanel"
                     RelativePanel.Below="ReceiptNumberStackPanel"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
@@ -98,7 +181,7 @@
                        FontSize="16"
                        Foreground="Gray"></TextBlock>
             <TextBlock x:Name="LastCaseUpdatedTextBlock"
-                       Text="{x:Bind ViewModel.CurrentCase.LastCaseUpdate, Converter={StaticResource DateTimeConverter}}"
+                       Text="{x:Bind ViewModel.CurrentCase.LastCaseUpdate, Converter={StaticResource DateTimeConverter}, Mode=OneWay}"
                        FontSize="16"
                        Foreground="Gray"
                        Padding="5,0,0,0"></TextBlock>
@@ -108,15 +191,16 @@
         <TextBlock x:Name="CaseStatusTextBlock"
                    RelativePanel.Below="UpdatedTimeStackpanel"
                    RelativePanel.AlignHorizontalCenterWithPanel="True"
-                   Text="{x:Bind ViewModel.CurrentCase.Status}"
+                   Text="{x:Bind ViewModel.CurrentCase.Status, Mode=OneWay}"
                    FontSize="20" Margin="0,20,0,0"></TextBlock>
         
         
         <!--Detailed Status-->
         <TextBlock x:Name="CaseDetailTextBlock"
                    RelativePanel.Below="CaseStatusTextBlock"
-                   Text="{x:Bind ViewModel.CurrentCase.Details}"
-                   Margin="10"></TextBlock>
+                   Text="{x:Bind ViewModel.CurrentCase.Details, Mode=OneWay}"
+                   Margin="10"
+                   TextWrapping="WrapWholeWords"></TextBlock>
         
     </RelativePanel>
 </Page>

@@ -103,7 +103,7 @@ namespace USCISTracker.ViewModels
         }
 
         public void GotoDetailsPage(ICase selectedCase) =>
-            NavigationService.Navigate(typeof(Views.DetailPage), selectedCase);
+            NavigationService.Navigate(typeof(Views.DetailPage), selectedCase, null);
 
         public void GotoSettings() =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 0);

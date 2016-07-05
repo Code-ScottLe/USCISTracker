@@ -27,7 +27,7 @@ namespace USCISTracker.Views
             if (AdaptiveVisualStateGroup.CurrentState == VisualStateNarrow)
             {
                 //Narrow state, we navigate to the detail page.
-                ViewModel.GotoDetailsPage(CasesListView.SelectedItem as ICase);
+                ViewModel.GotoDetailsPage(e.ClickedItem as ICase);
             }
         }
     }
