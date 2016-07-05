@@ -102,8 +102,8 @@ namespace USCISTracker.ViewModels
             await Task.CompletedTask;
         }
 
-        public void GotoDetailsPage() =>
-            NavigationService.Navigate(typeof(Views.DetailPage), null);
+        public void GotoDetailsPage(ICase selectedCase) =>
+            NavigationService.Navigate(typeof(Views.DetailPage), selectedCase);
 
         public void GotoSettings() =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 0);
@@ -113,7 +113,6 @@ namespace USCISTracker.ViewModels
 
         public void GotoAbout() =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 2);
-
 
         #endregion
     }

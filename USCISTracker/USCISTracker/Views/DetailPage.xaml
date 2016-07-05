@@ -9,11 +9,17 @@
       xmlns:local="using:USCISTracker.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:USCISTracker.ViewModels" x:Name="ThisPage"
+      xmlns:controllers="using:USCISTracker.Controllers"
       mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:DetailPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
+
+    <Page.Resources>
+        <controllers:IReceiptNumberToString x:Key="ReceiptNumberConverter"></controllers:IReceiptNumberToString>
+        <controllers:DateTimeToString x:Key="DateTimeConverter"></controllers:DateTimeToString>
+    </Page.Resources>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -47,23 +53,71 @@
         </VisualStateManager.VisualStateGroups>
 
         <!--  header  -->
-        <controls:PageHeader x:Name="pageHeader" Frame="{x:Bind Frame}"
-                             RelativePanel.AlignLeftWithPanel="True"
-                             RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" Text="Detail Page" />
+
 
         <!--  content  -->
-        <ScrollViewer Padding="12,8,0,0" RelativePanel.AlignBottomWithPanel="True"
-                      RelativePanel.AlignLeftWithPanel="True"
-                      RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.Below="pageHeader"
-                      VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="You passed:" />
-                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.Value, Mode=OneWay, FallbackValue=DesigntimeValue}" />
-            </StackPanel>
-        </ScrollViewer>
+               
+        <!--Case name-->
+        <TextBox x:Name="CaseNameTextBox"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 BorderBrush="Transparent"
+                 Text="{x:Bind ViewModel.CurrentCase.Name}"
+                 IsReadOnly="True"
+                 FontSize="24"
+                 Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                 FontWeight="SemiBold"></TextBox>
+        
+        <!--Case Receipt Number-->
+        <StackPanel Orientation="Horizontal" 
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.Below="CaseNameTextBox"
+                    x:Name="ReceiptNumberStackPanel">
+            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
+                   Text="Receipt #:"
+                   FontStyle="Italic"
+                   Foreground="Gray"
+                   FontSize="16"></TextBlock>
 
+            <TextBlock x:Name="CaseReceiptNumberTextBlock"
+                   Text="{x:Bind ViewModel.CurrentCase.ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                   FontSize="16"
+                   FontStyle="Italic"
+                   Foreground="Gray"
+                   Padding="5,0,0,0"></TextBlock>
+        </StackPanel>
+        
+        <!--Last Updated and Refresh-->
+        <StackPanel x:Name="UpdatedTimeStackpanel"
+                    RelativePanel.Below="ReceiptNumberStackPanel"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="LastCaseUpdatedLabelTextBlock"
+                       Text="Last Case Updated:"
+                       FontSize="16"
+                       Foreground="Gray"></TextBlock>
+            <TextBlock x:Name="LastCaseUpdatedTextBlock"
+                       Text="{x:Bind ViewModel.CurrentCase.LastCaseUpdate, Converter={StaticResource DateTimeConverter}}"
+                       FontSize="16"
+                       Foreground="Gray"
+                       Padding="5,0,0,0"></TextBlock>
+        </StackPanel>
+        
+        <!--Status-->
+        <TextBlock x:Name="CaseStatusTextBlock"
+                   RelativePanel.Below="UpdatedTimeStackpanel"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   Text="{x:Bind ViewModel.CurrentCase.Status}"
+                   FontSize="20" Margin="0,20,0,0"></TextBlock>
+        
+        
+        <!--Detailed Status-->
+        <TextBlock x:Name="CaseDetailTextBlock"
+                   RelativePanel.Below="CaseStatusTextBlock"
+                   Text="{x:Bind ViewModel.CurrentCase.Details}"
+                   Margin="10"></TextBlock>
+        
     </RelativePanel>
 </Page>
 

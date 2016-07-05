@@ -83,8 +83,9 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         
+       
         
-
+        <!--Master Column-->
         <Grid x:Name="MasterGrid"
               Grid.Column="0"
               Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
@@ -105,11 +106,13 @@
             <Grid BorderBrush="Black" BorderThickness="0,0,0,1"></Grid>
             
             <ListView x:Name="CasesListView"
-                  ItemsSource="{x:Bind ViewModel.Cases}"  
-                  Grid.Column="0"
-                  Grid.Row="1"
-                  HorizontalAlignment="Stretch"
-                  Margin="0,0,0,0">
+                      ItemsSource="{x:Bind ViewModel.Cases}"  
+                      Grid.Column="0"
+                      Grid.Row="1"
+                      HorizontalAlignment="Stretch"
+                      Margin="0,0,0,0"
+                      ItemClick="CasesListView_ItemClick"
+                      IsItemClickEnabled="True">
 
                 <!-- This is for the black bar between items -->
                 <ListView.ItemContainerStyle>
@@ -196,15 +199,96 @@
             </ListView>
         </Grid>
         
-        
-    </Grid>
+        <!--Detail Column-->
+        <ContentPresenter x:Name="DetailContentPresenter"
+                          Grid.Column="1"
+                          Content="{Binding ElementName=CasesListView, Path=SelectedItem, Mode=OneWay}"
+                          HorizontalAlignment="Stretch">
+            <ContentPresenter.ContentTemplate>
+                <DataTemplate x:DataType="data:ICase">
+                    <RelativePanel>
+                        <!--Case name-->
+                        <TextBox x:Name="CaseNameTextBox"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 BorderBrush="Transparent"
+                                 Text="{Binding Path=Name}"
+                                 IsReadOnly="True"
+                                 FontSize="40"
+                                 Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                 FontWeight="SemiBold"></TextBox>
 
-    <Page.BottomAppBar>
-        <CommandBar x:Name="MainPageBottomCommandBar" BorderBrush="Gray" BorderThickness="0,1,0,0">
+                        <!--Case Receipt Number-->
+                        <StackPanel Orientation="Horizontal" 
+                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                    RelativePanel.Below="CaseNameTextBox"
+                                    x:Name="ReceiptNumberStackPanel">
+
+                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
+                                       Text="Receipt #:"
+                                       FontStyle="Italic"
+                                       Foreground="Gray"
+                                       FontSize="24"></TextBlock>
+
+                            <TextBlock x:Name="CaseReceiptNumberTextBlock"
+                                       Text="{Binding Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                                       FontSize="24"
+                                       FontStyle="Italic"
+                                       Foreground="Gray"
+                                       Padding="5,0,0,0"></TextBlock>
+                        </StackPanel>
+
+                        <!--Last Updated and Refresh-->
+                        <StackPanel x:Name="UpdatedTimeStackpanel"
+                                    RelativePanel.Below="ReceiptNumberStackPanel"
+                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                    Orientation="Horizontal">
+                            <TextBlock x:Name="LastCaseUpdatedLabelTextBlock"
+                                       Text="Last Case Updated:"
+                                       FontSize="24"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap"></TextBlock>
+                            <TextBlock x:Name="LastCaseUpdatedTextBlock"
+                                       Text="{Binding Path=LastCaseUpdate, Converter={StaticResource DateTimeConverter}}"
+                                       FontSize="24"
+                                       Foreground="Gray"
+                                       Padding="5,0,0,0"
+                                       TextWrapping="Wrap"></TextBlock>
+                        </StackPanel>
+
+                        <!--Status-->
+                        <TextBlock x:Name="CaseStatusTextBlock"
+                                   RelativePanel.Below="UpdatedTimeStackpanel"
+                                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                   Text="{Binding Path=Status}"
+                                   FontSize="30" Margin="0,20,0,0"
+                                   TextWrapping="WrapWholeWords"></TextBlock>
+
+
+                        <!--Detailed Status-->
+                        <TextBlock x:Name="CaseDetailTextBlock"
+                                   RelativePanel.Below="CaseStatusTextBlock"
+                                   Text="{Binding Path=Details}"
+                                   FontSize="16"
+                                   Margin="10"
+                                   TextWrapping="WrapWholeWords"></TextBlock>
+                    </RelativePanel>    
+                </DataTemplate>
+            </ContentPresenter.ContentTemplate>
+        </ContentPresenter>
+
+
+        <CommandBar x:Name="MainPageBottomCommandBar" 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,1,0,0"
+                    VerticalAlignment="Bottom"
+                    Grid.ColumnSpan="2">
             <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="{x:Bind ViewModel.AddNewCaseAsync}"></AppBarButton>
             <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync"></AppBarButton>
         </CommandBar>
-    </Page.BottomAppBar>
+    </Grid>
+
    
 </Page>
 
