@@ -30,7 +30,7 @@ namespace USCISTracker.Data
                 return receiptNumber;
             }
 
-            protected set
+            set
             {
                 receiptNumber = value;
                 OnPropertyChanged("ReceiptNumber");
@@ -44,7 +44,7 @@ namespace USCISTracker.Data
                 return status;
             }
 
-            protected set
+            set
 
             {
                 status = value;
@@ -59,7 +59,7 @@ namespace USCISTracker.Data
                 return formType;
             }
 
-            protected set
+            set
             {
                 formType = value;
                 OnPropertyChanged("FormType");
@@ -73,7 +73,7 @@ namespace USCISTracker.Data
                 return details;
             }
 
-            protected set
+            set
             {
                 details = value;
                 OnPropertyChanged("Details");
@@ -87,7 +87,7 @@ namespace USCISTracker.Data
                 return lastUpdate;
             }
 
-            protected set
+            set
             {
                 lastUpdate = value;
                 OnPropertyChanged("LastCaseUpdate");
@@ -129,9 +129,9 @@ namespace USCISTracker.Data
 
         #region Constructors
         /// <summary>
-        /// Default Constructor, Hidden
+        /// Default Constructor
         /// </summary>
-        Case()
+        public Case()
         {
             ReceiptNumber = null;
         }
