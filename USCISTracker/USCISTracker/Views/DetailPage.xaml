@@ -105,7 +105,8 @@
                    RelativePanel.Below="UpdatedTimeStackpanel"
                    RelativePanel.AlignHorizontalCenterWithPanel="True"
                    Text="{x:Bind ViewModel.CurrentCase.Status, Mode=OneWay}"
-                   FontSize="20" Margin="0,20,0,0"></TextBlock>
+                   FontSize="20" Margin="0,20,0,0"
+                   TextWrapping="WrapWholeWords"></TextBlock>
         
         
         <!--Detailed Status-->
