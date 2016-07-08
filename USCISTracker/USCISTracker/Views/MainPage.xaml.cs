@@ -30,5 +30,27 @@ namespace USCISTracker.Views
                 ViewModel.GotoDetailsPage(e.ClickedItem as ICase);
             }
         }
+
+
+        /// <summary>
+        /// Click event handler for the Add A Newcase App bar Button. Add a new case to track.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void AddNewCaseAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Add a new case on the content dialog
+            CaseCreatorContentDialog dialog = new CaseCreatorContentDialog();
+            await dialog.ShowAsync();
+
+            //Check if we actually have changes.
+
+            if(dialog.isCancelled != true)
+            {
+                await ViewModel.AddNewCaseAsync(dialog.receiptNumber, dialog.caseName);
+            }
+
+            
+        }
     }
 }

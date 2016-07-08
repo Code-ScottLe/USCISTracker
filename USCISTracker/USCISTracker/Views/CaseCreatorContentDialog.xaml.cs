@@ -20,6 +20,8 @@ namespace USCISTracker.Views
     public sealed partial class CaseCreatorContentDialog : ContentDialog
     {
         public bool isCancelled = false;
+        public string receiptNumber;
+        public string caseName;
         private Brush defaultBorderColor;
 
         public CaseCreatorContentDialog()
@@ -36,7 +38,8 @@ namespace USCISTracker.Views
         /// <param name="args"></param>
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-
+            receiptNumber = ReceiptNumberTextBox.Text;
+            caseName = CaseNameTextBox.Text;
         }
 
         /// <summary>

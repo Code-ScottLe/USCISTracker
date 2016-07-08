@@ -58,23 +58,67 @@ namespace USCISTracker.ViewModels
 
         #region Methods
 
+
         /// <summary>
-        /// Add a new case to the current tracking page.
+        /// Create a case and get it status 
         /// </summary>
-        /// <returns></returns>
-        public async void AddNewCaseAsync()
+        /// <param name="receiptNumber"></param>
+        /// <param name="caseName"></param>
+        public async Task AddNewCaseAsync(string receiptNumber, string caseName ="")
         {
             Session currentSession = new Session();
             await currentSession.ConnectAsync();
-            await currentSession.SetReceiptNumberAsync("YSC1690058904");
+            await currentSession.SetReceiptNumberAsync(receiptNumber);
             await currentSession.CheckCaseStatusAsync();
             string html = await currentSession.GetCurrentPageHTML();
 
-            ICase testCase = await Case.GenerateFromHTMLAsync(html, new CaseReceiptNumber("YSC1690058904"));
+            ICase testCase = await Case.GenerateFromHTMLAsync(html, new CaseReceiptNumber(receiptNumber));
             testCase.LastRefresh = DateTime.Now;
-            testCase.Name = $"Case #{Cases.Count + 1}";
+
+            if (string.IsNullOrEmpty(caseName))
+            {
+                testCase.Name = $"Case #{Cases.Count + 1}";
+            }
+
+            else
+            {
+                testCase.Name = caseName;
+            }
+            
 
             Cases.Add(testCase);
+        }
+
+
+        public async Task SyncAllCaseAsync()
+        {
+            //If no case to check, don't bother.
+            if(Cases.Count == 0)
+            {
+                return;
+            }
+
+            //create a session at USCIS for update.
+            Session currentSession = new Session();
+            await currentSession.ConnectAsync();
+
+            if(currentSession.NavigateFailed == true)
+            {
+                throw new OperationCanceledException("Session WebView has Failed!");
+            }
+
+            //loop through the entire thing.
+            for(int i = 0; i < Cases.Count; i++)
+            {
+                await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
+                await currentSession.CheckCaseStatusAsync();
+                string html = await currentSession.GetCurrentPageHTML();
+
+                string tempname = Cases[i].Name;
+                Cases[i] = await Case.GenerateFromHTMLAsync(html, Cases[i].ReceiptNumber);
+                Cases[i].LastRefresh = DateTime.Now;
+                Cases[i].Name = tempname;
+            }
         }
 
         #endregion
