@@ -214,7 +214,7 @@ namespace USCISTracker.Data
             }
 
             //Update form type if it is new or previously error-ed 
-            if(FormType == "" || FormType == "N/A")
+            if(string.IsNullOrEmpty(FormType) || FormType == "N/A")
             {
                 FormType = formType;
             }
