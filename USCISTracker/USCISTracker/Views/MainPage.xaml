@@ -205,7 +205,9 @@
         <ContentPresenter x:Name="DetailContentPresenter"
                           Grid.Column="1"
                           Content="{Binding ElementName=CasesListView, Path=SelectedItem, Mode=OneWay}"
-                          HorizontalAlignment="Stretch">
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch">
+            
             <ContentPresenter.ContentTemplate>
                 <DataTemplate x:DataType="data:ICase">
                     <RelativePanel>
@@ -282,6 +284,15 @@
                                    FontSize="16"
                                    Margin="10"
                                    TextWrapping="WrapWholeWords"></TextBlock>
+                        
+                        <!--Some stuffs-->
+                        <TextBlock x:Name="USCISLabel"
+                                   RelativePanel.AlignRightWithPanel="True"
+                                   RelativePanel.AlignBottomWithPanel="True"
+                                   Text="Data from USCIS.gov"
+                                   Padding="10"
+                                   Foreground="DarkGray"></TextBlock>
+                        
                     </RelativePanel>    
                 </DataTemplate>
             </ContentPresenter.ContentTemplate>
