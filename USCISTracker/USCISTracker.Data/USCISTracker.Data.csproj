@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Case.cs" />
+    <Compile Include="CaseFactory.cs" />
     <Compile Include="CaseReceiptNumber.cs" />
     <Compile Include="ICase.cs" />
     <Compile Include="ICaseReceiptNumber.cs" />
