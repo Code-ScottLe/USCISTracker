@@ -68,7 +68,5 @@ namespace USCISTracker.Views
             CaseNameTextBox.IsReadOnly = false;
             CaseNameTextBox.Focus(FocusState.Pointer);
         }
-
-
     }
 }

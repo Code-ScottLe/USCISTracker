@@ -217,7 +217,8 @@
                                  FontSize="40"
                                  Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                                  RelativePanel.AlignHorizontalCenterWithPanel="True"
-                                 FontWeight="SemiBold"></TextBox>
+                                 FontWeight="SemiBold" IsTapEnabled="False"
+                         ></TextBox>
 
                 <Button x:Name="EditCaseNameButton"
                                 RelativePanel.RightOf="CaseNameTextBox"
