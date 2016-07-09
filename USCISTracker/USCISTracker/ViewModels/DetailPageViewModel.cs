@@ -51,7 +51,8 @@ namespace USCISTracker.ViewModels
                // Value = "Designtime value";
             }
 
-            CurrentCase = CaseFactory.GetCase("");
+            //Fake Receipt Number
+            CurrentCase = CaseFactory.GetCase("YSC1600000000");
         }
 
 
