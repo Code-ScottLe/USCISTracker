@@ -202,101 +202,103 @@
         </Grid>
         
         <!--Detail Column-->
-        <ContentPresenter x:Name="DetailContentPresenter"
-                          Grid.Column="1"
-                          Content="{Binding ElementName=CasesListView, Path=SelectedItem, Mode=OneWay}"
+        <Grid x:Name="DetailContentPresenter"
+                          Grid.Column="1"            
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch">
-            
-            <ContentPresenter.ContentTemplate>
-                <DataTemplate x:DataType="data:ICase">
-                    <RelativePanel>
-                        <!--Case name-->
-                        <TextBox x:Name="CaseNameTextBox"
+            <RelativePanel>
+                <!--Case name-->
+                <TextBox x:Name="CaseNameTextBox"
                                  Background="Transparent"
                                  BorderThickness="0"
                                  BorderBrush="Transparent"
-                                 Text="{Binding Path=Name}"
+                                 Text="{x:Bind ViewModel.SelectedCase.Name, Mode=TwoWay}"
                                  IsReadOnly="True"
                                  FontSize="40"
                                  Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                                  RelativePanel.AlignHorizontalCenterWithPanel="True"
                                  FontWeight="SemiBold"></TextBox>
 
-                        <TextBlock x:Name="FormTypeTextBox"
+                <Button x:Name="EditCaseNameButton"
+                                RelativePanel.RightOf="CaseNameTextBox"
+                                Background="Transparent"
+                                Click="EditCaseNameButton_Click"
+                        RelativePanel.AlignVerticalCenterWith="CaseNameTextBox">
+                    <SymbolIcon Symbol="Edit"></SymbolIcon>
+                </Button>
+
+                <TextBlock x:Name="FormTypeTextBox"
                                    RelativePanel.Below="CaseNameTextBox"
                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
                                    Foreground="Gray"
                                    FontSize="24">
                             <Run>Form Type:</Run>
-                            <Run Text="{Binding Path=FormType}"></Run>
-                        </TextBlock>
+                            <Run Text="{x:Bind ViewModel.SelectedCase.FormType, Mode=OneWay}"></Run>
+                </TextBlock>
 
-                        <!--Case Receipt Number-->
-                        <StackPanel Orientation="Horizontal" 
+                <!--Case Receipt Number-->
+                <StackPanel Orientation="Horizontal" 
                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                                     RelativePanel.Below="FormTypeTextBox"
                                     x:Name="ReceiptNumberStackPanel">
 
-                            <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
+                    <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
                                        Text="Receipt #:"
                                        FontStyle="Italic"
                                        Foreground="Gray"
                                        FontSize="24"></TextBlock>
 
-                            <TextBlock x:Name="CaseReceiptNumberTextBlock"
-                                       Text="{Binding Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                    <TextBlock x:Name="CaseReceiptNumberTextBlock"
+                                       Text="{x:Bind ViewModel.SelectedCase.ReceiptNumber,Mode=OneWay, Converter={StaticResource ReceiptNumberConverter}}"
                                        FontSize="24"
                                        FontStyle="Italic"
                                        Foreground="Gray"
                                        Padding="5,0,0,0"></TextBlock>
-                        </StackPanel>
+                </StackPanel>
 
-                        <!--Last Updated and Refresh-->
-                        <StackPanel x:Name="UpdatedTimeStackpanel"
+                <!--Last Updated and Refresh-->
+                <StackPanel x:Name="UpdatedTimeStackpanel"
                                     RelativePanel.Below="ReceiptNumberStackPanel"
                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                                     Orientation="Horizontal">
-                            <TextBlock x:Name="LastCaseUpdatedLabelTextBlock"
+                    <TextBlock x:Name="LastCaseUpdatedLabelTextBlock"
                                        Text="Last Case Updated:"
                                        FontSize="24"
                                        TextWrapping="Wrap"></TextBlock>
-                            <TextBlock x:Name="LastCaseUpdatedTextBlock"
-                                       Text="{Binding Path=LastCaseUpdate, Converter={StaticResource DateTimeConverter}}"
+                    <TextBlock x:Name="LastCaseUpdatedTextBlock"
+                                       Text="{x:Bind ViewModel.SelectedCase.LastCaseUpdate,Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
                                        FontSize="24"
                                        Padding="5,0,0,0"
                                        TextWrapping="Wrap"></TextBlock>
-                        </StackPanel>
+                </StackPanel>
 
-                        <!--Status-->
-                        <TextBlock x:Name="CaseStatusTextBlock"
+                <!--Status-->
+                <TextBlock x:Name="CaseStatusTextBlock"
                                    RelativePanel.Below="UpdatedTimeStackpanel"
                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
-                                   Text="{Binding Path=Status}"
+                                   Text="{x:Bind ViewModel.SelectedCase.Status, Mode=OneWay}"
                                    FontSize="30" Margin="0,20,0,0"
                                    TextWrapping="WrapWholeWords"></TextBlock>
 
 
-                        <!--Detailed Status-->
-                        <TextBlock x:Name="CaseDetailTextBlock"
+                <!--Detailed Status-->
+                <TextBlock x:Name="CaseDetailTextBlock"
                                    RelativePanel.Below="CaseStatusTextBlock"
-                                   Text="{Binding Path=Details}"
+                                   Text="{x:Bind ViewModel.SelectedCase.Details, Mode=OneWay}"
                                    FontSize="16"
                                    Margin="10"
                                    TextWrapping="WrapWholeWords"></TextBlock>
-                        
-                        <!--Some stuffs-->
-                        <TextBlock x:Name="USCISLabel"
+
+                <!--Some stuffs-->
+                <TextBlock x:Name="USCISLabel"
                                    RelativePanel.AlignRightWithPanel="True"
                                    RelativePanel.AlignBottomWithPanel="True"
                                    Text="Data from USCIS.gov"
                                    Padding="10"
                                    Foreground="DarkGray"></TextBlock>
-                        
-                    </RelativePanel>    
-                </DataTemplate>
-            </ContentPresenter.ContentTemplate>
-        </ContentPresenter>
+
+            </RelativePanel>
+        </Grid>
 
 
         <CommandBar x:Name="MainPageBottomCommandBar" 

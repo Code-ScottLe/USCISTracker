@@ -16,6 +16,7 @@ namespace USCISTracker.ViewModels
 
         #region Fields
         private ObservableCollection<ICase> cases;
+        private ICase selectedCase;
         #endregion
 
         #region Properties
@@ -33,6 +34,20 @@ namespace USCISTracker.ViewModels
             private set
             {
                 cases = value;
+            }
+        }
+
+        public ICase SelectedCase
+        {
+            get
+            {
+                return selectedCase;
+            }
+
+            set
+            {
+                selectedCase = value;
+                RaisePropertyChanged("SelectedCase");
             }
         }
         #endregion

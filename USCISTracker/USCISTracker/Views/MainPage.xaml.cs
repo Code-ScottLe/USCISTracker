@@ -29,6 +29,11 @@ namespace USCISTracker.Views
                 //Narrow state, we navigate to the detail page.
                 ViewModel.GotoDetailsPage(e.ClickedItem as ICase);
             }
+
+            else
+            {
+                ViewModel.SelectedCase = e.ClickedItem as ICase;
+            }
         }
 
 
@@ -52,5 +57,18 @@ namespace USCISTracker.Views
 
             
         }
+
+        /// <summary>
+        /// Click event handler for the edit the name button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditCaseNameButton_Click(object sender, RoutedEventArgs e)
+        {
+            CaseNameTextBox.IsReadOnly = false;
+            CaseNameTextBox.Focus(FocusState.Pointer);
+        }
+
+
     }
 }
