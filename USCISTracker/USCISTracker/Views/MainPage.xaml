@@ -221,10 +221,19 @@
                                  RelativePanel.AlignHorizontalCenterWithPanel="True"
                                  FontWeight="SemiBold"></TextBox>
 
+                        <TextBlock x:Name="FormTypeTextBox"
+                                   RelativePanel.Below="CaseNameTextBox"
+                                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                   Foreground="Gray"
+                                   FontSize="24">
+                            <Run>Form Type:</Run>
+                            <Run Text="{Binding Path=FormType}"></Run>
+                        </TextBlock>
+
                         <!--Case Receipt Number-->
                         <StackPanel Orientation="Horizontal" 
                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
-                                    RelativePanel.Below="CaseNameTextBox"
+                                    RelativePanel.Below="FormTypeTextBox"
                                     x:Name="ReceiptNumberStackPanel">
 
                             <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
@@ -249,12 +258,10 @@
                             <TextBlock x:Name="LastCaseUpdatedLabelTextBlock"
                                        Text="Last Case Updated:"
                                        FontSize="24"
-                                       Foreground="Gray"
                                        TextWrapping="Wrap"></TextBlock>
                             <TextBlock x:Name="LastCaseUpdatedTextBlock"
                                        Text="{Binding Path=LastCaseUpdate, Converter={StaticResource DateTimeConverter}}"
                                        FontSize="24"
-                                       Foreground="Gray"
                                        Padding="5,0,0,0"
                                        TextWrapping="Wrap"></TextBlock>
                         </StackPanel>
