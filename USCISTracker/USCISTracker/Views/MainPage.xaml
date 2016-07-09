@@ -285,7 +285,7 @@
                     BorderBrush="Gray" 
                     BorderThickness="0,1,0,0"
                     VerticalAlignment="Bottom"
-                    Grid.ColumnSpan="2">
+                    Grid.ColumnSpan="1">
             <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="AddNewCaseAppBarButton_Click"></AppBarButton>
             <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync"></AppBarButton>
         </CommandBar>
