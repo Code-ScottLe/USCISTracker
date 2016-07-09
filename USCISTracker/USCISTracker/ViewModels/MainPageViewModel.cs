@@ -66,25 +66,24 @@ namespace USCISTracker.ViewModels
         /// <param name="caseName"></param>
         public async Task AddNewCaseAsync(string receiptNumber, string caseName ="")
         {
-            Session currentSession = new Session();
-            await currentSession.ConnectAsync();
-            await currentSession.SetReceiptNumberAsync(receiptNumber);
-            await currentSession.CheckCaseStatusAsync();
-            string html = await currentSession.GetCurrentPageHTML();
+            //Create a new case with Case Factory
+            ICase testCase = CaseFactory.GetCase(receiptNumber, caseName);
 
-            ICase testCase = await Case.GenerateFromHTMLAsync(html, new CaseReceiptNumber(receiptNumber));
-            testCase.LastRefresh = DateTime.Now;
-
+            //In Case of empty case name.
             if (string.IsNullOrEmpty(caseName))
             {
                 testCase.Name = $"Case #{Cases.Count + 1}";
             }
 
-            else
-            {
-                testCase.Name = caseName;
-            }
-            
+            //Create a session
+            Session currentSession = new Session();
+            await currentSession.ConnectAsync();
+            await currentSession.SetReceiptNumberAsync(testCase.ReceiptNumber.ReceiptNumber);
+            await currentSession.CheckCaseStatusAsync();
+            string html = await currentSession.GetCurrentPageHTML();
+
+            //Update the case with the respond HTML
+            await testCase.UpdateFromHTMLAsync(html);         
 
             Cases.Add(testCase);
         }
@@ -114,10 +113,7 @@ namespace USCISTracker.ViewModels
                 await currentSession.CheckCaseStatusAsync();
                 string html = await currentSession.GetCurrentPageHTML();
 
-                string tempname = Cases[i].Name;
-                Cases[i] = await Case.GenerateFromHTMLAsync(html, Cases[i].ReceiptNumber);
-                Cases[i].LastRefresh = DateTime.Now;
-                Cases[i].Name = tempname;
+                await Cases[i].UpdateFromHTMLAsync(html);
             }
         }
 
