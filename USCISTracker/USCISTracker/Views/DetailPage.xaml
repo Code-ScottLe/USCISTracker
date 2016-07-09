@@ -64,11 +64,20 @@
                  Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                  RelativePanel.AlignHorizontalCenterWithPanel="True"
                  FontWeight="SemiBold"></TextBox>
-        
+
+        <TextBlock x:Name="FormTypeTextBox"
+                                   RelativePanel.Below="CaseNameTextBox"
+                                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                   Foreground="Gray"
+                                   FontSize="16">
+                            <Run>Form Type:</Run>
+                            <Run Text="{x:Bind ViewModel.CurrentCase.FormType, Mode=OneWay}"></Run>
+        </TextBlock>
+
         <!--Case Receipt Number-->
         <StackPanel Orientation="Horizontal" 
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
-                    RelativePanel.Below="CaseNameTextBox"
+                    RelativePanel.Below="FormTypeTextBox"
                     x:Name="ReceiptNumberStackPanel">
             <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
                    Text="Receipt #:"
