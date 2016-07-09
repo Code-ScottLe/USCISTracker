@@ -51,7 +51,7 @@ namespace USCISTracker.ViewModels
                // Value = "Designtime value";
             }
 
-            CurrentCase = new Case();
+            CurrentCase = CaseFactory.GetCase("");
         }
 
 
