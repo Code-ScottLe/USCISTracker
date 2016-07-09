@@ -131,7 +131,7 @@ namespace USCISTracker.Data
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public Case()
+        internal Case()
         {
             ReceiptNumber = null;
         }
@@ -152,9 +152,9 @@ namespace USCISTracker.Data
 
             //Copy everything over
             Status = updatedCase.Status;
-            FormType = updatedCase.FormType;
             Details = updatedCase.Details;
             LastCaseUpdate = updatedCase.LastCaseUpdate;
+            LastRefresh = DateTime.Now;
         }
 
         /// <summary>
