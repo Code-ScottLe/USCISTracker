@@ -16,6 +16,7 @@ namespace USCISTracker
     [Bindable]
     sealed partial class App : Template10.Common.BootStrapper
     {
+        public static object passThrough;
         public App()
         {
             InitializeComponent();

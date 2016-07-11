@@ -58,12 +58,20 @@
                  Background="Transparent"
                  BorderThickness="0"
                  BorderBrush="Transparent"
-                 Text="{x:Bind ViewModel.CurrentCase.Name, Mode=OneWay}"
+                 Text="{x:Bind ViewModel.CurrentCase.Name, Mode=TwoWay}"
                  IsReadOnly="True"
                  FontSize="24"
                  Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                  RelativePanel.AlignHorizontalCenterWithPanel="True"
                  FontWeight="SemiBold"></TextBox>
+
+        <Button x:Name="EditCaseNameButton"
+                                RelativePanel.RightOf="CaseNameTextBox"
+                                Background="Transparent"
+                                Click="EditCaseNameButton_Click"
+                        RelativePanel.AlignVerticalCenterWith="CaseNameTextBox">
+            <SymbolIcon Symbol="Edit"></SymbolIcon>
+        </Button>
 
         <TextBlock x:Name="FormTypeTextBox"
                                    RelativePanel.Below="CaseNameTextBox"

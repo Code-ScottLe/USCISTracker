@@ -11,6 +11,12 @@ namespace USCISTracker.Views
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;
         }
+
+        private void EditCaseNameButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            CaseNameTextBox.IsReadOnly = false;
+            CaseNameTextBox.Focus(Windows.UI.Xaml.FocusState.Pointer);
+        }
     }
 }
 

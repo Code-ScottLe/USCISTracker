@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using USCISTracker.API;
 using USCISTracker.Data;
+using System.ComponentModel;
 
 namespace USCISTracker.ViewModels
 {
@@ -132,6 +133,8 @@ namespace USCISTracker.ViewModels
             }
         }
 
+
+
         #endregion
 
         #region Template 10 Events Handlers and Commands
@@ -140,6 +143,17 @@ namespace USCISTracker.ViewModels
             if (suspensionState.Any())
             {
             }
+
+            if(App.passThrough != null && (App.passThrough as ICase) != null)
+            {
+                var detailCase = (App.passThrough as ICase);
+
+                if(detailCase.Name != SelectedCase.Name)
+                {
+                    SelectedCase.Name = detailCase.Name;
+                }
+            }
+
             await Task.CompletedTask;
         }
 
@@ -157,8 +171,15 @@ namespace USCISTracker.ViewModels
             await Task.CompletedTask;
         }
 
-        public void GotoDetailsPage(ICase selectedCase) =>
-            NavigationService.Navigate(typeof(Views.DetailPage), selectedCase, null);
+
+        /// <summary>
+        /// Using navigation service to get to the Detail page of the selected case.
+        /// </summary>
+        public void GotoDetailsPage()
+        {
+            NavigationService.Navigate(typeof(Views.DetailPage), SelectedCase, null);
+        }
+            
 
         public void GotoSettings() =>
             NavigationService.Navigate(typeof(Views.SettingsPage), 0);

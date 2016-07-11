@@ -17,6 +17,7 @@ namespace USCISTracker.ViewModels
 
         #region Fields
         private ICase currentCase;
+        private bool isNameChanged = false;
         #endregion
 
         #region Properties
@@ -36,6 +37,19 @@ namespace USCISTracker.ViewModels
                 RaisePropertyChanged("CurrentCase");
             }
         }
+
+        public bool IsNameChanged
+        {
+            get
+            {
+                return isNameChanged;
+            }
+
+            set
+            {
+                isNameChanged = value;
+            }
+        }
         #endregion
 
         #region Events
@@ -52,7 +66,7 @@ namespace USCISTracker.ViewModels
             }
 
             //Fake Receipt Number
-            CurrentCase = CaseFactory.GetCase("YSC1600000000");
+            //CurrentCase = CaseFactory.GetCase("YSC1600000000");
         }
 
 
@@ -65,16 +79,16 @@ namespace USCISTracker.ViewModels
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
             //Value = (suspensionState.ContainsKey(nameof(Value))) ? suspensionState[nameof(Value)]?.ToString() : parameter?.ToString();
+           
+            CurrentCase = (ICase)parameter;
 
-            var caseme = parameter as ICase;
-
-            (CurrentCase as Case).Details = caseme.Details;
-            (CurrentCase as Case).FormType = caseme.FormType;
-            (CurrentCase as Case).LastCaseUpdate = caseme.LastCaseUpdate;
-            (CurrentCase as Case).LastRefresh = caseme.LastRefresh;
-            (CurrentCase as Case).Name = caseme.Name;
-            (CurrentCase as Case).ReceiptNumber = caseme.ReceiptNumber;
-            (CurrentCase as Case).Status = caseme.Status;
+            //(CurrentCase as Case).Details = caseme.Details;
+            //(CurrentCase as Case).FormType = caseme.FormType;
+            //(CurrentCase as Case).LastCaseUpdate = caseme.LastCaseUpdate;
+            //(CurrentCase as Case).LastRefresh = caseme.LastRefresh;
+            //(CurrentCase as Case).Name = caseme.Name;
+            //(CurrentCase as Case).ReceiptNumber = caseme.ReceiptNumber;
+            //(CurrentCase as Case).Status = caseme.Status;
 
             await Task.CompletedTask;
         }
@@ -90,6 +104,7 @@ namespace USCISTracker.ViewModels
 
         public override async Task OnNavigatingFromAsync(NavigatingEventArgs args)
         {
+            App.passThrough = CurrentCase;
             args.Cancel = false;
             await Task.CompletedTask;
         }
