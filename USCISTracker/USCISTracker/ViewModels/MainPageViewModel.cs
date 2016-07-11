@@ -152,6 +152,8 @@ namespace USCISTracker.ViewModels
                 {
                     SelectedCase.Name = detailCase.Name;
                 }
+
+                App.passThrough = null;
             }
 
             await Task.CompletedTask;
