@@ -113,7 +113,7 @@ namespace USCISTracker.API
                 //Navigation success
                 
                 //Check if the page is still valid.
-                if(CurrentWebView.DocumentTitle != "myUSCIS - Case Status Search")
+                if(CurrentWebView.DocumentTitle != "myUSCIS - Case Status Search" && CurrentWebView.DocumentTitle != "myUSCIS - Case Status")
                 {
                     NavigateFailed = true;
                 }
