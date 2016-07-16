@@ -131,9 +131,9 @@ namespace USCISTracker.Data
         /// <summary>
         /// Default Constructor
         /// </summary>
-        internal Case()
+        public Case(string CaseReceiptNumber = "")
         {
-            ReceiptNumber = null;
+            ReceiptNumber = new CaseReceiptNumber(CaseReceiptNumber);
         }
 
         #endregion
