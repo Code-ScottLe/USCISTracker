@@ -19,6 +19,7 @@
     <Page.Resources>
         <controllers:IReceiptNumberToString x:Key="ReceiptNumberConverter"></controllers:IReceiptNumberToString>
         <controllers:DateTimeToString x:Key="DateTimeConverter"></controllers:DateTimeToString>
+        <controllers:DateTimeLastUpdateToString x:Key="DateTimeLastUpdateConverter"></controllers:DateTimeLastUpdateToString>
     </Page.Resources>
 
     <!--<controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
@@ -183,7 +184,7 @@
                             <TextBlock
                                 x:Name="LastUpdatedTimeTextBlock"
                                 Grid.Column="2"
-                                Text="{x:Bind Path=LastRefresh, Converter={StaticResource DateTimeConverter}}"
+                                Text="{x:Bind Path=LastCaseUpdate, Converter={StaticResource DateTimeLastUpdateConverter}}"
                                 Foreground="Gray"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -274,7 +275,7 @@
                                        FontSize="24"
                                        TextWrapping="Wrap"></TextBlock>
                     <TextBlock x:Name="LastCaseUpdatedTextBlock"
-                                       Text="{x:Bind ViewModel.SelectedCase.LastCaseUpdate,Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                                       Text="{x:Bind ViewModel.SelectedCase.LastCaseUpdate,Mode=OneWay, Converter={StaticResource DateTimeLastUpdateConverter}}"
                                        FontSize="24"
                                        Padding="5,0,0,0"
                                        TextWrapping="Wrap"></TextBlock>
@@ -304,6 +305,21 @@
                                    Text="Data from USCIS.gov"
                                    Padding="10"
                                    Foreground="DarkGray"></TextBlock>
+
+                <TextBlock x:Name="LastCaseRefreshLabel"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           RelativePanel.AlignLeftWithPanel="True"
+                           Text="Last Refresh:"
+                           Padding="10,10,0,10"
+                           Foreground="DarkGray"></TextBlock>
+
+                <TextBlock x:Name="LastCaseRefresh"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           RelativePanel.RightOf="LastCaseRefreshLabel"
+                           Text="{x:Bind ViewModel.SelectedCase.LastRefresh, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                           Padding="10"
+                           Foreground="DarkGray"></TextBlock>
+                           
 
             </RelativePanel>
         </Grid>
