@@ -20,6 +20,7 @@
     <Page.Resources>
         <controllers:IReceiptNumberToString x:Key="ReceiptNumberConverter"></controllers:IReceiptNumberToString>
         <controllers:DateTimeToString x:Key="DateTimeConverter"></controllers:DateTimeToString>
+        <controllers:DateTimeLastUpdateToString x:Key="DateTimeLastUpdateConverter"></controllers:DateTimeLastUpdateToString>
     </Page.Resources>
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -111,7 +112,7 @@
                        FontSize="16"
                        Foreground="Gray"></TextBlock>
             <TextBlock x:Name="LastCaseUpdatedTextBlock"
-                       Text="{x:Bind ViewModel.CurrentCase.LastCaseUpdate, Converter={StaticResource DateTimeConverter}, Mode=OneWay}"
+                       Text="{x:Bind ViewModel.CurrentCase.LastCaseUpdate, Converter={StaticResource DateTimeLastUpdateConverter}, Mode=OneWay}"
                        FontSize="16"
                        Foreground="Gray"
                        Padding="5,0,0,0"></TextBlock>
@@ -140,6 +141,21 @@
                                    Text="Data from USCIS.gov"
                                    Padding="10"
                    Foreground="DarkGray"></TextBlock>
+
+        <TextBlock x:Name="LastCaseRefreshLabel"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           RelativePanel.AlignLeftWithPanel="True"
+                           Text="Last Refresh:"
+                           Padding="10,10,0,10"
+                           Foreground="DarkGray"></TextBlock>
+
+        <TextBlock x:Name="LastCaseRefresh"
+                           RelativePanel.AlignBottomWithPanel="True"
+                           RelativePanel.RightOf="LastCaseRefreshLabel"
+                           Text="{x:Bind ViewModel.CurrentCase.LastRefresh, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                           Padding="10"
+                           Foreground="DarkGray"></TextBlock>
+        
     </RelativePanel>
 </Page>
 
