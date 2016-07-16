@@ -136,6 +136,12 @@ namespace USCISTracker.Data
             ReceiptNumber = new CaseReceiptNumber(CaseReceiptNumber);
         }
 
+        public Case(string CaseReceiptNumber = "", string CaseName = "")
+        {
+            ReceiptNumber = new CaseReceiptNumber(CaseReceiptNumber);
+            Name = CaseName;
+        }
+
         #endregion
 
         #region Methods
