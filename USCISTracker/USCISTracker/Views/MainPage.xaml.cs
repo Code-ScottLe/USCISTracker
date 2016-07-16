@@ -53,7 +53,22 @@ namespace USCISTracker.Views
 
             if(dialog.isCancelled != true)
             {
+                //Disable Sync and add button
+                AddNewCaseAppBarButton.IsEnabled = false;
+                CheckCaseStatusAppBarButton.IsEnabled = false;
+
+                //Turn on the Progress Ring
+                MasterProgressRing.IsActive = true;
+
                 await ViewModel.AddNewCaseAsync(dialog.receiptNumber, dialog.caseName);
+
+
+                //Enable Sync and add button
+                AddNewCaseAppBarButton.IsEnabled = true;
+                CheckCaseStatusAppBarButton.IsEnabled = true;
+
+                //Turn off the Progress Ring
+                MasterProgressRing.IsActive = false;
             }
 
             
@@ -68,6 +83,35 @@ namespace USCISTracker.Views
         {
             CaseNameTextBox.IsReadOnly = false;
             CaseNameTextBox.Focus(FocusState.Pointer);
+        }
+
+
+        /// <summary>
+        /// Click event handler for the sync all button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void CheckCaseStatusAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Disable the button
+            (sender as AppBarButton).IsEnabled = false;
+
+            //Set ring to active
+            MasterProgressRing.IsActive = true;
+
+            //List item unclickable during update
+            CasesListView.IsItemClickEnabled = false;
+
+            await ViewModel.SyncAllCaseAsync();
+
+            //re-enable the button
+            (sender as AppBarButton).IsEnabled = true;
+
+            //List item clickable
+            CasesListView.IsItemClickEnabled = true;
+
+            //SEt ring to inactive
+            MasterProgressRing.IsActive = false;
         }
     }
 }

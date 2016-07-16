@@ -196,9 +196,16 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
 
-
-                
             </ListView>
+
+            <ProgressRing x:Name="MasterProgressRing"
+                          Grid.Row="2"
+                          Height="75"
+                          Width="75"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center">
+            </ProgressRing>
+        
         </Grid>
         
         <!--Detail Column-->
@@ -308,7 +315,7 @@
                     VerticalAlignment="Bottom"
                     Grid.ColumnSpan="1">
             <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="AddNewCaseAppBarButton_Click"></AppBarButton>
-            <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync"></AppBarButton>
+            <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync" Click="CheckCaseStatusAppBarButton_Click"></AppBarButton>
         </CommandBar>
     </Grid>
 
