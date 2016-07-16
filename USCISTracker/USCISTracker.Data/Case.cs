@@ -10,10 +10,10 @@ using System.ComponentModel;
 
 namespace USCISTracker.Data
 {
-    public class Case : ICase
+    public class Case : INotifyPropertyChanged
     {
         #region Fields
-        private ICaseReceiptNumber receiptNumber;
+        private CaseReceiptNumber receiptNumber;
         private string status;
         private string formType;
         private string details;
@@ -23,7 +23,7 @@ namespace USCISTracker.Data
         #endregion
 
         #region Properties
-        public ICaseReceiptNumber ReceiptNumber
+        public CaseReceiptNumber ReceiptNumber
         {
             get
             {
@@ -243,7 +243,7 @@ namespace USCISTracker.Data
         /// <param name="receiptNumber">Receipt number of the responded HTML</param>
         /// <returns></returns>
         [Obsolete]
-        public static async Task<Case> GenerateFromHTMLAsync(string respondHTML, ICaseReceiptNumber receiptNumber)
+        public static async Task<Case> GenerateFromHTMLAsync(string respondHTML, CaseReceiptNumber receiptNumber)
         {
             //Parse the given HTML
             HtmlParser parser = new HtmlParser();

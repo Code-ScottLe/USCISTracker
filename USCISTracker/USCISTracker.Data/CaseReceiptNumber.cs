@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace USCISTracker.Data
 {
-    public class CaseReceiptNumber : ICaseReceiptNumber, ISequentialReceiptNumber
+    public class CaseReceiptNumber
     {
         #region Fields
         private string receiptNumber;
@@ -88,7 +88,7 @@ namespace USCISTracker.Data
 
         }
 
-        public ICaseReceiptNumber GetNext()
+        public CaseReceiptNumber GetNext()
         {
             string ServiceCenterAndCompNumber = ReceiptNumber.Substring(0, 8);
             string UniqueID = ReceiptNumber.Substring(8);
@@ -102,7 +102,7 @@ namespace USCISTracker.Data
             return new CaseReceiptNumber(ServiceCenterAndCompNumber + temp.ToString()); ;
         }
 
-        public ICaseReceiptNumber GetPrevious()
+        public CaseReceiptNumber GetPrevious()
         {
             string ServiceCenterAndCompNumber = ReceiptNumber.Substring(0, 8);
             string UniqueID = ReceiptNumber.Substring(8);
