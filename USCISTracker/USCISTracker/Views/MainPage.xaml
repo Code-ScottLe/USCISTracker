@@ -94,17 +94,23 @@
               Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
               MinWidth="320">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="49"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="PageTitle" 
+            <Grid Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                <TextBlock x:Name="PageTitle" 
                        Text="My USCIS Cases" 
                        Grid.Row="0" 
                        Style="{ThemeResource TitleTextBlockStyle}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Stretch"
                        Padding="10,0,0,0"></TextBlock>
+            </Grid>
+            
 
             <Grid BorderBrush="Black" BorderThickness="0,0,0,1"></Grid>
             
