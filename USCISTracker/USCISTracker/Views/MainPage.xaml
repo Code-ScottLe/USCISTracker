@@ -154,7 +154,7 @@
                                 <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
                                            Text="Receipt #: "
                                            RelativePanel.Below="CaseNameTextBox"
-                                           Padding="10,0,0,0"
+                                           Padding="10,0,5,0"
                                            Foreground="Gray"></TextBlock>
 
                                 <TextBlock x:Name="CaseReceiptNumberTextBlock"
@@ -168,7 +168,7 @@
                                 <TextBlock x:Name="CaseStatusLabelTextBlock"
                                            RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
                                            Text="Status: "
-                                           Padding="10,0,0,0"
+                                           Padding="10,0,5,0"
                                            FontSize="18"></TextBlock>
 
                                 <TextBlock x:Name="CaseStatusTextBlock"
