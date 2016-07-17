@@ -12,7 +12,7 @@
       mc:Ignorable="d">
 
     <Controls:HamburgerMenu x:Name="MyHamburgerMenu"
-                            HamburgerBackground="{ThemeResource SystemControlBackgroundAccentBrush}" NavButtonCheckedIndicatorBrush="{ThemeResource SystemControlBackgroundAccentBrush}">
+                            HamburgerBackground="{ThemeResource SystemControlHighlightAccentBrush}" NavButtonCheckedIndicatorBrush="{ThemeResource SystemControlHighlightAccentBrush}">
 
         <Controls:HamburgerMenu.PrimaryButtons>
             <!--  mainpage button  -->

@@ -51,7 +51,7 @@
                              Frame="{x:Bind Frame}"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" />
+                             RelativePanel.AlignTopWithPanel="True" Background="{ThemeResource SystemControlBackgroundAccentBrush}" />
 
         <!--  content  -->
         <Pivot x:Name="MyPivot" Grid.Row="1"

@@ -148,7 +148,7 @@
                                          IsReadOnly="True"
                                          FontSize="24"
                                          BorderThickness="0"
-                                         Foreground="{StaticResource SystemControlHighlightAccentBrush}"></TextBox>
+                                         Foreground="{ThemeResource SystemControlHighlightAccentBrush}"></TextBox>
                                 
                                 <!--Receipt Number-->
                                 <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
