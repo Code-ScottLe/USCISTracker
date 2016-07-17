@@ -152,7 +152,7 @@ namespace USCISTracker.ViewModels
         /// Back up all the tracking cases info into the JSON file
         /// </summary>
         /// <returns></returns>
-        private async Task BackupCasesAsync()
+        public async Task BackupCasesAsync()
         {
             if(Cases.Count == 0)
             {
@@ -214,16 +214,20 @@ namespace USCISTracker.ViewModels
             {
             }
 
-            if(App.passThrough != null && (App.passThrough as Case) != null)
+            else
             {
-                var detailCase = (App.passThrough as Case);
-
-                if(detailCase.Name != SelectedCase.Name)
+                if (App.passThrough != null && (App.passThrough as Case) != null)
                 {
-                    SelectedCase.Name = detailCase.Name;
-                }
+                    var detailCase = (App.passThrough as Case);
 
-                App.passThrough = null;
+                    if (detailCase.Name != SelectedCase.Name)
+                    {
+                        SelectedCase.Name = detailCase.Name;
+                    }
+
+                    App.passThrough = null;
+                }
+              
             }
 
             await Task.CompletedTask;
