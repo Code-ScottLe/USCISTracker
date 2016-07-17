@@ -99,7 +99,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock x:Name="PageTitle" 
-                       Text="My USCIS Case" 
+                       Text="My USCIS Cases" 
                        Grid.Row="0" 
                        Style="{ThemeResource TitleTextBlockStyle}"
                        VerticalAlignment="Center"
