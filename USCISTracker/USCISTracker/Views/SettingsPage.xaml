@@ -94,7 +94,8 @@
                                 RelativePanel.RightOf="DeleteCacheLabelTextBox"
                                 RelativePanel.Below="UseLightThemeToggleSwitch"
                                 Content="Delete"
-                                Margin="12,0,0,0" BorderThickness="0" Padding="5"></Button>
+                                Margin="12,0,0,0" BorderThickness="0" Padding="5"
+                                Click="DeleteCacheButton_Click"></Button>
 
 
 

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using Template10.Services.SettingsService;
 using Windows.UI.Xaml;
+using Windows.Storage;
 
 namespace USCISTracker.ViewModels
 {
@@ -66,6 +67,22 @@ namespace USCISTracker.ViewModels
                 await Task.Delay(5000);
                 Views.Busy.SetBusy(false);
             }, () => !string.IsNullOrEmpty(BusyText)));
+
+
+        /// <summary>
+        /// Clear the local cases cache.
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearCacheAsync()
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile cacheFile = await localFolder.TryGetItemAsync("USCISCasesJSON.json") as StorageFile;
+
+            if(cacheFile != null)
+            {
+                await cacheFile.DeleteAsync();
+            }
+        }
     }
 
 
