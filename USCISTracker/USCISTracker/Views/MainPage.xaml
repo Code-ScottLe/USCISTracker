@@ -113,7 +113,7 @@
                       Grid.Column="0"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
-                      Margin="0,0,0,0"
+                      Margin="0,0,0,50"
                       ItemClick="CasesListView_ItemClick"
                       IsItemClickEnabled="True">
 
@@ -207,7 +207,16 @@
                           VerticalAlignment="Center"
                           IsActive="{x:Bind ViewModel.IsCaseUpdating, Mode=OneWay}">
             </ProgressRing>
-        
+
+            <CommandBar x:Name="MainPageBottomCommandBar" 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,1,0,0"
+                    VerticalAlignment="Bottom"
+                    Grid.Row="1">
+                <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="AddNewCaseAppBarButton_Click" Label="Add Case"></AppBarButton>
+                <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync" Click="CheckCaseStatusAppBarButton_Click" Label="Sync All"></AppBarButton>
+            </CommandBar>
+
         </Grid>
         
         <!--Detail Column-->
@@ -326,14 +335,7 @@
         </Grid>
 
 
-        <CommandBar x:Name="MainPageBottomCommandBar" 
-                    BorderBrush="Gray" 
-                    BorderThickness="0,1,0,0"
-                    VerticalAlignment="Bottom"
-                    Grid.ColumnSpan="1">
-            <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="AddNewCaseAppBarButton_Click" Label="Add Case"></AppBarButton>
-            <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync" Click="CheckCaseStatusAppBarButton_Click" Label="Sync All"></AppBarButton>
-        </CommandBar>
+        
     </Grid>
 
    

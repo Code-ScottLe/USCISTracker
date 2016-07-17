@@ -108,6 +108,8 @@ namespace USCISTracker.ViewModels
             Cases = new ObservableCollection<Case>();
             IsInitialized = false;
 
+            SelectedCase = new Case();
+
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
             }
