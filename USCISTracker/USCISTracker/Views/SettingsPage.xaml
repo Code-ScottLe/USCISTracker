@@ -166,10 +166,14 @@
                                      Content="Support Website"
                                      NavigateUri="https://codescottle.wordpress.com/"></HyperlinkButton>
 
-                    <TextBlock x:Name="CopyRightTextBlock"
+                    <TextBlock x:Name="DisclaimerTextBlock"
                                RelativePanel.Below="SupportWebSite"
                                RelativePanel.AlignLeftWithPanel="True"
-                               Text="© 2016 Code.ScottLe"></TextBlock>
+                               Text="Disclaimer: This application does not affiliate in any way with United States Citizenship and Immigration Services or USCIS. All data are provided by USCIS.gov"
+                               TextWrapping="WrapWholeWords"
+                               Padding="0"
+                               Margin="0"
+                               Foreground="DarkGray"></TextBlock>
 
                 </RelativePanel>
             </PivotItem>
