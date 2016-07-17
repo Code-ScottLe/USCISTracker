@@ -204,7 +204,8 @@
                           Height="75"
                           Width="75"
                           HorizontalAlignment="Center"
-                          VerticalAlignment="Center">
+                          VerticalAlignment="Center"
+                          IsActive="{x:Bind ViewModel.IsCaseUpdating, Mode=OneWay}">
             </ProgressRing>
         
         </Grid>
@@ -330,8 +331,8 @@
                     BorderThickness="0,1,0,0"
                     VerticalAlignment="Bottom"
                     Grid.ColumnSpan="1">
-            <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="AddNewCaseAppBarButton_Click"></AppBarButton>
-            <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync" Click="CheckCaseStatusAppBarButton_Click"></AppBarButton>
+            <AppBarButton x:Name="AddNewCaseAppBarButton" Icon="Add" Click="AddNewCaseAppBarButton_Click" Label="Add Case"></AppBarButton>
+            <AppBarButton x:Name="CheckCaseStatusAppBarButton" Icon="Sync" Click="CheckCaseStatusAppBarButton_Click" Label="Sync All"></AppBarButton>
         </CommandBar>
     </Grid>
 

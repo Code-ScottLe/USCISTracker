@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using USCISTracker.Data;
+using System.Threading.Tasks;
 
 namespace USCISTracker.Views
 {
@@ -123,16 +124,21 @@ namespace USCISTracker.Views
         /// <param name="e"></param>
         private async void MainPageActual_Loaded(object sender, RoutedEventArgs e)
         {
-            //turn on the progress ring and disable button to indicate loading
-            MasterProgressRing.IsActive = true;
+
+            //disable button to indicate loading
             AddNewCaseAppBarButton.IsEnabled = false;
             CheckCaseStatusAppBarButton.IsEnabled = false;
 
-            //try to load the cases
-            await ViewModel.LoadBackupCasesAsync();
+            if(ViewModel != null && ViewModel.IsInitialized == false)
+            {
+                //try to load the cases
+                await ViewModel.LoadBackupCasesAsync();
 
+                //Done loading switch it back
+                ViewModel.IsInitialized = true;
+            }
+          
             //reload
-            MasterProgressRing.IsActive = false;
             AddNewCaseAppBarButton.IsEnabled = true;
             CheckCaseStatusAppBarButton.IsEnabled = true;
         }
