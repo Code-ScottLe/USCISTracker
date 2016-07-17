@@ -148,7 +148,7 @@
                                          IsReadOnly="True"
                                          FontSize="24"
                                          BorderThickness="0"
-                                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"></TextBox>
+                                         Foreground="{StaticResource SystemControlHighlightAccentBrush}"></TextBox>
                                 
                                 <!--Receipt Number-->
                                 <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
@@ -233,7 +233,7 @@
                                  Text="{x:Bind ViewModel.SelectedCase.Name, Mode=TwoWay}"
                                  IsReadOnly="True"
                                  FontSize="40"
-                                 Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                 Foreground="{ThemeResource SystemControlHighlightAccentBrush}"
                                  RelativePanel.AlignHorizontalCenterWithPanel="True"
                                  FontWeight="SemiBold" IsTapEnabled="False"
                          ></TextBox>
