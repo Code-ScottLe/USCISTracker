@@ -21,6 +21,7 @@ namespace USCISTracker.ViewModels
         private ObservableCollection<Case> cases;
         private Case selectedCase;
         private string savedFileName = "USCISCasesJSON.json";
+        private bool isCaseUpdating = false;
         #endregion
 
         #region Properties
@@ -42,6 +43,9 @@ namespace USCISTracker.ViewModels
             }
         }
 
+        /// <summary>
+        /// Current selected case
+        /// </summary>
         public Case SelectedCase
         {
             get
@@ -55,6 +59,41 @@ namespace USCISTracker.ViewModels
                 RaisePropertyChanged("SelectedCase");
             }
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsCaseUpdating
+        {
+            get
+            {
+                return isCaseUpdating;
+            }
+
+            set
+            {
+                isCaseUpdating = value;
+                RaisePropertyChanged("IsCaseUpdating");
+            }
+        }
+
+
+        /// <summary>
+        /// Set if the viewModel was initialized or not. Default is False.
+        /// </summary>
+        public bool IsInitialized
+        {
+            get;set;
+        }
+
+        /// <summary>
+        /// The counter for the amount of cases that were updated when run the all case updates.
+        /// </summary>
+        private int CasesUpdatedCounter
+        {
+            get;set;
+        }
         #endregion
 
 
@@ -67,6 +106,7 @@ namespace USCISTracker.ViewModels
         {
 
             Cases = new ObservableCollection<Case>();
+            IsInitialized = false;
 
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
@@ -86,6 +126,8 @@ namespace USCISTracker.ViewModels
         /// <param name="caseName"></param>
         public async Task AddNewCaseAsync(string receiptNumber, string caseName ="")
         {
+            IsCaseUpdating = true;
+
             //Create a new case with Case Factory
             Case testCase = new Case(receiptNumber, caseName);
 
@@ -110,19 +152,23 @@ namespace USCISTracker.ViewModels
             //Back up
             await BackupCasesAsync();
 
+            IsCaseUpdating = false;
+
         }
 
         /// <summary>
         /// Sync all the current tracking cases
         /// </summary>
         /// <returns></returns>
-        public async Task SyncAllCaseAsync()
+        public async Task SyncAllCaseAsync(int overrideCounter = 0)
         {
             //If no case to check, don't bother.
             if(Cases.Count == 0)
             {
                 return;
             }
+
+            IsCaseUpdating = true;
 
             //create a session at USCIS for update.
             Session currentSession = new Session();
@@ -133,18 +179,36 @@ namespace USCISTracker.ViewModels
                 throw new OperationCanceledException("Session WebView has Failed!");
             }
 
-            //loop through the entire thing.
-            for(int i = 0; i < Cases.Count; i++)
+            //Check if we have override
+            if(overrideCounter == 0)
             {
-                await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
-                await currentSession.CheckCaseStatusAsync();
-                string html = await currentSession.GetCurrentPageHTML();
-
-                await Cases[i].UpdateFromHTMLAsync(html);
+                //loop through the entire thing.
+                for (int i = 0; i < Cases.Count; i++)
+                {
+                    await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
+                    await currentSession.CheckCaseStatusAsync();
+                    string html = await currentSession.GetCurrentPageHTML();
+                    CasesUpdatedCounter = i;
+                    await Cases[i].UpdateFromHTMLAsync(html);
+                }
+            }
+            
+            else
+            {
+                //loop through the rest.
+                for(int i = overrideCounter; i < Cases.Count; i++)
+                {
+                    await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
+                    await currentSession.CheckCaseStatusAsync();
+                    string html = await currentSession.GetCurrentPageHTML();
+                    CasesUpdatedCounter = i;
+                    await Cases[i].UpdateFromHTMLAsync(html);
+                }
             }
 
-           
-          
+            IsCaseUpdating = false;
+
+
         }
 
 
@@ -180,7 +244,7 @@ namespace USCISTracker.ViewModels
 
 
         /// <summary>
-        /// 
+        /// We load all the cases from the backup JSON
         /// </summary>
         /// <returns></returns>
         public async Task LoadBackupCasesAsync()
@@ -212,6 +276,19 @@ namespace USCISTracker.ViewModels
         {
             if (suspensionState.Any())
             {
+                //Load up if we previously suspensded
+                await LoadBackupCasesAsync();
+
+                //Check if we previously syncing cases.
+                if(suspensionState.ContainsKey("CasesUpdatedCounter") == true)
+                {
+                    CasesUpdatedCounter = (int)suspensionState["CasesUpdatedCounter"];
+
+                    //resume checking.
+                    IsCaseUpdating = true;
+
+                    await SyncAllCaseAsync(CasesUpdatedCounter);
+                }
             }
 
             else
@@ -237,6 +314,15 @@ namespace USCISTracker.ViewModels
         {
             if (suspending)
             {
+                //Save the update case index on the list if we are running the update
+                if (IsCaseUpdating == true)
+                {
+                    suspensionState["CasesUpdatedCounter"] = CasesUpdatedCounter;
+                }
+
+                //Save what we have.
+                await BackupCasesAsync();
+            
             }
             await Task.CompletedTask;
         }
