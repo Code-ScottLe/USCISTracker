@@ -126,7 +126,7 @@
                 </ListView.ItemContainerStyle>
                 
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="data:ICase">
+                    <DataTemplate x:DataType="data:Case">
                         <Grid HorizontalAlignment="Stretch"
                               Padding="0,10,0,10"
                               BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"

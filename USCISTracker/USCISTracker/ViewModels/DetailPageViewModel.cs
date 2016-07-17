@@ -16,7 +16,7 @@ namespace USCISTracker.ViewModels
     {
 
         #region Fields
-        private ICase currentCase;
+        private Case currentCase;
         private bool isNameChanged = false;
         #endregion
 
@@ -24,7 +24,7 @@ namespace USCISTracker.ViewModels
         /// <summary>
         /// Current displayed case.
         /// </summary>
-        public ICase CurrentCase
+        public Case CurrentCase
         {
             get
             {
@@ -80,7 +80,7 @@ namespace USCISTracker.ViewModels
         {
             //Value = (suspensionState.ContainsKey(nameof(Value))) ? suspensionState[nameof(Value)]?.ToString() : parameter?.ToString();
            
-            CurrentCase = (ICase)parameter;
+            CurrentCase = (Case)parameter;
 
             //(CurrentCase as Case).Details = caseme.Details;
             //(CurrentCase as Case).FormType = caseme.FormType;

@@ -12,7 +12,7 @@ namespace USCISTracker.Controllers
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            ICaseReceiptNumber receiptNumber = value as ICaseReceiptNumber;
+            CaseReceiptNumber receiptNumber = value as CaseReceiptNumber;
 
             if (receiptNumber == null)
             {

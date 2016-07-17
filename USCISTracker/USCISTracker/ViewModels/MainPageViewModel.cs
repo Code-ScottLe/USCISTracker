@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using USCISTracker.API;
 using USCISTracker.Data;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace USCISTracker.ViewModels
 {
@@ -16,8 +17,8 @@ namespace USCISTracker.ViewModels
     {
 
         #region Fields
-        private ObservableCollection<ICase> cases;
-        private ICase selectedCase;
+        private ObservableCollection<Case> cases;
+        private Case selectedCase;
         #endregion
 
         #region Properties
@@ -25,7 +26,7 @@ namespace USCISTracker.ViewModels
         /// <summary>
         /// Collection of cases that the user is current tracking
         /// </summary>
-        public ObservableCollection<ICase> Cases
+        public ObservableCollection<Case> Cases
         {
             get
             {
@@ -38,7 +39,7 @@ namespace USCISTracker.ViewModels
             }
         }
 
-        public ICase SelectedCase
+        public Case SelectedCase
         {
             get
             {
@@ -62,7 +63,7 @@ namespace USCISTracker.ViewModels
         public MainPageViewModel()
         {
 
-            Cases = new ObservableCollection<ICase>();
+            Cases = new ObservableCollection<Case>();
 
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
@@ -83,7 +84,7 @@ namespace USCISTracker.ViewModels
         public async Task AddNewCaseAsync(string receiptNumber, string caseName ="")
         {
             //Create a new case with Case Factory
-            ICase testCase = CaseFactory.GetCase(receiptNumber, caseName);
+            Case testCase = new Case(receiptNumber, caseName);
 
             //In Case of empty case name.
             if (string.IsNullOrEmpty(caseName))
@@ -131,6 +132,10 @@ namespace USCISTracker.ViewModels
 
                 await Cases[i].UpdateFromHTMLAsync(html);
             }
+
+            string json = JsonConvert.SerializeObject(Cases, Formatting.Indented);
+
+            var test = JsonConvert.DeserializeObject<ObservableCollection<Case>>(json);
         }
 
 
@@ -144,9 +149,9 @@ namespace USCISTracker.ViewModels
             {
             }
 
-            if(App.passThrough != null && (App.passThrough as ICase) != null)
+            if(App.passThrough != null && (App.passThrough as Case) != null)
             {
-                var detailCase = (App.passThrough as ICase);
+                var detailCase = (App.passThrough as Case);
 
                 if(detailCase.Name != SelectedCase.Name)
                 {

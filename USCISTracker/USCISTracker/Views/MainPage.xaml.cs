@@ -27,13 +27,13 @@ namespace USCISTracker.Views
             if (AdaptiveVisualStateGroup.CurrentState == VisualStateNarrow)
             {
                 //Narrow state, we navigate to the detail page.
-                ViewModel.SelectedCase = e.ClickedItem as ICase;
+                ViewModel.SelectedCase = e.ClickedItem as Case;
                 ViewModel.GotoDetailsPage();
             }
 
             else
             {
-                ViewModel.SelectedCase = e.ClickedItem as ICase;
+                ViewModel.SelectedCase = e.ClickedItem as Case;
             }
         }
 
