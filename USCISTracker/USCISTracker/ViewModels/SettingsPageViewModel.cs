@@ -7,12 +7,18 @@ using Windows.UI.Xaml;
 
 namespace USCISTracker.ViewModels
 {
+    /// <summary>
+    /// View Model for the Setting Page as a whole
+    /// </summary>
     public class SettingsPageViewModel : ViewModelBase
     {
         public SettingsPartViewModel SettingsPartViewModel { get; } = new SettingsPartViewModel();
         public AboutPartViewModel AboutPartViewModel { get; } = new AboutPartViewModel();
     }
 
+    /// <summary>
+    /// View Model for the Pivot Item : Setting
+    /// </summary>
     public class SettingsPartViewModel : ViewModelBase
     {
         Services.SettingsServices.SettingsService _settings;
@@ -62,6 +68,10 @@ namespace USCISTracker.ViewModels
             }, () => !string.IsNullOrEmpty(BusyText)));
     }
 
+
+    /// <summary>
+    /// ViewModel for the Pivot Item : About
+    /// </summary>
     public class AboutPartViewModel : ViewModelBase
     {
         public Uri Logo => Windows.ApplicationModel.Package.Current.Logo;
