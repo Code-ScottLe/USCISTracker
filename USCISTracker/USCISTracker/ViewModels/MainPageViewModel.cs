@@ -10,6 +10,7 @@ using USCISTracker.API;
 using USCISTracker.Data;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using Windows.Storage;
 
 namespace USCISTracker.ViewModels
 {
@@ -19,6 +20,7 @@ namespace USCISTracker.ViewModels
         #region Fields
         private ObservableCollection<Case> cases;
         private Case selectedCase;
+        private string savedFileName = "USCISCasesJSON.json";
         #endregion
 
         #region Properties
@@ -36,6 +38,7 @@ namespace USCISTracker.ViewModels
             private set
             {
                 cases = value;
+                RaisePropertyChanged("Cases");
             }
         }
 
@@ -103,9 +106,16 @@ namespace USCISTracker.ViewModels
             await testCase.UpdateFromHTMLAsync(html);         
 
             Cases.Add(testCase);
+
+            //Back up
+            await BackupCasesAsync();
+
         }
 
-
+        /// <summary>
+        /// Sync all the current tracking cases
+        /// </summary>
+        /// <returns></returns>
         public async Task SyncAllCaseAsync()
         {
             //If no case to check, don't bother.
@@ -133,12 +143,67 @@ namespace USCISTracker.ViewModels
                 await Cases[i].UpdateFromHTMLAsync(html);
             }
 
-            string json = JsonConvert.SerializeObject(Cases, Formatting.Indented);
-
-            var test = JsonConvert.DeserializeObject<ObservableCollection<Case>>(json);
+           
+          
         }
 
 
+        /// <summary>
+        /// Back up all the tracking cases info into the JSON file
+        /// </summary>
+        /// <returns></returns>
+        private async Task BackupCasesAsync()
+        {
+            if(Cases.Count == 0)
+            {
+                return;
+            }
+
+            //serialize the collection
+            string json = await Task.Run<string>(() => JsonConvert.SerializeObject(Cases, Formatting.Indented));
+
+            //Get the local folder.
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            //Get the file, if not, create it.
+            StorageFile localCaseFile = await localFolder.TryGetItemAsync(savedFileName) as StorageFile;
+
+            if(localCaseFile == null)
+            {
+                localCaseFile = await localFolder.CreateFileAsync(savedFileName);
+            }
+
+            //Write to the file
+            await FileIO.WriteTextAsync(localCaseFile, json);
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task LoadBackupCasesAsync()
+        {
+            //Get the local folder.
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            //Get the file, if not, create it.
+            StorageFile localCaseFile = await localFolder.TryGetItemAsync(savedFileName) as StorageFile;
+
+            if(localCaseFile == null)
+            {
+                return;
+            }
+
+            else
+            {
+                //read from the file and deserialize it
+                string json = await FileIO.ReadTextAsync(localCaseFile);
+
+                Cases = await Task.Run<ObservableCollection<Case>>(() => JsonConvert.DeserializeObject<ObservableCollection<Case>>(json));
+            }
+        }
 
         #endregion
 

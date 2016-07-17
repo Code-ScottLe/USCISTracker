@@ -10,7 +10,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:USCISTracker.ViewModels" mc:Ignorable="d" x:Name="MainPageActual"
       xmlns:data="using:USCISTracker.Data"
-      xmlns:controllers="using:USCISTracker.Controllers">
+      xmlns:controllers="using:USCISTracker.Controllers" Loaded="MainPageActual_Loaded">
 
     <Page.DataContext>
         <vm:MainPageViewModel x:Name="ViewModel" />
@@ -109,7 +109,7 @@
             <Grid BorderBrush="Black" BorderThickness="0,0,0,1"></Grid>
             
             <ListView x:Name="CasesListView"
-                      ItemsSource="{x:Bind ViewModel.Cases}"  
+                      ItemsSource="{x:Bind ViewModel.Cases, Mode=OneWay}"  
                       Grid.Column="0"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"

@@ -113,5 +113,28 @@ namespace USCISTracker.Views
             //SEt ring to inactive
             MasterProgressRing.IsActive = false;
         }
+
+
+
+        /// <summary>
+        /// Page Loaded event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MainPageActual_Loaded(object sender, RoutedEventArgs e)
+        {
+            //turn on the progress ring and disable button to indicate loading
+            MasterProgressRing.IsActive = true;
+            AddNewCaseAppBarButton.IsEnabled = false;
+            CheckCaseStatusAppBarButton.IsEnabled = false;
+
+            //try to load the cases
+            await ViewModel.LoadBackupCasesAsync();
+
+            //reload
+            MasterProgressRing.IsActive = false;
+            AddNewCaseAppBarButton.IsEnabled = true;
+            CheckCaseStatusAppBarButton.IsEnabled = true;
+        }
     }
 }
