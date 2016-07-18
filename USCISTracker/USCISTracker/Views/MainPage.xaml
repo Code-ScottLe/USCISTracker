@@ -160,12 +160,12 @@
                                             </StackPanel>
                                         </Button>
 
-                                        <Button x:Name="PinCaseToStartFlyoutButton" Background="Transparent">
+                                        <!--<Button x:Name="PinCaseToStartFlyoutButton" Background="Transparent">
                                             <StackPanel Orientation="Horizontal">
                                                 <SymbolIcon Symbol="Pin"></SymbolIcon>
                                                 <TextBlock Text="Pin to Start" Margin="5,0,0,0"></TextBlock>
                                             </StackPanel>
-                                        </Button>
+                                        </Button>-->
 
                                         <Button x:Name="DeleteCaseFlyoutButton" Background="Transparent" Click="DeleteCaseFlyoutButton_Click">
                                             <StackPanel Orientation="Horizontal">
