@@ -140,14 +140,17 @@ namespace USCISTracker.ViewModels
             }
 
             //Create a session
-            Session currentSession = new Session();
-            await currentSession.ConnectAsync();
-            await currentSession.SetReceiptNumberAsync(testCase.ReceiptNumber.ReceiptNumber);
-            await currentSession.CheckCaseStatusAsync();
-            string html = await currentSession.GetCurrentPageHTML();
+            //Session currentSession = new Session();
+            //await currentSession.ConnectAsync();
+            //await currentSession.SetReceiptNumberAsync(testCase.ReceiptNumber.ReceiptNumber);
+            //await currentSession.CheckCaseStatusAsync();
+            //string html = await currentSession.GetCurrentPageHTML();
 
             //Update the case with the respond HTML
-            await testCase.UpdateFromHTMLAsync(html);         
+            //await testCase.UpdateFromHTMLAsync(html);         
+
+            //Check for status
+            await SyncCaseStatusAsync(testCase);
 
             Cases.Add(testCase);
 
@@ -187,11 +190,12 @@ namespace USCISTracker.ViewModels
                 //loop through the entire thing.
                 for (int i = 0; i < Cases.Count; i++)
                 {
-                    await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
-                    await currentSession.CheckCaseStatusAsync();
-                    string html = await currentSession.GetCurrentPageHTML();
+                    //await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
+                    //await currentSession.CheckCaseStatusAsync();
+                    //string html = await currentSession.GetCurrentPageHTML();                   
+                    //await Cases[i].UpdateFromHTMLAsync(html);
+                    await SyncCaseStatusAsync(Cases[i], currentSession);
                     CasesUpdatedCounter = i;
-                    await Cases[i].UpdateFromHTMLAsync(html);
                 }
             }
             
@@ -200,11 +204,13 @@ namespace USCISTracker.ViewModels
                 //loop through the rest.
                 for(int i = overrideCounter; i < Cases.Count; i++)
                 {
-                    await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
-                    await currentSession.CheckCaseStatusAsync();
-                    string html = await currentSession.GetCurrentPageHTML();
+                    //await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
+                    //await currentSession.CheckCaseStatusAsync();
+                    //string html = await currentSession.GetCurrentPageHTML();                   
+                    //await Cases[i].UpdateFromHTMLAsync(html);
+
+                    await SyncCaseStatusAsync(Cases[i], currentSession);
                     CasesUpdatedCounter = i;
-                    await Cases[i].UpdateFromHTMLAsync(html);
                 }
             }
 
@@ -213,6 +219,38 @@ namespace USCISTracker.ViewModels
 
         }
 
+
+
+        /// <summary>
+        /// Check and update individual case
+        /// </summary>
+        /// <param name="checkingCase"> current case to check for status</param>
+        /// <param name="currentSession"> connected sesion if we have one</param>
+        /// <returns></returns>
+        public async Task<Case> SyncCaseStatusAsync(Case checkingCase, Session currentSession = null)
+        {
+            //Check if we have to create session
+            Session localSession = currentSession;
+            if(localSession == null)
+            {
+                localSession = new Session();
+                await localSession.ConnectAsync();
+
+                if (localSession.NavigateFailed == true)
+                {
+                    throw new OperationCanceledException("Session WebView has Failed!");
+                }
+            }
+
+            //Check 
+            await localSession.SetReceiptNumberAsync(checkingCase.ReceiptNumber.ReceiptNumber);
+            await localSession.CheckCaseStatusAsync();
+            string html = await localSession.GetCurrentPageHTML();
+            await checkingCase.UpdateFromHTMLAsync(html);
+
+            return checkingCase;
+
+        }
 
         /// <summary>
         /// Back up all the tracking cases info into the JSON file
