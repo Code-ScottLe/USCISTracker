@@ -213,6 +213,10 @@
       <Project>{d75f6e2f-c62c-4a71-9482-82c4019aeaf1}</Project>
       <Name>USCISTracker.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\USCISTracker.Background\USCISTracker.Background.csproj">
+      <Project>{853f42e7-4b4a-4f69-ab3d-358e46f0749f}</Project>
+      <Name>USCISTracker.Background</Name>
+    </ProjectReference>
     <ProjectReference Include="..\USCISTracker.Data\USCISTracker.Data.csproj">
       <Project>{4fb57cf8-9175-4a55-8d37-35cc265a027b}</Project>
       <Name>USCISTracker.Data</Name>
