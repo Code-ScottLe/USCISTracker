@@ -220,10 +220,6 @@ namespace USCISTracker.ViewModels
         /// <returns></returns>
         public async Task BackupCasesAsync()
         {
-            if(Cases.Count == 0)
-            {
-                return;
-            }
 
             //serialize the collection
             string json = await Task.Run<string>(() => JsonConvert.SerializeObject(Cases, Formatting.Indented));
@@ -268,6 +264,23 @@ namespace USCISTracker.ViewModels
                 string json = await FileIO.ReadTextAsync(localCaseFile);
 
                 Cases = await Task.Run<ObservableCollection<Case>>(() => JsonConvert.DeserializeObject<ObservableCollection<Case>>(json));
+            }
+        }
+
+
+        /// <summary>
+        /// Delete the given case on the receipt Number
+        /// </summary>
+        /// <param name="receiptNumber"></param>
+        /// <returns></returns>
+        public void DeleteCase(CaseReceiptNumber receiptNumber)
+        {
+            //find the case in the list
+            var toBeDeletedCase = Cases.Where(n => n.ReceiptNumber.ReceiptNumber == receiptNumber.ReceiptNumber).Select(n => n).FirstOrDefault();
+
+            if(toBeDeletedCase != null)
+            {
+                Cases.Remove(toBeDeletedCase);
             }
         }
 

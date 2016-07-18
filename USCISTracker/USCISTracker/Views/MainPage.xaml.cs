@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using USCISTracker.Data;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace USCISTracker.Views
 {
@@ -82,8 +83,8 @@ namespace USCISTracker.Views
         /// <param name="e"></param>
         private void EditCaseNameButton_Click(object sender, RoutedEventArgs e)
         {
-            CaseNameTextBox.IsReadOnly = false;
-            CaseNameTextBox.Focus(FocusState.Pointer);
+            DetailCaseNameTextBox.IsReadOnly = false;
+            DetailCaseNameTextBox.Focus(FocusState.Pointer);
         }
 
 
@@ -141,6 +142,28 @@ namespace USCISTracker.Views
             //reload
             AddNewCaseAppBarButton.IsEnabled = true;
             CheckCaseStatusAppBarButton.IsEnabled = true;
+        }
+
+        private void Grid_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            if(e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            }
+        }
+
+        private void DeleteCaseFlyoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Take the receipt number
+            var receipt = ((sender as Button).DataContext as Case).ReceiptNumber;
+
+            //Delete it
+            ViewModel.DeleteCase(receipt);
         }
     }
 }

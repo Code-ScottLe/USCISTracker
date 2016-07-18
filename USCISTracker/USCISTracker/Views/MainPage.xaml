@@ -94,7 +94,7 @@
               Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
               MinWidth="320">
             <Grid.RowDefinitions>
-                <RowDefinition Height="49"></RowDefinition>
+                <RowDefinition Height="48"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
@@ -112,7 +112,7 @@
             </Grid>
             
 
-            <Grid BorderBrush="Black" BorderThickness="0,0,0,1"></Grid>
+            <!--<Grid BorderBrush="Black" BorderThickness="0,0,0,1"></Grid>-->
             
             <ListView x:Name="CasesListView"
                       ItemsSource="{x:Bind ViewModel.Cases, Mode=OneWay}"  
@@ -136,37 +136,66 @@
                         <Grid HorizontalAlignment="Stretch"
                               Padding="0,10,0,10"
                               BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                              BorderThickness="0,1,0,0">
+                              BorderThickness="0,1,0,0"
+                              Background="Transparent"
+                              Holding="Grid_Holding" RightTapped="Grid_RightTapped">
 
+                            
+                            <!--Columns Definition for Master Grid-->
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.70*"></ColumnDefinition>
                                 <ColumnDefinition Width="0.05*"></ColumnDefinition>
                                 <ColumnDefinition Width="0.25*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
+                            
+                            <!--Flyout Menu for individual item-->
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <Button x:Name="EditCaseFlyoutButton" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Edit"></SymbolIcon>
+                                                <TextBlock Text="Edit Case" Margin="5,0,0,0"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
 
+                                        <Button x:Name="PinCaseToStartFlyoutButton" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Pin"></SymbolIcon>
+                                                <TextBlock Text="Pin to Start" Margin="5,0,0,0"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Button x:Name="DeleteCaseFlyoutButton" Background="Transparent" Click="DeleteCaseFlyoutButton_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <SymbolIcon Symbol="Delete"></SymbolIcon>
+                                                <TextBlock Text="Delete" Margin="5,0,0,0"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+
+                            <!--Main Relative Panel for the master grid-->
                             <RelativePanel>
                                 <!--Name of the case-->
-                                <TextBox x:Name="CaseNameTextBox"
-                                         BorderBrush="Transparent"
-                                         Background="Transparent"
+                                <TextBlock x:Name="CaseNameTextBlock"
                                          Text="{x:Bind Path=Name, Mode=TwoWay}"
-                                         IsReadOnly="True"
                                          FontSize="24"
-                                         BorderThickness="0"
-                                         Foreground="{ThemeResource SystemControlHighlightAccentBrush}"></TextBox>
+                                         Foreground="{ThemeResource SystemControlHighlightAccentBrush}"></TextBlock>
                                 
                                 <!--Receipt Number-->
                                 <TextBlock x:Name="CaseReceiptNumberLabelTextBlock"
                                            Text="Receipt #: "
-                                           RelativePanel.Below="CaseNameTextBox"
-                                           Padding="10,0,5,0"
+                                           RelativePanel.Below="CaseNameTextBlock"
+                                           Padding="0,0,5,0"
                                            Foreground="Gray"></TextBlock>
 
                                 <TextBlock x:Name="CaseReceiptNumberTextBlock"
                                            Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
                                            RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"
-                                           RelativePanel.Below="CaseNameTextBox"
+                                           RelativePanel.Below="CaseNameTextBlock"
                                            Foreground="Gray"></TextBlock>
                                 
                                 
@@ -174,7 +203,7 @@
                                 <TextBlock x:Name="CaseStatusLabelTextBlock"
                                            RelativePanel.Below="CaseReceiptNumberLabelTextBlock"
                                            Text="Status: "
-                                           Padding="10,0,5,0"
+                                           Padding="0,0,5,0"
                                            FontSize="18"></TextBlock>
 
                                 <TextBlock x:Name="CaseStatusTextBlock"
@@ -232,7 +261,7 @@
                           VerticalAlignment="Stretch">
             <RelativePanel>
                 <!--Case name-->
-                <TextBox x:Name="CaseNameTextBox"
+                <TextBox x:Name="DetailCaseNameTextBox"
                                  Background="Transparent"
                                  BorderThickness="0"
                                  BorderBrush="Transparent"
@@ -245,15 +274,15 @@
                          ></TextBox>
 
                 <Button x:Name="EditCaseNameButton"
-                                RelativePanel.RightOf="CaseNameTextBox"
+                                RelativePanel.RightOf="DetailCaseNameTextBox"
                                 Background="Transparent"
                                 Click="EditCaseNameButton_Click"
-                        RelativePanel.AlignVerticalCenterWith="CaseNameTextBox">
+                        RelativePanel.AlignVerticalCenterWith="DetailCaseNameTextBox">
                     <SymbolIcon Symbol="Edit"></SymbolIcon>
                 </Button>
 
                 <TextBlock x:Name="FormTypeTextBox"
-                                   RelativePanel.Below="CaseNameTextBox"
+                                   RelativePanel.Below="DetailCaseNameTextBox"
                                    RelativePanel.AlignHorizontalCenterWithPanel="True"
                                    Foreground="Gray"
                                    FontSize="24">
