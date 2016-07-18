@@ -19,7 +19,6 @@ namespace USCISTracker.Views
 {
     public sealed partial class CaseCreatorContentDialog : ContentDialog
     {
-        public bool isCancelled = false;
         public string receiptNumber;
         public string caseName;
         private Brush defaultBorderColor;
@@ -49,7 +48,6 @@ namespace USCISTracker.Views
         /// <param name="args"></param>
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            isCancelled = true;
         }
 
 

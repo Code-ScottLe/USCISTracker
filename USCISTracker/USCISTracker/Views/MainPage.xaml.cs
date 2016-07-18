@@ -49,11 +49,11 @@ namespace USCISTracker.Views
         {
             //Add a new case on the content dialog
             CaseCreatorContentDialog dialog = new CaseCreatorContentDialog();
-            await dialog.ShowAsync();
+            var res = await dialog.ShowAsync();
 
             //Check if we actually have changes.
 
-            if(dialog.isCancelled != true)
+            if(res == ContentDialogResult.Primary)
             {
                 //Disable Sync and add button
                 AddNewCaseAppBarButton.IsEnabled = false;
