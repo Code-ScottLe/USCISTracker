@@ -183,5 +183,49 @@ namespace USCISTracker.Views
             //Delete it
             ViewModel.DeleteCase(receipt);
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void EditCaseFlyoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the Case Receipt Number and Name
+            string CaseName = ((sender as Button).DataContext as Case).Name;
+            string CaseReceiptNumber = ((sender as Button).DataContext as Case).ReceiptNumber.ReceiptNumber;
+
+            //Call the editor
+            CaseEditorContentDialog editor = new CaseEditorContentDialog() {
+                caseName = CaseName,
+                receiptNumber = CaseReceiptNumber
+            };
+
+            var result = await editor.ShowAsync();
+
+            //check if saved
+            if(result == ContentDialogResult.Primary)
+            {
+                //Check name change
+                if (((sender as Button).DataContext as Case).Name != editor.CaseName)
+                {
+                    ((sender as Button).DataContext as Case).Name = editor.CaseName;
+                }
+
+                //Check if receipt number change, trigger refresh.
+                if (((sender as Button).DataContext as Case).ReceiptNumber.ReceiptNumber != editor.ReceiptNumber)
+                {
+                    ((sender as Button).DataContext as Case).ReceiptNumber = new CaseReceiptNumber(editor.ReceiptNumber);
+
+                    await ViewModel.SyncCaseStatusAsync(((sender as Button).DataContext as Case));
+
+                    //force save data if refresh
+                    await ViewModel.BackupCasesAsync();
+                }
+
+                
+            }
+        }
     }
 }

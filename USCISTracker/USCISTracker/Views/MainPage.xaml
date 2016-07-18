@@ -153,7 +153,7 @@
                             <FlyoutBase.AttachedFlyout>
                                 <Flyout>
                                     <StackPanel>
-                                        <Button x:Name="EditCaseFlyoutButton" Background="Transparent">
+                                        <Button x:Name="EditCaseFlyoutButton" Background="Transparent" Click="EditCaseFlyoutButton_Click">
                                             <StackPanel Orientation="Horizontal">
                                                 <SymbolIcon Symbol="Edit"></SymbolIcon>
                                                 <TextBlock Text="Edit Case" Margin="5,0,0,0"></TextBlock>
@@ -193,7 +193,7 @@
                                            Foreground="Gray"></TextBlock>
 
                                 <TextBlock x:Name="CaseReceiptNumberTextBlock"
-                                           Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}}"
+                                           Text="{x:Bind Path=ReceiptNumber, Converter={StaticResource ReceiptNumberConverter}, Mode=OneWay}"
                                            RelativePanel.RightOf="CaseReceiptNumberLabelTextBlock"
                                            RelativePanel.Below="CaseNameTextBlock"
                                            Foreground="Gray"></TextBlock>
@@ -209,7 +209,7 @@
                                 <TextBlock x:Name="CaseStatusTextBlock"
                                            RelativePanel.Below="CaseReceiptNumberTextBlock"
                                            RelativePanel.RightOf="CaseStatusLabelTextBlock"
-                                           Text="{x:Bind Path=Status}"
+                                           Text="{x:Bind Path=Status, Mode=OneWay}"
                                            FontSize="18"></TextBlock>
                                 
                             </RelativePanel>
@@ -219,7 +219,7 @@
                             <TextBlock
                                 x:Name="LastUpdatedTimeTextBlock"
                                 Grid.Column="2"
-                                Text="{x:Bind Path=LastCaseUpdate, Converter={StaticResource DateTimeLastUpdateConverter}}"
+                                Text="{x:Bind Path=LastCaseUpdate, Converter={StaticResource DateTimeLastUpdateConverter}, Mode=OneWay}"
                                 Foreground="Gray"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"

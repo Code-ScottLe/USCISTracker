@@ -116,6 +116,9 @@
     <Compile Include="Views\CaseCreatorContentDialog.xaml.cs">
       <DependentUpon>CaseCreatorContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CaseEditorContentDialog.xaml.cs">
+      <DependentUpon>CaseEditorContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CaseCreatorContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CaseEditorContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace USCISTracker.Data
 {
-    public class CaseReceiptNumber
+    public class CaseReceiptNumber : INotifyPropertyChanged
     {
         #region Fields
         private string receiptNumber;
