@@ -144,11 +144,23 @@ namespace USCISTracker.Views
             CheckCaseStatusAppBarButton.IsEnabled = true;
         }
 
+
+        /// <summary>
+        /// Event handler on holding event of the ListView's Item's Grid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Grid_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
+
+        /// <summary>
+        /// Event handler on righttapped event of the ListView's Item's Grid. Only respond to non-touch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             if(e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch)
@@ -157,6 +169,12 @@ namespace USCISTracker.Views
             }
         }
 
+
+        /// <summary>
+        /// Event handler for the delete case flyout button click. Delete the current selected case.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteCaseFlyoutButton_Click(object sender, RoutedEventArgs e)
         {
             //Take the receipt number
