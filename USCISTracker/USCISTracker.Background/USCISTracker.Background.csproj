@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{853f42e7-4b4a-4f69-ab3d-358e46f0749f}</ProjectGuid>
+    <ProjectGuid>{853F42E7-4B4A-4F69-AB3D-358E46F0749F}</ProjectGuid>
     <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>USCISTracker.Background</RootNamespace>
@@ -108,8 +108,18 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CaseUpdateBackgroundTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\USCISTracker.API\USCISTracker.API.csproj">
+      <Project>{d75f6e2f-c62c-4a71-9482-82c4019aeaf1}</Project>
+      <Name>USCISTracker.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USCISTracker.Data\USCISTracker.Data.csproj">
+      <Project>{4fb57cf8-9175-4a55-8d37-35cc265a027b}</Project>
+      <Name>USCISTracker.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
