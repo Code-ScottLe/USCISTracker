@@ -14,8 +14,13 @@ namespace USCISTracker.Background
     public sealed class CaseUpdateBackgroundTask : IBackgroundTask
     {
         #region Fields
+        //use to determine when the task is starting and completed
         BackgroundTaskDeferral _deferral;
         private static string defaultSaveLocation = "USCISCasesJSON.json";
+
+        //Indicate error and reasons
+        volatile bool cancelRequested = false;      //access from any thread
+        BackgroundTaskCancellationReason cancelReason = BackgroundTaskCancellationReason.Abort;
         #endregion
 
 
@@ -54,6 +59,16 @@ namespace USCISTracker.Background
                       
             //Done with async methods
             _deferral.Complete();
+        }
+
+        /// <summary>
+        /// Event handler for the failed task.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="reason"></param>
+        private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            //Task has been cancelled for any reason. Indicate the request.
         }
 
 

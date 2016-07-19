@@ -105,6 +105,7 @@
     <Compile Include="Controllers\DateTimeLastUpdateToString.cs" />
     <Compile Include="Controllers\DateTimeToString.cs" />
     <Compile Include="Controllers\IReceiptNumberToString.cs" />
+    <Compile Include="Models\BackgroundTasksConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
@@ -205,9 +206,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\USCISTracker.API\USCISTracker.API.csproj">
       <Project>{d75f6e2f-c62c-4a71-9482-82c4019aeaf1}</Project>
