@@ -35,6 +35,9 @@ namespace USCISTracker.Background
             //Defferal for the async methods
             _deferral = taskInstance.GetDeferral();
 
+            //Register the OnCanceled event to handle the even that the background task was cancelled (usually on failed condition)
+            taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
+
             //Get cases
             List<Case> cases = await GetSavedCasesAsync();
 

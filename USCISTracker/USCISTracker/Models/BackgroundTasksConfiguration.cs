@@ -62,8 +62,8 @@ namespace USCISTracker.Models
             //
             // Remove previous completion status.
             //
-            var settings = ApplicationData.Current.LocalSettings;
-            settings.Values.Remove(name);
+            //var settings = ApplicationData.Current.LocalSettings;
+            //settings.Values.Remove(name);
 
             return task;
         }
