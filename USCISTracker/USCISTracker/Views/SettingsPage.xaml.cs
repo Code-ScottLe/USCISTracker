@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Background;
+using USCISTracker.Services.BackgroundServices;
 
 namespace USCISTracker.Views
 {
@@ -23,9 +24,12 @@ namespace USCISTracker.Views
 
 
             //check if we have register background task
-            if(Windows.Storage.ApplicationData.Current.LocalSettings.Values["BackgroundUpdateEnabled"] != null)
+            EnableBackgroundUpdateToggleSwitch.IsOn = BackgroundService.IsTaskRegistered("CaseUpdateBackgroundTask");
+
+            //register the handler if we have the background task.
+            if(BackgroundService.IsTaskRegistered("CaseUpdateBackgroundTask") == true)
             {
-                EnableBackgroundUpdateToggleSwitch.IsOn = (bool)Windows.Storage.ApplicationData.Current.LocalSettings.Values["BackgroundUpdateEnabled"];
+                BackgroundService.GetBackgroundTask("CaseUpdateBackgroundTask").Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
             }
         }
 
@@ -63,9 +67,61 @@ namespace USCISTracker.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EnableBackgroundUpdateToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void EnableBackgroundUpdateToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            
+            if((sender as ToggleSwitch).IsOn == true)
+            {
+                if (BackgroundService.IsTaskRegistered("CaseUpdateBackgroundTask") == false)
+                {
+                    //Register it.
+                    var backgroundTask = await BackgroundService.RegisterBackgroundTask("CaseUpdateBackgroundTask", "USCISTracker.Background.CaseUpdateBackgroundTask",
+                        new TimeTrigger(15, false), new SystemCondition(SystemConditionType.InternetAvailable));
+
+                    //hook up complete handler
+                    backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+                }
+            }
+
+            else
+            {
+                BackgroundService.UnregisterBackgroundTask("CaseUpdateBackgroundTask");
+            }
+
+            UpdateUIAsync();
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="args"></param>
+        private void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
+        {
+            UpdateUIAsync();
+        }
+
+
+        /// <summary>
+        /// Enable upadting the UI from non-UI thread
+        /// </summary>
+        private async void UpdateUIAsync()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                //get the setting
+                var setting = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+                //get the last update info from the setting if we have it.
+                object lastTaskRun = null;
+
+                if(setting.Values.TryGetValue("CaseUpdateBackgroundTask", out lastTaskRun) == true)
+                {
+                    BackgroundTaskLastRunTextBox.Text = lastTaskRun as string;
+                }
+                
+            });
         }
     }
 }

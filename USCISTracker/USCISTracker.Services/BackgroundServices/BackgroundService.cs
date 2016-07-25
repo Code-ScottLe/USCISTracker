@@ -81,6 +81,10 @@ namespace USCISTracker.Services.BackgroundServices
         }
 
 
+        /// <summary>
+        /// Unregister a given background task
+        /// </summary>
+        /// <param name="taskName"></param>
         public static void UnregisterBackgroundTask(string taskName)
         {
             foreach (var task in BackgroundTaskRegistration.AllTasks)

@@ -90,19 +90,25 @@
                                  Padding="0,5,5,5" MinWidth="0" MinHeight="0"></TextBox>
 
                         <Button x:Name="DeleteCacheButton"
-                                HorizontalAlignment="Left"
-                                RelativePanel.RightOf="DeleteCacheLabelTextBox"
-                                RelativePanel.Below="UseLightThemeToggleSwitch"
+                                HorizontalAlignment="Left"                               
+                                RelativePanel.Below="DeleteCacheLabelTextBox"
+                                RelativePanel.AlignLeftWithPanel="True"
                                 Content="Delete"
-                                Margin="12,0,0,0" BorderThickness="0" Padding="5"
+                                Margin="0,0,0,10"
                                 Click="DeleteCacheButton_Click"></Button>
 
                         <ToggleSwitch x:Name="EnableBackgroundUpdateToggleSwitch"
                                       Header="Background Update"
                                       OffContent="Disable" OnContent="Enable"
-                                      RelativePanel.Below="DeleteCacheLabelTextBox"
+                                      RelativePanel.Below="DeleteCacheButton"
                                       RelativePanel.AlignLeftWithPanel="True"
                                       Toggled="EnableBackgroundUpdateToggleSwitch_Toggled"></ToggleSwitch>
+
+                        <TextBox x:Name="BackgroundTaskLastRunTextBox"
+                                 RelativePanel.Below="EnableBackgroundUpdateToggleSwitch"
+                                 RelativePanel.AlignLeftWithPanel="True"
+                                 BorderThickness="0"></TextBox>
+                                 
                                 
 
 

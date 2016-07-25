@@ -102,6 +102,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configurations\BackgroundTasksConfiguration.cs" />
     <Compile Include="Controllers\DateTimeLastUpdateToString.cs" />
     <Compile Include="Controllers\DateTimeToString.cs" />
     <Compile Include="Controllers\IReceiptNumberToString.cs" />

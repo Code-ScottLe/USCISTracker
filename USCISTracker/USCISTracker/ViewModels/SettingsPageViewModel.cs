@@ -5,6 +5,8 @@ using Template10.Mvvm;
 using Template10.Services.SettingsService;
 using Windows.UI.Xaml;
 using Windows.Storage;
+using USCISTracker.Services.BackgroundServices;
+using Windows.ApplicationModel.Background;
 
 namespace USCISTracker.ViewModels
 {
@@ -90,7 +92,7 @@ namespace USCISTracker.ViewModels
 
         public async Task RegisterBackgroundTaskAsync()
         {
-
+            
         }
 
 
@@ -98,6 +100,9 @@ namespace USCISTracker.ViewModels
         {
 
         }
+
+
+       
 
     }
 
