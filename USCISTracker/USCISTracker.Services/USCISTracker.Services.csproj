@@ -112,6 +112,12 @@
     <Compile Include="TileServices\TileService.cs" />
     <EmbeddedResource Include="Properties\USCISTracker.Services.rd.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\USCISTracker.Data\USCISTracker.Data.csproj">
+      <Project>{4fb57cf8-9175-4a55-8d37-35cc265a027b}</Project>
+      <Name>USCISTracker.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
