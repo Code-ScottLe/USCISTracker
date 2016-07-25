@@ -8,6 +8,7 @@ using USCISTracker.Data;
 using USCISTracker.API;
 using Windows.Storage;
 using Newtonsoft.Json;
+using Windows.UI.Core;
 
 namespace USCISTracker.Background
 {
@@ -114,7 +115,7 @@ namespace USCISTracker.Background
         private async Task<Case> SyncCaseStatusAsync(Case checkingCase)
         {
 
-            Session localSession = new Session();
+            Session localSession = new Session(Windows.UI.Xaml.Controls.WebViewExecutionMode.SameThread);
             await localSession.ConnectAsync();
 
             if (localSession.NavigateFailed == true)

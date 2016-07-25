@@ -60,7 +60,7 @@ namespace USCISTracker.API
         public Session()
         {
             //Initialize new session
-            CurrentWebView = new Windows.UI.Xaml.Controls.WebView(Windows.UI.Xaml.Controls.WebViewExecutionMode.SeparateThread);
+            CurrentWebView = new Windows.UI.Xaml.Controls.WebView();
             CurrentWebView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             //Subscribe to the navigation success event. WebView goes from NavStart => ContentLoading => DOMContentLoaded => NavCompleted
@@ -68,6 +68,21 @@ namespace USCISTracker.API
             CurrentWebView.NavigationCompleted += CurrentWebView_NavigationCompleted;
             
          
+        }
+
+        /// <summary>
+        /// Overloaded constructor with the overrided mode for webview
+        /// </summary>
+        /// <param name="mode">Execution mode for the webview</param>
+        public Session(Windows.UI.Xaml.Controls.WebViewExecutionMode mode)
+        {
+            //Initialize new session
+            CurrentWebView = new Windows.UI.Xaml.Controls.WebView(mode);
+            CurrentWebView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            //Subscribe to the navigation success event. WebView goes from NavStart => ContentLoading => DOMContentLoaded => NavCompleted
+            //More info: https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.webview.aspx
+            CurrentWebView.NavigationCompleted += CurrentWebView_NavigationCompleted;
         }
 
         #endregion
