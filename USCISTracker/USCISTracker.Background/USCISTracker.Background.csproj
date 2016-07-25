@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="CaseUpdateBackgroundTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceCompletedBackgroundTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\USCISTracker.API\USCISTracker.API.csproj">
