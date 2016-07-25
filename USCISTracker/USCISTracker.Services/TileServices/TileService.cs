@@ -53,7 +53,7 @@ namespace USCISTracker.Services.TileServices
 
                         new AdaptiveText()
                         {
-                            Text = $"Refresh on:{currentCase.LastRefresh}",
+                            Text = $"Refresh on: {currentCase.LastRefresh}",
                             HintStyle = AdaptiveTextStyle.CaptionSubtle,
                             HintWrap = true
                         }
