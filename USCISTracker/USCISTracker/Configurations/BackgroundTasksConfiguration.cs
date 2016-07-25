@@ -14,7 +14,8 @@ namespace USCISTracker.Configurations
 
 
         //Background Task: Tile Update
-
+        public const string ServiceCompletedBackgroundTaskName = "ServiceCompleted";
+        public const string ServiceCompletedBackgroundTaskEntryPoint = "USCISTracker.Background.ServiceCompletedBackgroundTask";
 
         //Background Task: ServiceComplete
 
