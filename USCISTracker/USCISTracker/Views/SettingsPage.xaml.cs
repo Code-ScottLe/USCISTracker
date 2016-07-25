@@ -133,9 +133,17 @@ namespace USCISTracker.Views
                 //get the last update info from the setting if we have it.
                 object lastTaskRun = null;
 
-                if(setting.Values.TryGetValue("CaseUpdateBackgroundTask", out lastTaskRun) == true)
+                if(setting.Values.TryGetValue(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName, out lastTaskRun) == true)
                 {
                     BackgroundTaskLastRunTextBox.Text = lastTaskRun as string;
+                }
+
+                //get the last app update if we have it
+                object lastAppUpdate = null;
+
+                if(setting.Values.TryGetValue(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName, out lastAppUpdate) == true)
+                {
+                    LastAppUpdateTextBox.Text = lastAppUpdate as string;
                 }
                 
             });

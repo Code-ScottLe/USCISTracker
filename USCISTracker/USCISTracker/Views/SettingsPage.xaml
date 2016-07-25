@@ -108,6 +108,11 @@
                                  RelativePanel.Below="EnableBackgroundUpdateToggleSwitch"
                                  RelativePanel.AlignLeftWithPanel="True"
                                  BorderThickness="0"></TextBox>
+                        
+                        <TextBox x:Name="LastAppUpdateTextBox"
+                                 RelativePanel.Below="BackgroundTaskLastRunTextBox"
+                                 RelativePanel.AlignLeftWithPanel="True"
+                                 BorderThickness="0"></TextBox>
                                  
                                 
 
