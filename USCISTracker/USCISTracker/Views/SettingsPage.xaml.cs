@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Background;
 using USCISTracker.Services.BackgroundServices;
+using USCISTracker.Configurations;
 
 namespace USCISTracker.Views
 {
@@ -17,6 +18,11 @@ namespace USCISTracker.Views
             _SerializationService = Template10.Services.SerializationService.SerializationService.Json;
         }
 
+
+        /// <summary>
+        /// Event handler for the event of the setting is on the current screen.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var index = int.Parse(_SerializationService.Deserialize(e.Parameter?.ToString()).ToString());
@@ -24,13 +30,21 @@ namespace USCISTracker.Views
 
 
             //check if we have register background task
-            EnableBackgroundUpdateToggleSwitch.IsOn = BackgroundService.IsTaskRegistered("CaseUpdateBackgroundTask");
+            EnableBackgroundUpdateToggleSwitch.IsOn = BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName);
 
             //register the handler if we have the background task.
-            if(BackgroundService.IsTaskRegistered("CaseUpdateBackgroundTask") == true)
+            if(BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName) == true)
             {
-                BackgroundService.GetBackgroundTask("CaseUpdateBackgroundTask").Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+                BackgroundService.GetBackgroundTask(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName).Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
             }
+
+            if(BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName) == true)
+            {
+                BackgroundService.GetBackgroundTask(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName).Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+            }
+
+            //Update the text box if we have result from previous running background task
+            UpdateUIAsync();
         }
 
 
@@ -69,12 +83,14 @@ namespace USCISTracker.Views
         /// <param name="e"></param>
         private async void EnableBackgroundUpdateToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            //On = register
             if((sender as ToggleSwitch).IsOn == true)
             {
-                if (BackgroundService.IsTaskRegistered("CaseUpdateBackgroundTask") == false)
+                if (BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName) == false)
                 {
                     //Register it.
-                    var backgroundTask = await BackgroundService.RegisterBackgroundTask("CaseUpdateBackgroundTask", "USCISTracker.Background.CaseUpdateBackgroundTask",
+                    var backgroundTask = await BackgroundService.RegisterBackgroundTask(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName, 
+                        BackgroundTasksConfiguration.CaseUpdateBackgroundTaskEntryPoint,
                         new TimeTrigger(15, false), new SystemCondition(SystemConditionType.InternetAvailable));
 
                     //hook up complete handler
@@ -82,9 +98,10 @@ namespace USCISTracker.Views
                 }
             }
 
+            //Off = unregister
             else
             {
-                BackgroundService.UnregisterBackgroundTask("CaseUpdateBackgroundTask");
+                BackgroundService.UnregisterBackgroundTask(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName);
             }
 
             UpdateUIAsync();
