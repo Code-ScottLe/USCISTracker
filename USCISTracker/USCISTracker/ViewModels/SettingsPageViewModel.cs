@@ -22,6 +22,8 @@ namespace USCISTracker.ViewModels
     /// </summary>
     public class SettingsPartViewModel : ViewModelBase
     {
+
+        #region Template10Crap
         Services.SettingsServices.SettingsService _settings;
 
         public SettingsPartViewModel()
@@ -68,6 +70,7 @@ namespace USCISTracker.ViewModels
                 Views.Busy.SetBusy(false);
             }, () => !string.IsNullOrEmpty(BusyText)));
 
+        #endregion
 
         /// <summary>
         /// Clear the local cases cache.
@@ -83,6 +86,19 @@ namespace USCISTracker.ViewModels
                 await cacheFile.DeleteAsync();
             }
         }
+
+
+        public async Task RegisterBackgroundTaskAsync()
+        {
+
+        }
+
+
+        public async Task UnRegisterBackgroundTaskAsync()
+        {
+
+        }
+
     }
 
 

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Background;
 
 namespace USCISTracker.Views
 {
@@ -19,6 +20,13 @@ namespace USCISTracker.Views
         {
             var index = int.Parse(_SerializationService.Deserialize(e.Parameter?.ToString()).ToString());
             MyPivot.SelectedIndex = index;
+
+
+            //check if we have register background task
+            if(Windows.Storage.ApplicationData.Current.LocalSettings.Values["BackgroundUpdateEnabled"] != null)
+            {
+                EnableBackgroundUpdateToggleSwitch.IsOn = (bool)Windows.Storage.ApplicationData.Current.LocalSettings.Values["BackgroundUpdateEnabled"];
+            }
         }
 
 
@@ -47,6 +55,17 @@ namespace USCISTracker.Views
                 //clear the cache.
                 await ViewModel.SettingsPartViewModel.ClearCacheAsync();
             }
+        }
+
+
+        /// <summary>
+        /// Event Handler for the toggled background task register.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnableBackgroundUpdateToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            
         }
     }
 }
