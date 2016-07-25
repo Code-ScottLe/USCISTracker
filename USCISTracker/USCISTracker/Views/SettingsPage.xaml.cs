@@ -96,6 +96,17 @@ namespace USCISTracker.Views
                     //hook up complete handler
                     backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
                 }
+
+                //If we now have the background task, also enable background task on event of app update to make sure everything is still being registered
+                if(BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName) == false)
+                {
+                    var backgroundTask = await BackgroundService.RegisterBackgroundTask(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName,
+                        BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskEntryPoint,
+                        new SystemTrigger(SystemTriggerType.ServicingComplete, false));
+
+                    //hoop up complete handler
+                    backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+                }
             }
 
             //Off = unregister

@@ -26,6 +26,11 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="USCISTracker.Background.ServiceCompletedBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="USCISTracker.Background.CaseUpdateBackgroundTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
