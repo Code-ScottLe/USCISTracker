@@ -220,6 +220,10 @@
       <Project>{4fb57cf8-9175-4a55-8d37-35cc265a027b}</Project>
       <Name>USCISTracker.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\USCISTracker.Services\USCISTracker.Services.csproj">
+      <Project>{36c9ebc1-15f3-45ad-9dbf-e11c0cd1e43d}</Project>
+      <Name>USCISTracker.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

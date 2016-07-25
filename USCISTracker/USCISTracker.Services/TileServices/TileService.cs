@@ -72,7 +72,8 @@ namespace USCISTracker.Services.TileServices
                 Visual = new TileVisual()
                 {
                     TileMedium = MediumTile,
-                    TileWide = WideTile
+                    TileWide = WideTile,
+                    Branding = TileBranding.NameAndLogo
                 }
             };
 

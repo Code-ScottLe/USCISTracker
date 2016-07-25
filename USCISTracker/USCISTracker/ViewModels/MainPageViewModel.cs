@@ -11,6 +11,8 @@ using USCISTracker.Data;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using Windows.Storage;
+using USCISTracker.Services.TileServices;
+using Windows.UI.Notifications;
 
 namespace USCISTracker.ViewModels
 {
@@ -216,6 +218,7 @@ namespace USCISTracker.ViewModels
 
             IsCaseUpdating = false;
 
+            Task.Run(() => { UpdateTile(); });
 
         }
 
@@ -322,6 +325,49 @@ namespace USCISTracker.ViewModels
             }
         }
 
+
+        /// <summary>
+        /// Update the main tile with case status with most recent updated cases (5)
+        /// </summary>
+        private void UpdateTile()
+        {
+            List<Case> tempCaseList = Cases.ToList();
+
+            //Remove all the irrelavent case
+            while (tempCaseList.Count > 5)
+            {
+                var older = tempCaseList.Min((s) => { return s.LastRefresh.ToFileTime(); });
+
+                var olderCase = tempCaseList.Where(n => n.LastRefresh.ToFileTime() == older).Select(n => n).FirstOrDefault();
+                tempCaseList.Remove(olderCase);
+            }
+
+            //Create the tile update
+            List<NotificationsExtensions.Tiles.TileContent> tileUpdates = new List<NotificationsExtensions.Tiles.TileContent>();
+
+            foreach(Case individualCase in tempCaseList)
+            {
+                tileUpdates.Add(TileService.CreateAdaptiveMainTileContent(individualCase));
+            }
+
+            //Call the updater
+            var updater = TileUpdateManager.CreateTileUpdaterForApplication();
+
+            //Enable the queue
+            updater.EnableNotificationQueue(true);
+
+            //remove old 
+            updater.Clear();
+
+            //push it.
+            foreach( var tileUpdate in tileUpdates)
+            {
+                updater.Update(new TileNotification(tileUpdate.GetXml()));
+            }
+
+
+        }
+
         #endregion
 
         #region Template 10 Events Handlers and Commands
@@ -375,7 +421,10 @@ namespace USCISTracker.ViewModels
 
                 //Save what we have.
                 await BackupCasesAsync();
-            
+
+                //refresh tile
+                await Task.Run(() => { UpdateTile(); });
+
             }
             await Task.CompletedTask;
         }

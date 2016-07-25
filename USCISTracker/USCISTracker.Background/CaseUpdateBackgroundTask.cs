@@ -59,6 +59,9 @@ namespace USCISTracker.Background
                 }
             }
 
+
+            //Write to setting for debug
+            ApplicationData.Current.LocalSettings.Values["CaseUpdateBackgroundTask"] = $"Task Update Case has completed at {DateTime.Now.ToString()}";
                       
             //Done with async methods
             _deferral.Complete();
@@ -72,6 +75,8 @@ namespace USCISTracker.Background
         private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
             //Task has been cancelled for any reason. Indicate the request.
+            cancelRequested = true;
+            cancelReason = reason;
         }
 
 
