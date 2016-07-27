@@ -20,7 +20,7 @@ namespace USCISTracker.Background
 
             //Write to setting to show as debug value
             var setting = Windows.Storage.ApplicationData.Current.LocalSettings;
-            setting.Values["ServicingCompleted"] = $"Task ServicingCompleted finished running at {DateTime.Now.ToString()}";
+            setting.Values["ServiceCompleted"] = $"Task ServicingCompleted finished running at {DateTime.Now.ToString()}";
             System.Diagnostics.Debug.WriteLine($"Task ServicingCompleted finished running at {DateTime.Now.ToString()}");
 
             deferral.Complete();

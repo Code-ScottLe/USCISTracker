@@ -62,7 +62,7 @@ namespace USCISTracker.Background
 
 
             //Write to setting for debug
-            ApplicationData.Current.LocalSettings.Values["CaseUpdateBackgroundTask"] = $"Task Update Case finished running at {DateTime.Now.ToString()}";
+            ApplicationData.Current.LocalSettings.Values["CaseUpdate"] = $"Task Update Case finished running at {DateTime.Now.ToString()}";
             System.Diagnostics.Debug.WriteLine($"Task Update Case finished running at {DateTime.Now.ToString()}");
 
             //Done with async methods
