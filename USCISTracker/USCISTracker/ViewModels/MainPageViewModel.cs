@@ -140,17 +140,7 @@ namespace USCISTracker.ViewModels
             {
                 testCase.Name = $"Case #{Cases.Count + 1}";
             }
-
-            //Create a session
-            //Session currentSession = new Session();
-            //await currentSession.ConnectAsync();
-            //await currentSession.SetReceiptNumberAsync(testCase.ReceiptNumber.ReceiptNumber);
-            //await currentSession.CheckCaseStatusAsync();
-            //string html = await currentSession.GetCurrentPageHTML();
-
-            //Update the case with the respond HTML
-            //await testCase.UpdateFromHTMLAsync(html);         
-
+ 
             //Check for status
             await SyncCaseStatusAsync(testCase);
 
@@ -179,12 +169,6 @@ namespace USCISTracker.ViewModels
 
             //create a session at USCIS for update.
             Session currentSession = new Session();
-            await currentSession.ConnectAsync();
-
-            if(currentSession.NavigateFailed == true)
-            {
-                throw new OperationCanceledException("Session WebView has Failed!");
-            }
 
             //Check if we have override
             if(overrideCounter == 0)
@@ -192,10 +176,6 @@ namespace USCISTracker.ViewModels
                 //loop through the entire thing.
                 for (int i = 0; i < Cases.Count; i++)
                 {
-                    //await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
-                    //await currentSession.CheckCaseStatusAsync();
-                    //string html = await currentSession.GetCurrentPageHTML();                   
-                    //await Cases[i].UpdateFromHTMLAsync(html);
                     await SyncCaseStatusAsync(Cases[i], currentSession);
                     CasesUpdatedCounter = i;
                 }
@@ -206,11 +186,6 @@ namespace USCISTracker.ViewModels
                 //loop through the rest.
                 for(int i = overrideCounter; i < Cases.Count; i++)
                 {
-                    //await currentSession.SetReceiptNumberAsync(Cases[i].ReceiptNumber.ReceiptNumber);
-                    //await currentSession.CheckCaseStatusAsync();
-                    //string html = await currentSession.GetCurrentPageHTML();                   
-                    //await Cases[i].UpdateFromHTMLAsync(html);
-
                     await SyncCaseStatusAsync(Cases[i], currentSession);
                     CasesUpdatedCounter = i;
                 }
@@ -237,18 +212,10 @@ namespace USCISTracker.ViewModels
             if(localSession == null)
             {
                 localSession = new Session();
-                await localSession.ConnectAsync();
-
-                if (localSession.NavigateFailed == true)
-                {
-                    throw new OperationCanceledException("Session WebView has Failed!");
-                }
             }
 
             //Check 
-            await localSession.SetReceiptNumberAsync(checkingCase.ReceiptNumber.ReceiptNumber);
-            await localSession.CheckCaseStatusAsync();
-            string html = await localSession.GetCurrentPageHTML();
+            string html = await localSession.CheckCaseStatusAsync(checkingCase.ReceiptNumber.ReceiptNumber);
             await checkingCase.UpdateFromHTMLAsync(html);
 
             return checkingCase;

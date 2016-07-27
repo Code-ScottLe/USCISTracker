@@ -115,19 +115,9 @@ namespace USCISTracker.Background
         private async Task<Case> SyncCaseStatusAsync(Case checkingCase)
         {
 
-            Session localSession = new Session(Windows.UI.Xaml.Controls.WebViewExecutionMode.SameThread);
-            await localSession.ConnectAsync();
+            Session localSession = new Session();
 
-            if (localSession.NavigateFailed == true)
-            {
-                return null;
-            }
-            
-
-            //Check 
-            await localSession.SetReceiptNumberAsync(checkingCase.ReceiptNumber.ReceiptNumber);
-            await localSession.CheckCaseStatusAsync();
-            string html = await localSession.GetCurrentPageHTML();
+            string html = await localSession.CheckCaseStatusAsync(checkingCase.ReceiptNumber.ReceiptNumber);
             await checkingCase.UpdateFromHTMLAsync(html);
 
             return checkingCase;
