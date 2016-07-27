@@ -13,6 +13,9 @@ using Newtonsoft.Json;
 using Windows.Storage;
 using USCISTracker.Services.TileServices;
 using Windows.UI.Notifications;
+using USCISTracker.Services.BackgroundServices;
+using USCISTracker.Configurations;
+using Windows.ApplicationModel.Background;
 
 namespace USCISTracker.ViewModels
 {
@@ -335,11 +338,29 @@ namespace USCISTracker.ViewModels
 
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="args"></param>
+        private async void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
+        {
+            //Reload the current cases
+            await LoadBackupCasesAsync();
+        }
+
         #endregion
 
         #region Template 10 Events Handlers and Commands
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
+            //register the handler if we have the background task.
+            if (BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName) == true)
+            {
+                BackgroundService.GetBackgroundTask(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName).Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+            }
+
             if (suspensionState.Any())
             {
                 //Load up if we previously suspensded
