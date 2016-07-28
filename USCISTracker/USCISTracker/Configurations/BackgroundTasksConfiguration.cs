@@ -21,6 +21,14 @@ namespace USCISTracker.Configurations
         public const string TileUpdateBackgroundTaskName = "TileUpdate";
         public const string TileUpdateBackgroundTaskEntryPoint = "USCISTracker.Background.TileUpdateBackgroundTask";
 
+        //Time
+
+#if DEBUG
+        public const int TimeUpdateInterval = 15;
+
+#else
+        public const int TimeUpdateInterval = 60;
+#endif
 
     }
 }

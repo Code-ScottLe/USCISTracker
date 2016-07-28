@@ -96,7 +96,7 @@ namespace USCISTracker.Views
                     //Register it.
                     var backgroundTask = await BackgroundService.RegisterBackgroundTask(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName, 
                         BackgroundTasksConfiguration.CaseUpdateBackgroundTaskEntryPoint,
-                        new TimeTrigger(15, false), new SystemCondition(SystemConditionType.InternetAvailable));
+                        new TimeTrigger(BackgroundTasksConfiguration.TimeUpdateInterval, false), new SystemCondition(SystemConditionType.InternetAvailable));
 
                     //hook up complete handler
                     backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
@@ -107,7 +107,7 @@ namespace USCISTracker.Views
                     //Register tile update
                     var backgroundTask = await BackgroundService.RegisterBackgroundTask(BackgroundTasksConfiguration.TileUpdateBackgroundTaskName,
                         BackgroundTasksConfiguration.TileUpdateBackgroundTaskEntryPoint,
-                        new TimeTrigger(15, false));
+                        new TimeTrigger(BackgroundTasksConfiguration.TimeUpdateInterval, false));
 
                     //Hook up complete handler
                     backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
@@ -152,6 +152,7 @@ namespace USCISTracker.Views
         /// </summary>
         private async void UpdateUIAsync()
         {
+#if DEBUG
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 //get the setting
@@ -181,6 +182,8 @@ namespace USCISTracker.Views
                 }
                 
             });
+
+#endif
         }
     }
 }
