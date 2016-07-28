@@ -43,6 +43,11 @@ namespace USCISTracker.Views
                 BackgroundService.GetBackgroundTask(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName).Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
             }
 
+            if (BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.TileUpdateBackgroundTaskName) == true)
+            {
+                BackgroundService.GetBackgroundTask(BackgroundTasksConfiguration.TileUpdateBackgroundTaskName).Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+            }
+
             //Update the text box if we have result from previous running background task
             UpdateUIAsync();
         }
