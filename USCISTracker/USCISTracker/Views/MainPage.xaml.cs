@@ -44,8 +44,8 @@ namespace USCISTracker.Views
         /// Click event handler for the Add A Newcase App bar Button. Add a new case to track.
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void AddNewCaseAppBarButton_Click(object sender, RoutedEventArgs e)
+        /// <param name="a"></param>
+        private async void AddNewCaseAppBarButton_Click(object sender, RoutedEventArgs a)
         {
             //Add a new case on the content dialog
             CaseCreatorContentDialog dialog = new CaseCreatorContentDialog();
@@ -62,15 +62,26 @@ namespace USCISTracker.Views
                 //Turn on the Progress Ring
                 MasterProgressRing.IsActive = true;
 
-                await ViewModel.AddNewCaseAsync(dialog.receiptNumber, dialog.caseName);
+                try
+                {
+                    await ViewModel.AddNewCaseAsync(dialog.receiptNumber, dialog.caseName);
+                }
+                
+                catch (Exception e)
+                {
+                    await ShowErrorDialog(e);
+                }
 
+                finally
+                {
+                    //Enable Sync and add button
+                    AddNewCaseAppBarButton.IsEnabled = true;
+                    CheckCaseStatusAppBarButton.IsEnabled = true;
 
-                //Enable Sync and add button
-                AddNewCaseAppBarButton.IsEnabled = true;
-                CheckCaseStatusAppBarButton.IsEnabled = true;
-
-                //Turn off the Progress Ring
-                MasterProgressRing.IsActive = false;
+                    //Turn off the Progress Ring
+                    MasterProgressRing.IsActive = false;
+                }
+                
             }
 
             
@@ -92,7 +103,7 @@ namespace USCISTracker.Views
         /// Click event handler for the sync all button
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="a"></param>
         private async void CheckCaseStatusAppBarButton_Click(object sender, RoutedEventArgs a)
         {
             //Disable the button
@@ -111,28 +122,7 @@ namespace USCISTracker.Views
             
             catch (Exception e)
             {
-               ContentDialog contentDialog = new Windows.UI.Xaml.Controls.ContentDialog();
-                contentDialog.Title = "Whoops! Something is wrong :(";
-                contentDialog.Content = $"{e.ToString()}";
-                contentDialog.PrimaryButtonText = "Send Crash Report";
-                contentDialog.SecondaryButtonText = "Dismiss";
-                contentDialog.FullSizeDesired = true;
-
-                var result = await contentDialog.ShowAsync();
-
-                if(result == ContentDialogResult.Primary)
-                {
-                    //Get the current app version
-                    var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
-                    string version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
-
-                    string mailingUrl = $"code.scottle@outlook.com?subject=[UT][v{version}]{e.GetType().FullName}&body= ExceptionType: {e.GetType().FullName}\n Message: {e.Message}\n App Version: {version}\n Details: {e.ToString()}";
-
-                    Uri mailingUri = new Uri($"mailto:{mailingUrl}");
-
-                    await Windows.System.Launcher.LaunchUriAsync(mailingUri);
-                    await contentDialog.ShowAsync();
-                }
+                await ShowErrorDialog(e);
             }
 
             finally
@@ -223,7 +213,7 @@ namespace USCISTracker.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void EditCaseFlyoutButton_Click(object sender, RoutedEventArgs e)
+        private async void EditCaseFlyoutButton_Click(object sender, RoutedEventArgs a)
         {
             //Get the Case Receipt Number and Name
             string CaseName = ((sender as Button).DataContext as Case).Name;
@@ -251,13 +241,40 @@ namespace USCISTracker.Views
                 {
                     ((sender as Button).DataContext as Case).ReceiptNumber = new CaseReceiptNumber(editor.ReceiptNumber);
 
-                    await ViewModel.SyncCaseStatusAsync(((sender as Button).DataContext as Case));
+                    try
+                    {
+                        await ViewModel.SyncCaseStatusAsync(((sender as Button).DataContext as Case));
 
-                    //force save data if refresh
-                    await ViewModel.BackupCasesAsync();
+                        //force save data if refresh
+                        await ViewModel.BackupCasesAsync();
+                    }
+                   
+
+                    catch (Exception e)
+                    {
+                        await ShowErrorDialog(e);
+                    }
                 }
 
                 
+            }
+        }
+
+
+        private async Task ShowErrorDialog(Exception e)
+        {
+            ContentDialog contentDialog = new Windows.UI.Xaml.Controls.ContentDialog();
+            contentDialog.Title = "Whoops! Something is wrong :(";
+            contentDialog.Content = $"{e.ToString()}";
+            contentDialog.PrimaryButtonText = "Send Crash Report";
+            contentDialog.SecondaryButtonText = "Dismiss";
+            contentDialog.FullSizeDesired = true;
+
+            var result = await contentDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                ViewModel.ErrorReport(e);
             }
         }
     }
