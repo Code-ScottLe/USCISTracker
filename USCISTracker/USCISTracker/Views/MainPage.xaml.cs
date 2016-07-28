@@ -93,7 +93,7 @@ namespace USCISTracker.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void CheckCaseStatusAppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void CheckCaseStatusAppBarButton_Click(object sender, RoutedEventArgs a)
         {
             //Disable the button
             (sender as AppBarButton).IsEnabled = false;
@@ -104,16 +104,49 @@ namespace USCISTracker.Views
             //List item unclickable during update
             CasesListView.IsItemClickEnabled = false;
 
-            await ViewModel.SyncAllCaseAsync();
+            try
+            {
+                await ViewModel.SyncAllCaseAsync();
+            }
+            
+            catch (Exception e)
+            {
+               ContentDialog contentDialog = new Windows.UI.Xaml.Controls.ContentDialog();
+                contentDialog.Title = "Whoops! Something is wrong :(";
+                contentDialog.Content = $"{e.ToString()}";
+                contentDialog.PrimaryButtonText = "Send Crash Report";
+                contentDialog.SecondaryButtonText = "Dismiss";
+                contentDialog.FullSizeDesired = true;
 
-            //re-enable the button
-            (sender as AppBarButton).IsEnabled = true;
+                var result = await contentDialog.ShowAsync();
 
-            //List item clickable
-            CasesListView.IsItemClickEnabled = true;
+                if(result == ContentDialogResult.Primary)
+                {
+                    //Get the current app version
+                    var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
+                    string version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
 
-            //SEt ring to inactive
-            MasterProgressRing.IsActive = false;
+                    string mailingUrl = $"code.scottle@outlook.com?subject=[UT][v{version}]{e.GetType().FullName}&body= ExceptionType: {e.GetType().FullName}\n Message: {e.Message}\n App Version: {version}\n Details: {e.ToString()}";
+
+                    Uri mailingUri = new Uri($"mailto:{mailingUrl}");
+
+                    await Windows.System.Launcher.LaunchUriAsync(mailingUri);
+                    await contentDialog.ShowAsync();
+                }
+            }
+
+            finally
+            {
+                //re-enable the button
+                (sender as AppBarButton).IsEnabled = true;
+
+                //List item clickable
+                CasesListView.IsItemClickEnabled = true;
+
+                //SEt ring to inactive
+                MasterProgressRing.IsActive = false;
+            }
+            
         }
 
 

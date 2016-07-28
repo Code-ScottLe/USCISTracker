@@ -143,8 +143,9 @@ namespace USCISTracker.ViewModels
             {
                 testCase.Name = $"Case #{Cases.Count + 1}";
             }
- 
+
             //Check for status
+
             await SyncCaseStatusAsync(testCase);
 
             Cases.Add(testCase);
@@ -154,6 +155,8 @@ namespace USCISTracker.ViewModels
 
             IsCaseUpdating = false;
 
+
+           
         }
 
         /// <summary>
@@ -170,34 +173,23 @@ namespace USCISTracker.ViewModels
 
             IsCaseUpdating = true;
 
+
             //create a session at USCIS for update.
             Session currentSession = new Session();
 
-            //Check if we have override
-            if(overrideCounter == 0)
+            for (int i = overrideCounter; i < Cases.Count; i++)
             {
-                //loop through the entire thing.
-                for (int i = 0; i < Cases.Count; i++)
-                {
-                    await SyncCaseStatusAsync(Cases[i], currentSession);
-                    CasesUpdatedCounter = i;
-                }
+
+                await SyncCaseStatusAsync(Cases[i], currentSession);
+                CasesUpdatedCounter = i;
+
             }
+
+
+            UpdateSelectedCase();
             
-            else
-            {
-                //loop through the rest.
-                for(int i = overrideCounter; i < Cases.Count; i++)
-                {
-                    await SyncCaseStatusAsync(Cases[i], currentSession);
-                    CasesUpdatedCounter = i;
-                }
-            }
 
             IsCaseUpdating = false;
-            UpdateSelectedCase();
-
-            Task.Run(() => { UpdateTile(); });
 
         }
 
@@ -359,7 +351,7 @@ namespace USCISTracker.ViewModels
         /// <returns></returns>
         private void UpdateSelectedCase()
         {
-            if(SelectedCase != null)
+            if(SelectedCase.ReceiptNumber != null)
             {
                 //Get the updated version
                 var updatedCase = Cases.Where(n => n.ReceiptNumber.ReceiptNumber == SelectedCase.ReceiptNumber.ReceiptNumber).Select(n => n).FirstOrDefault();
@@ -367,6 +359,7 @@ namespace USCISTracker.ViewModels
             }
             
         }
+
 
         #endregion
 
