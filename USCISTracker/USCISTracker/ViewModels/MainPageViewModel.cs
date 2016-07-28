@@ -17,6 +17,7 @@ using USCISTracker.Services.BackgroundServices;
 using USCISTracker.Configurations;
 using Windows.ApplicationModel.Background;
 using System.Text;
+using USCISTracker.Services.ToastServices;
 
 namespace USCISTracker.ViewModels
 {
@@ -188,7 +189,6 @@ namespace USCISTracker.ViewModels
 
 
             UpdateSelectedCase();
-            
 
             IsCaseUpdating = false;
 
@@ -396,6 +396,17 @@ namespace USCISTracker.ViewModels
         }
 
 
+        /// <summary>
+        /// Display a toast
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        private void SendToast(string title , string message)
+        {
+            var toast = ToastService.CreateGenericToast(title, message);
+
+            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(toast.GetXml()));
+        }
         #endregion
 
         #region Template 10 Events Handlers and Commands
