@@ -412,6 +412,8 @@ namespace USCISTracker.ViewModels
         #region Template 10 Events Handlers and Commands
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> suspensionState)
         {
+            //Check for theme
+            USCISTracker.Services.SettingsServices.SettingsService.Instance.AppTheme = USCISTracker.Services.SettingsServices.SettingsService.Instance.AppTheme;
             //register the handler if we have the background task.
             if (BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.CaseUpdateBackgroundTaskName) == true)
             {

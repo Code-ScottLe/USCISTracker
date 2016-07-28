@@ -91,7 +91,7 @@
         <!--Master Column-->
         <Grid x:Name="MasterGrid"
               Grid.Column="0"
-              Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
               MinWidth="320">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"></RowDefinition>
@@ -121,6 +121,7 @@
                       HorizontalAlignment="Stretch"
                       Margin="0,0,0,50"
                       ItemClick="CasesListView_ItemClick"
+                      Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
                       IsItemClickEnabled="True">
 
                 <!-- This is for the black bar between items -->
@@ -136,7 +137,7 @@
                         <Grid HorizontalAlignment="Stretch"
                               Padding="0,10,0,10"
                               BorderBrush="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                              BorderThickness="0,1,0,0"
+                              BorderThickness="0,0,0,0"
                               Background="Transparent"
                               Holding="Grid_Holding" RightTapped="Grid_RightTapped">
 
@@ -259,7 +260,7 @@
                           Grid.Column="1"            
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch">
-            <RelativePanel>
+            <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <!--Case name-->
                 <TextBox x:Name="DetailCaseNameTextBox"
                                  Background="Transparent"
