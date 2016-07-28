@@ -9,6 +9,8 @@ using USCISTracker.API;
 using Windows.Storage;
 using Newtonsoft.Json;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
+using USCISTracker.Services.ToastServices;
 
 namespace USCISTracker.Background
 {
@@ -49,12 +51,20 @@ namespace USCISTracker.Background
 
                 var updateMeCase = cases.Where(n => n.LastRefresh.ToFileTime() == earliestTime).Select(n => n).FirstOrDefault();
 
+                //Save the last updated file
+                var lastCaseUpdate = updateMeCase.LastCaseUpdate;
+
                 if (updateMeCase != null)
                 {
                     var result = await SyncCaseStatusAsync(updateMeCase);
                     
                     if(result != null)
                     {
+                        if(result.LastCaseUpdate.CompareTo(lastCaseUpdate) != 0)
+                        {
+                            //case was updated, send toast.
+                            SendToast(result);
+                        }
                         await BackupCasesAsync(cases);
                     }
                 }
@@ -152,6 +162,17 @@ namespace USCISTracker.Background
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatedCase"></param>
+        private void SendToast(Case updatedCase)
+        {
+            var ToastContent = ToastService.CreateGenericToast("Case was updated!", $"{updatedCase.Name} with Receipt #:{updatedCase.ReceiptNumber.ReceiptNumber} was updated on {updatedCase.LastCaseUpdate.ToString(@"MM\/dd\/yyyy")}");
+
+            //send toast
+            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(ToastContent.GetXml()));
+        }
         #endregion
     }
 }
