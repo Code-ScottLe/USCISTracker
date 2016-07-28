@@ -13,11 +13,13 @@ namespace USCISTracker.Configurations
         public const string CaseUpdateBackgroundTaskEntryPoint = "USCISTracker.Background.CaseUpdateBackgroundTask";
 
 
-        //Background Task: Tile Update
+        //Background Task: ServiceComplete
         public const string ServiceCompletedBackgroundTaskName = "ServiceCompleted";
         public const string ServiceCompletedBackgroundTaskEntryPoint = "USCISTracker.Background.ServiceCompletedBackgroundTask";
 
-        //Background Task: ServiceComplete
+        //Background Task: TileService
+        public const string TileUpdateBackgroundTaskName = "TileUpdate";
+        public const string TileUpdateBackgroundTaskEntryPoint = "USCISTracker.Background.TileUpdateBackgroundTask";
 
 
     }

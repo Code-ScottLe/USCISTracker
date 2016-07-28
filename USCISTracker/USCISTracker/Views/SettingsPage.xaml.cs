@@ -97,6 +97,17 @@ namespace USCISTracker.Views
                     backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
                 }
 
+                if(BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.TileUpdateBackgroundTaskName) == false)
+                {
+                    //Register tile update
+                    var backgroundTask = await BackgroundService.RegisterBackgroundTask(BackgroundTasksConfiguration.TileUpdateBackgroundTaskName,
+                        BackgroundTasksConfiguration.TileUpdateBackgroundTaskEntryPoint,
+                        new TimeTrigger(15, false));
+
+                    //Hook up complete handler
+                    backgroundTask.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+                }
+
                 //If we now have the background task, also enable background task on event of app update to make sure everything is still being registered
                 if(BackgroundService.IsTaskRegistered(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName) == false)
                 {
@@ -155,6 +166,13 @@ namespace USCISTracker.Views
                 if(setting.Values.TryGetValue(BackgroundTasksConfiguration.ServiceCompletedBackgroundTaskName, out lastAppUpdate) == true)
                 {
                     LastAppUpdateTextBox.Text = lastAppUpdate as string;
+                }
+
+                //Get the tile update
+                object lastTileUpdate = null;
+                if(setting.Values.TryGetValue(BackgroundTasksConfiguration.TileUpdateBackgroundTaskName, out lastTileUpdate) == true)
+                {
+                    LastTileUpdateTextBox.Text = lastTileUpdate as string;
                 }
                 
             });

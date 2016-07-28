@@ -113,8 +113,13 @@
                                  RelativePanel.Below="BackgroundTaskLastRunTextBox"
                                  RelativePanel.AlignLeftWithPanel="True"
                                  BorderThickness="0"></TextBox>
-                                 
-                                
+
+                        <TextBox x:Name="LastTileUpdateTextBox"
+                                 RelativePanel.Below="LastAppUpdateTextBox"
+                                 RelativePanel.AlignLeftWithPanel="True"
+                                 BorderThickness="0"></TextBox>
+
+
 
 
 
