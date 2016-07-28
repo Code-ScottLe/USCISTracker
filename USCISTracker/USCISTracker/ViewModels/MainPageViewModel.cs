@@ -361,6 +361,10 @@ namespace USCISTracker.ViewModels
             
         }
 
+        /// <summary>
+        /// Report Exception via Email.
+        /// </summary>
+        /// <param name="e"></param>
         public async void ErrorReport(Exception e)
         {
             //Create the email to be sent.

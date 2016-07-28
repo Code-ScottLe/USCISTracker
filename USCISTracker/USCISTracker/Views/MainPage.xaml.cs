@@ -260,7 +260,11 @@ namespace USCISTracker.Views
             }
         }
 
-
+        /// <summary>
+        /// Display the error dialog to the user with the option of sending crash report
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private async Task ShowErrorDialog(Exception e)
         {
             ContentDialog contentDialog = new Windows.UI.Xaml.Controls.ContentDialog();
