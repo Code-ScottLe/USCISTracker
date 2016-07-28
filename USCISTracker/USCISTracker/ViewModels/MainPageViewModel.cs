@@ -195,6 +195,7 @@ namespace USCISTracker.ViewModels
             }
 
             IsCaseUpdating = false;
+            UpdateSelectedCase();
 
             Task.Run(() => { UpdateTile(); });
 
@@ -348,6 +349,23 @@ namespace USCISTracker.ViewModels
         {
             //Reload the current cases
             await LoadBackupCasesAsync();
+            UpdateSelectedCase();
+        }
+
+
+        /// <summary>
+        /// Update the selected case to reflect the change in the detail view
+        /// </summary>
+        /// <returns></returns>
+        private void UpdateSelectedCase()
+        {
+            if(SelectedCase != null)
+            {
+                //Get the updated version
+                var updatedCase = Cases.Where(n => n.ReceiptNumber.ReceiptNumber == SelectedCase.ReceiptNumber.ReceiptNumber).Select(n => n).FirstOrDefault();
+                SelectedCase = updatedCase;
+            }
+            
         }
 
         #endregion
