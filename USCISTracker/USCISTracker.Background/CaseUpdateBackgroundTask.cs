@@ -44,7 +44,7 @@ namespace USCISTracker.Background
             //Get cases
             List<Case> cases = await GetSavedCasesAsync();
 
-            if(cases != null)
+            if(cases != null && cases.Count > 0)
             {
                 //Try to see which one hasn't been updated in the longest.
                 var earliestTime = cases.Min(n => { return n.LastRefresh.ToFileTime(); });
