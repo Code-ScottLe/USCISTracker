@@ -30,6 +30,12 @@ namespace USCISTracker.Services.TileServices
                             Text = currentCase.Status,
                             HintStyle = AdaptiveTextStyle.Caption,
                             HintWrap = true
+                        },
+
+                        new AdaptiveText()
+                        {
+                            Text = currentCase.ReceiptNumber.ReceiptNumber,
+                            HintStyle = AdaptiveTextStyle.CaptionSubtle
                         }
                     }
                 },
@@ -49,6 +55,12 @@ namespace USCISTracker.Services.TileServices
                             Text = currentCase.Status,
                             HintStyle = AdaptiveTextStyle.Body,
                             HintWrap = true
+                        },
+
+                        new AdaptiveText()
+                        {
+                            Text = $"Receipt #: {currentCase.ReceiptNumber.ReceiptNumber}",
+                            HintStyle = AdaptiveTextStyle.Caption
                         },
 
                         new AdaptiveText()
