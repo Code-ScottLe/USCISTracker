@@ -195,6 +195,7 @@
                     <TextBlock x:Name="DisclaimerTextBlock"
                                RelativePanel.Below="SupportWebSite"
                                RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.LeftOf="LogoImage"
                                Text="Disclaimer: This application does not affiliate in any way with United States Citizenship and Immigration Services or USCIS. All data are provided by USCIS.gov"
                                TextWrapping="WrapWholeWords"
                                Padding="0"
