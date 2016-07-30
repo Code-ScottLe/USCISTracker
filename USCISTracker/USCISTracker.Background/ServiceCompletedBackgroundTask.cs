@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.UI.Notifications;
 
 namespace USCISTracker.Background
 {
@@ -17,6 +18,9 @@ namespace USCISTracker.Background
 
             BackgroundExecutionManager.RemoveAccess();
             await BackgroundExecutionManager.RequestAccessAsync();
+
+            //clear the tile.
+            TileUpdateManager.CreateTileUpdaterForApplication().Clear();
 
             //Write to setting to show as debug value
             var setting = Windows.Storage.ApplicationData.Current.LocalSettings;
