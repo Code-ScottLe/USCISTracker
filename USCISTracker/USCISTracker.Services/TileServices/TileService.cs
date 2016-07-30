@@ -60,7 +60,8 @@ namespace USCISTracker.Services.TileServices
                         new AdaptiveText()
                         {
                             Text = $"Receipt #: {currentCase.ReceiptNumber.ReceiptNumber}",
-                            HintStyle = AdaptiveTextStyle.Caption
+                            HintStyle = AdaptiveTextStyle.Caption,
+                            HintWrap = true
                         },
 
                         new AdaptiveText()
@@ -77,6 +78,46 @@ namespace USCISTracker.Services.TileServices
 
             //small tile
 
+            //Large tile
+            var LargeTile = new TileBinding()
+            {
+                Content = new TileBindingContentAdaptive()
+                {
+                    Children =
+                    {
+                        new AdaptiveText()
+                        {
+                            Text = currentCase.Status,
+                            HintStyle = AdaptiveTextStyle.Subtitle,
+                            HintWrap = true
+                        },
+
+                        new AdaptiveText()
+                        {
+                            Text = $"Receipt #: {currentCase.ReceiptNumber.ReceiptNumber}",
+                            HintStyle = AdaptiveTextStyle.Base,
+                            HintWrap = true
+                        },
+
+                        new AdaptiveText()
+                        {
+                            Text = $"Last Update: {currentCase.LastCaseUpdate.ToString(@"MM\/dd\/yyyy")}",
+                            HintStyle = AdaptiveTextStyle.BodySubtle,
+                            HintWrap = true
+                        },
+
+                        new AdaptiveText()
+                        {
+                            Text = $"Refresh on: {currentCase.LastRefresh}",
+                            HintStyle = AdaptiveTextStyle.BodySubtle,
+                            HintWrap = true
+                        }
+                    }
+                },
+
+                DisplayName = currentCase.Name
+            };
+
 
             //Wrap it all together
             TileContent tileContent = new TileContent()
@@ -85,6 +126,7 @@ namespace USCISTracker.Services.TileServices
                 {
                     TileMedium = MediumTile,
                     TileWide = WideTile,
+                    TileLarge = LargeTile,
                     Branding = TileBranding.NameAndLogo
                 }
             };
