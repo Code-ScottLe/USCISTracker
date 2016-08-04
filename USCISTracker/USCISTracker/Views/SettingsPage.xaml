@@ -199,7 +199,7 @@
                                Text="Disclaimer: This application does not affiliate in any way with United States Citizenship and Immigration Services or USCIS. All data are provided by USCIS.gov"
                                TextWrapping="WrapWholeWords"
                                Padding="0"
-                               Margin="0"
+                               Margin="0,0,10,0"
                                Foreground="DarkGray"></TextBlock>
 
                 </RelativePanel>
