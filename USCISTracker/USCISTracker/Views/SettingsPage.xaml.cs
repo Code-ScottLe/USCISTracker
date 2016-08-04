@@ -5,6 +5,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Background;
 using USCISTracker.Services.BackgroundServices;
 using USCISTracker.Configurations;
+using Windows.Storage;
+using System.Text;
 
 namespace USCISTracker.Views
 {
@@ -50,6 +52,16 @@ namespace USCISTracker.Views
 
             //Update the text box if we have result from previous running background task
             UpdateUIAsync();
+
+            //Check if background task crashes.
+            if(ApplicationData.Current.LocalSettings.Values.ContainsKey("FailedBackgroundTask"))
+            {
+                //If crash, prompt to show message dialog
+                
+                ShowErrorDialog(ApplicationData.Current.LocalSettings.Values["FailedBackgroundTaskException"] as Exception);
+                ApplicationData.Current.LocalSettings.Values.Remove("FailedBackgroundTask");
+                ApplicationData.Current.LocalSettings.Values.Remove("FailedBackgroundTaskException");
+            }
         }
 
 
@@ -146,6 +158,27 @@ namespace USCISTracker.Views
             UpdateUIAsync();
         }
 
+        /// <summary>
+        /// Display the error dialog to the user with the option of sending crash report
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task ShowErrorDialog(Exception e)
+        {
+            ContentDialog contentDialog = new Windows.UI.Xaml.Controls.ContentDialog();
+            contentDialog.Title = "Ouch! Background Task crash detected. :(";
+            contentDialog.Content = $"{e.ToString()}";
+            contentDialog.PrimaryButtonText = "Send Crash Report";
+            contentDialog.SecondaryButtonText = "Dismiss";
+            contentDialog.FullSizeDesired = true;
+
+            var result = await contentDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                ViewModel.SettingsPartViewModel.ErrorReport(e);
+            }
+        }
 
         /// <summary>
         /// Enable upadting the UI from non-UI thread

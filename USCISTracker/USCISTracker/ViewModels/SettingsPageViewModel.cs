@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.Storage;
 using USCISTracker.Services.BackgroundServices;
 using Windows.ApplicationModel.Background;
+using System.Text;
 
 namespace USCISTracker.ViewModels
 {
@@ -89,20 +90,42 @@ namespace USCISTracker.ViewModels
             }
         }
 
-
-        public async Task RegisterBackgroundTaskAsync()
+        /// <summary>
+        /// Report Exception via Email.
+        /// </summary>
+        /// <param name="e"></param>
+        public async void ErrorReport(Exception e)
         {
-            
+            //Create the email to be sent.
+            Windows.ApplicationModel.Email.EmailMessage emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
+
+            //Get the current app version
+            var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
+            string version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+
+            //Build the body.
+            StringBuilder emailMessageBodyBuilder = new StringBuilder();
+            emailMessageBodyBuilder.AppendLine($"Exception Type: {e.GetType().FullName}");
+            emailMessageBodyBuilder.AppendLine($"Message: {e.Message}");
+            emailMessageBodyBuilder.AppendLine($"App version: {version}");
+            emailMessageBodyBuilder.AppendLine($"Detail: {e.ToString()}");
+
+            //set the body:       
+            emailMessage.Body = emailMessageBodyBuilder.ToString();
+
+            //format the subject of the email (for inbox filtering)
+            emailMessage.Subject = $"[UCS][v{version}]{e.GetType().FullName} ";
+
+            //set the sender.
+            emailMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient("code.scottle@outlook.com"));
+
+            //send it to the default mail application.
+            await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
+
         }
 
 
-        public async Task UnRegisterBackgroundTaskAsync()
-        {
 
-        }
-
-
-       
 
     }
 

@@ -82,7 +82,7 @@ namespace USCISTracker.Background
             {
                 //Write detailed for debug
                 ApplicationData.Current.LocalSettings.Values["FailedBackgroundTask"] = $"Task Update Case throw exception at {DateTime.Now.ToString()}";
-                ApplicationData.Current.LocalSettings.Values["FailedBackgroundTaskException"] = e.ToString();
+                ApplicationData.Current.LocalSettings.Values["FailedBackgroundTaskException"] = e;
             }
 
             finally
