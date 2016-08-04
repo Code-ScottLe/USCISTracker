@@ -41,42 +41,57 @@ namespace USCISTracker.Background
             //Register the OnCanceled event to handle the even that the background task was cancelled (usually on failed condition)
             taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
 
-            //Get cases
-            List<Case> cases = await GetSavedCasesAsync();
-
-            if(cases != null && cases.Count > 0)
+            try
             {
-                //Try to see which one hasn't been updated in the longest.
-                var earliestTime = cases.Min(n => { return n.LastRefresh.ToFileTime(); });
+                //Get cases
+                List<Case> cases = await GetSavedCasesAsync();
 
-                var updateMeCase = cases.Where(n => n.LastRefresh.ToFileTime() == earliestTime).Select(n => n).FirstOrDefault();
-
-                //Save the last updated file
-                var lastCaseUpdate = updateMeCase.LastCaseUpdate;
-
-                if (updateMeCase != null)
+                if (cases != null && cases.Count > 0)
                 {
-                    var result = await SyncCaseStatusAsync(updateMeCase);
-                    
-                    if(result != null)
+                    //Try to see which one hasn't been updated in the longest.
+                    var earliestTime = (cases.Count == 1) ? cases.FirstOrDefault().LastRefresh.ToFileTime() : cases.Min(n => { return n.LastRefresh.ToFileTime(); });
+
+                    var updateMeCase = cases.Where(n => n.LastRefresh.ToFileTime() == earliestTime).Select(n => n).FirstOrDefault();
+
+                    //Save the last updated file
+                    var lastCaseUpdate = updateMeCase.LastCaseUpdate;
+
+                    if (updateMeCase != null)
                     {
-                        if(result.LastCaseUpdate.CompareTo(lastCaseUpdate) != 0)
+                        var result = await SyncCaseStatusAsync(updateMeCase);
+
+                        if (result != null)
                         {
-                            //case was updated, send toast.
-                            SendToast(result);
+                            if (result.LastCaseUpdate.CompareTo(lastCaseUpdate) != 0)
+                            {
+                                //case was updated, send toast.
+                                SendToast(result);
+                            }
+                            await BackupCasesAsync(cases);
                         }
-                        await BackupCasesAsync(cases);
                     }
                 }
+
+
+                //Write to setting for debug
+                ApplicationData.Current.LocalSettings.Values["CaseUpdate"] = $"Task Update Case finished running at {DateTime.Now.ToString()}";
+                System.Diagnostics.Debug.WriteLine($"Task Update Case finished running at {DateTime.Now.ToString()}");
             }
 
+            catch(Exception e)
+            {
+                //Write detailed for debug
+                ApplicationData.Current.LocalSettings.Values["FailedBackgroundTask"] = $"Task Update Case throw exception at {DateTime.Now.ToString()}";
+                ApplicationData.Current.LocalSettings.Values["FailedBackgroundTaskException"] = e.ToString();
+            }
 
-            //Write to setting for debug
-            ApplicationData.Current.LocalSettings.Values["CaseUpdate"] = $"Task Update Case finished running at {DateTime.Now.ToString()}";
-            System.Diagnostics.Debug.WriteLine($"Task Update Case finished running at {DateTime.Now.ToString()}");
+            finally
+            {
+                //Done with async methods
+                _deferral.Complete();
+            }
 
-            //Done with async methods
-            _deferral.Complete();
+            
         }
 
         /// <summary>
@@ -172,6 +187,37 @@ namespace USCISTracker.Background
 
             //send toast
             ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(ToastContent.GetXml()));
+        }
+
+
+        public async void ErrorReport(Exception e)
+        {
+            //Create the email to be sent.
+            Windows.ApplicationModel.Email.EmailMessage emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
+
+            //Get the current app version
+            var packageVersion = Windows.ApplicationModel.Package.Current.Id.Version;
+            string version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
+
+            //Build the body.
+            StringBuilder emailMessageBodyBuilder = new StringBuilder();
+            emailMessageBodyBuilder.AppendLine($"Exception Type: {e.GetType().FullName}");
+            emailMessageBodyBuilder.AppendLine($"Message: {e.Message}");
+            emailMessageBodyBuilder.AppendLine($"App version: {version}");
+            emailMessageBodyBuilder.AppendLine($"Detail: {e.ToString()}");
+
+            //set the body:       
+            emailMessage.Body = emailMessageBodyBuilder.ToString();
+
+            //format the subject of the email (for inbox filtering)
+            emailMessage.Subject = $"[UCS][v{version}]{e.GetType().FullName} ";
+
+            //set the sender.
+            emailMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient("code.scottle@outlook.com"));
+
+            //send it to the default mail application.
+            await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
+
         }
         #endregion
     }
