@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="63350Code.ScottLe.USCISCaseStatus" Publisher="CN=BAE1790A-7BDD-45F1-BF28-2DBA8D01C3CD" Version="1.0.2.0" />
+  <Identity Name="63350Code.ScottLe.USCISCaseStatus" Publisher="CN=BAE1790A-7BDD-45F1-BF28-2DBA8D01C3CD" Version="1.0.3.0" />
   <mp:PhoneIdentity PhoneProductId="1134c8fd-0cab-4f06-b586-ef4a1a350307" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>USCIS Case Status</DisplayName>
@@ -26,8 +26,9 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="USCISTracker.Background.TileUpdateBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="USCISTracker.Background.CaseUpdateBackgroundTask">
           <BackgroundTasks>
+            <Task Type="general" />
             <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
@@ -37,9 +38,8 @@
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="USCISTracker.Background.CaseUpdateBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="USCISTracker.Background.TileUpdateBackgroundTask">
           <BackgroundTasks>
-            <Task Type="general" />
             <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
